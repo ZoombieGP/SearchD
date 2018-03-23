@@ -72,6 +72,17 @@ public class InterfaceValidator {
         return true;
     }
 
+    /**
+     * Filter blank spaces and tabulations
+     * @param fileName Receive the fileName valid but without filter
+     * @return the fileName filtered
+     */
+    private String FilterFileName (String fileName){
+
+        fileName= fileName.replaceAll("\\s","");
+        return fileName;
+    }
+
 }
 
 

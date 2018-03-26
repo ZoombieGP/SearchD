@@ -1,13 +1,21 @@
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
+import javax.swing.JTextField;
+import java.awt.BorderLayout;
 
 public class Window extends JFrame{
 
-    private JPanel searchInPanel;                                   //Panel contains Field Name, Text area and buttons
+    private JTabbedPane tabPane;
+    private JPanel simpleTab;
+    private JPanel advancedTab;
+    private JPanel searchInPanel;                                   //Panel contains Search In Field Name, Text Field Browse button
     private JTextField searchInTextField;                           //Search In Text Field
     private JLabel searchInFieldName;                               //Search In Field Name
     private JButton browseButton;                                   //Browse Button
-    private JPanel searchForPanel;                                   //
+    private JPanel searchForPanel;                                  //Panel contains Search For Field Name, Text Field, Search button
     private JTextField searchForTextField;                          //Search For Text Field
     private JLabel searchForFieldName;                              //Search For Field Name
     private JButton searchButton;                                   //Search Button
@@ -30,7 +38,6 @@ public class Window extends JFrame{
         this.setSize(800,600);
         this.setLocationRelativeTo(null);
         this.setResizable(false);
-        //this.setLayout(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
@@ -38,35 +45,37 @@ public class Window extends JFrame{
      * Method to start the window components
      */
     private void startComponents(){
+        tabPane = new JTabbedPane();
+        simpleTab = new JPanel();
+        advancedTab = new JPanel();
+
         searchInPanel = new JPanel();
         searchInFieldName = new JLabel();
-        searchInTextField = new JTextField(55);
+        searchInTextField = new JTextField(40);
         browseButton = new JButton();
 
         searchForPanel = new JPanel();
         searchForFieldName = new JLabel();
-        searchForTextField = new JTextField(55);
+        searchForTextField = new JTextField(40);
         searchButton = new JButton();
 
-
         searchInFieldName.setText("Search In:");
-        //searchInFieldName.setBounds(50,50,100,25);
-        //searchInTextField.setSize(30,30);
         browseButton.setText("Browse...");
-        //browseButton.setBounds(50,100,200,30);
-
         searchForFieldName.setText("Search For:");
         searchButton.setText("Search");
 
+        tabPane.add("Simple Search",simpleTab);
+        tabPane.add("Advanced Search",advancedTab);
         searchInPanel.add(searchInFieldName);
         searchInPanel.add(searchInTextField);
         searchInPanel.add(browseButton);
         searchForPanel.add(searchForFieldName);
         searchForPanel.add(searchForTextField);
         searchForPanel.add(searchButton);
+        simpleTab.add(searchInPanel);
+        simpleTab.add(searchForPanel);
         this.getContentPane().setLayout(new BorderLayout());
-        this.getContentPane().add(searchInPanel, BorderLayout.WEST);
-        this.getContentPane().add(searchForPanel, BorderLayout.SOUTH);
+        this.getContentPane().add(tabPane);
     }
 
     /**

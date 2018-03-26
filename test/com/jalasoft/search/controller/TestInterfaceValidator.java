@@ -22,7 +22,7 @@ public class TestInterfaceValidator {
      */
     @Test
     public void isAValidPath(){
-        String path = "\\\\server\\shared\\Test.txt";
+        String path = "/user/temp";
         InterfaceValidator pathTest = new InterfaceValidator();
         assertTrue(pathTest.isValidPath(path));
     }
@@ -33,7 +33,7 @@ public class TestInterfaceValidator {
      */
     @Test
     public void isNotAValidPath(){
-        String path = "C:\\SomeFilePatt|\\\\SomeServer\\SomeShare";
+        String path = "/../user";
         InterfaceValidator pathTest = new InterfaceValidator();
         assertFalse(pathTest.isValidPath(path));
 
@@ -45,7 +45,7 @@ public class TestInterfaceValidator {
      */
     @Test
     public void fileNameIsValid(){
-        String fileName = "file.txt";
+        String fileName = "*.txt;hola.doc;hola.doc.txt";
         InterfaceValidator pathTest = new InterfaceValidator();
         assertTrue(pathTest.isValidFileName(fileName));
 

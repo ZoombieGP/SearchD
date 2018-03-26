@@ -13,6 +13,8 @@ package com.jalasoft.search.controller;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import com.jalasoft.search.GlobalVariables;
+
 
 /**
  * InterfaceValidator : Validate all data received by UI
@@ -21,6 +23,7 @@ import java.util.regex.Pattern;
  * @since 03/16/2018
  */
 public class InterfaceValidator {
+
     String regexPath;
     String regexFileName;
 
@@ -29,8 +32,9 @@ public class InterfaceValidator {
      * Inicialize the regular expressions
      */
     public InterfaceValidator(){
-        regexPath="^([a-zA-Z]\\:|\\\\\\\\[^\\/\\\\:*?\"<>|]+\\\\[^\\/\\\\:*?\"<>|]+)(\\\\[^\\/\\\\:*?\"<>|]+)+(\\.[^\\/\\\\:*?\"<>|]+)$"; // Contents the regular expression to validate file path
-        regexFileName="^[^ \\\\/:*?\"\"<>|]+([ ]+[^ \\\\/:*?\"\"<>|]+)*$"; // Contents the regular expression to validate a file name
+        regexPath= JsonReader.getJsonValue(GlobalVariables.REGEX_FILE,GlobalVariables.KEY_REG_EX_PATH);
+        System.out.print(regexPath);
+        regexFileName= JsonReader.getJsonValue(GlobalVariables.REGEX_FILE,GlobalVariables.KEY_REG_EX_FILE_NAME);
     }
 
     /**

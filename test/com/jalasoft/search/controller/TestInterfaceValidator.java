@@ -83,9 +83,9 @@ public class TestInterfaceValidator {
      */
     @Test
     public void fileDateIsNotValid(){
-        String fileName = ">SomeShare";
+        String fileDate = "2000-13-31";
         InterfaceValidator pathTest = new InterfaceValidator();
-        assertFalse(pathTest.isValidFileName(fileName));
+        assertFalse(pathTest.isValidFileDate(fileDate));
 
     }
 }

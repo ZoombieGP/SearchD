@@ -11,6 +11,8 @@
 package com.jalasoft.search.controller;
 
 import org.junit.Test;
+import org.junit.runners.Parameterized;
+
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
 
@@ -53,7 +55,7 @@ public class TestInterfaceValidator {
 
     /**
      * Verify that the file name is valid (Negative case)
-     * @result Sent a file name valid  to the method should be return no errors and the evaluation should be false
+     * @result Sent a file name invalid  to the method should be return no errors and the evaluation should be false
      */
     @Test
     public void fileNameIsNotValid(){
@@ -62,7 +64,32 @@ public class TestInterfaceValidator {
         assertFalse(pathTest.isValidFileName(fileName));
 
     }
+
+    /**
+     * Verify that the file date is valid
+     * @result Sent a file date valid  to the method should be return no errors and the evaluation should be true
+     */
+    @Test
+    public void fileNameDateIsValid(){
+        String fileDate = "2000-12-31";
+        InterfaceValidator pathTest = new InterfaceValidator();
+        assertTrue(pathTest.isValidFileDate(fileDate));
+
+    }
+
+    /**
+     * Verify that the file date is not valid (Negative case)
+     * @result Sent a file date invalid  to the method should be return no errors and the evaluation should be false
+     */
+    @Test
+    public void fileDateIsNotValid(){
+        String fileName = ">SomeShare";
+        InterfaceValidator pathTest = new InterfaceValidator();
+        assertFalse(pathTest.isValidFileName(fileName));
+
+    }
 }
+
 
 
 

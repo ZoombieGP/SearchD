@@ -15,4 +15,6 @@ public class GlobalVariables {
     public static String BASIC_CRITERIA_FILE;
     public static String KEY_REG_EX_PATH ="regexPath";
     public static String KEY_REG_EX_FILE_NAME ="regexFileName";
+    public static String KEY_REG_EX_FILE_DATE ="regexFileDate";
 }
+

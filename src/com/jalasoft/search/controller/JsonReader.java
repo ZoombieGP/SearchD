@@ -1,5 +1,5 @@
 /*
- * Search .java
+ * JsonReader .java
  *
  * Copyright (c) 2018 Jalasoft.
  *
@@ -16,11 +16,21 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
-
+/**
+ * JsonReader : Implements a  json reader methods in base to json simple library
+ * @author Brayan Rosas
+ * @version 0.1
+ * @since 03/25/2018
+ */
 public class JsonReader {
 
 
-
+    /**
+     * Read the a json file
+     * @param jsonFile path of the json file to read
+     * @param key of avriable to read in json file
+     * @return the value in string type according to the key passed
+     */
     public static String getJsonValue(String jsonFile,String key){
 
         JSONParser parser= new JSONParser();
@@ -44,7 +54,6 @@ public class JsonReader {
 
         return "Has been a exception";
     }
-
 }
 
 

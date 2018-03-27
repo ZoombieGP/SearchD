@@ -15,6 +15,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import com.jalasoft.search.GlobalVariables;
 
+import javax.xml.bind.annotation.XmlElementDecl;
+
 
 /**
  * InterfaceValidator : Validate all data received by UI
@@ -26,15 +28,17 @@ public class InterfaceValidator {
 
     String regexPath;
     String regexFileName;
+    String regexFileDate;
 
     /**
      * InterfaceValidator Constructor
      * Inicialize the regular expressions
      */
     public InterfaceValidator(){
-        regexPath= JsonReader.getJsonValue(GlobalVariables.REGEX_FILE,GlobalVariables.KEY_REG_EX_PATH);
-        System.out.print(regexPath);
-        regexFileName= JsonReader.getJsonValue(GlobalVariables.REGEX_FILE,GlobalVariables.KEY_REG_EX_FILE_NAME);
+        String pathRegexFile=GlobalVariables.REGEX_FILE;
+        regexPath= JsonReader.getJsonValue(pathRegexFile,GlobalVariables.KEY_REG_EX_PATH);
+        regexFileName= JsonReader.getJsonValue(pathRegexFile,GlobalVariables.KEY_REG_EX_FILE_NAME);
+        regexFileDate= JsonReader.getJsonValue(pathRegexFile,GlobalVariables.KEY_REG_EX_FILE_DATE);
     }
 
     /**
@@ -54,6 +58,16 @@ public class InterfaceValidator {
      */
     public boolean isValidFileName(String fileName){
         return patternValidator(fileName, Pattern.compile(regexFileName), "Invalid name", "Valid name");
+    }
+
+    /**
+     * Validate if the text is a valid file date in the next format :
+     * YYYY-DD-MM
+     * @param fileDate String The file date got of the UI
+     * @return boolean true if the file date is valid and false if not
+     */
+    public boolean isValidFileDate(String fileDate){
+        return patternValidator(fileDate, Pattern.compile(regexFileDate), "Invalid date", "Valid date");
     }
 
     /**
@@ -86,7 +100,6 @@ public class InterfaceValidator {
         fileName= fileName.replaceAll("\\s","");
         return fileName;
     }
-
 }
 
 

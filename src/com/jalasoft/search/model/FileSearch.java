@@ -12,13 +12,11 @@
 package com.jalasoft.search.model;
 
 /**
- *
- Class File creates Objects with Properties of Files since a Search has been performed
- *
+ Class FileSearch creates Objects with Properties of Files since a Search has been performed
  * @version  1.0
  * @author Gilmar Pozzo
  */
-public class File {
+public class FileSearch {
     private String path;
     private String name;
     private Long size;
@@ -27,11 +25,9 @@ public class File {
     private boolean isHidden;
 
     /**
-     * File Method Constructor
+     * FileSearch Method Constructor
      */
-    public void File (){
-
-    }
+    public void File (){}
 
     /**
      *getPath method encapsulate Path variable
@@ -39,17 +35,15 @@ public class File {
      * path value
      */
     public String getPath() {
-
         return path;
     }
 
     /**
      * getName method encapsulate name variable
      * @return
-     * File name Value
+     * FileSearch name Value
      */
     public String getName() {
-
         return name;
     }
 
@@ -59,7 +53,6 @@ public class File {
      * size value
      */
     public Long getSize() {
-
         return size;
     }
 
@@ -69,7 +62,6 @@ public class File {
      * dateModification value
      */
     public Long getDateModification() {
-
         return dateModification;
     }
 
@@ -97,7 +89,6 @@ public class File {
      * set path value
      */
     public void setPath(String path) {
-
         this.path = path;
     }
 
@@ -107,7 +98,6 @@ public class File {
      * set name value
      */
     public void setName(String name) {
-
         this.name = name;
     }
 
@@ -116,7 +106,6 @@ public class File {
      * @param size
      */
     public void setSize(Long size) {
-
         this.size = size;
     }
 
@@ -126,7 +115,6 @@ public class File {
      * set dateModification value
      */
     public void setDateModification(Long dateModification) {
-
         this.dateModification = dateModification;
     }
 

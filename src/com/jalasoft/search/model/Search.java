@@ -19,10 +19,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+
 /**
- *
- Class Searches Files by content, extension, name, and some other attributes receives a Object Criteria, evaluates it and return and Object.
- *
+ * Class Searches Files by content, extension, name, and some other attributes receives a Object Criteria, evaluates it and return and Object.
  * @version  1.0
  * @author Gilmar Pozzo
  */
@@ -54,7 +53,7 @@ public class Search {
     }
 
     /**
-     * searchByName method, searches into a List of Files specific ones giving a File Name and return a filter List of Files
+     * searchByName method, searches into a List of Files specific ones giving a FileSearch Name and return a filter List of Files
      * @param inputFiles
      * receives a list of Files
      * @param fileName
@@ -154,7 +153,7 @@ public class Search {
      * @return
      * List of Files filtered by Size criteria
      */
-    private List <File>  searchBySize(List <File> inputFiles, long size){
+    private List <File> searchBySize(List <File> inputFiles, long size){
         List <File> filterResults = new ArrayList<>();
         if(inputFiles.size() >=0 ){
             for (int i = 0; i< inputFiles.size(); i++){
@@ -190,7 +189,7 @@ public class Search {
     private void fillFile (List <File> inputFiles){
         if(inputFiles.size()>= 0){
             for (int i = 0; i< inputFiles.size(); i++){
-                com.jalasoft.search.model.File addFile = new com.jalasoft.search.model.File();
+                FileSearch addFile = new FileSearch();
                 addFile.setPath(inputFiles.get(i).getAbsolutePath());
                 addFile.setName(inputFiles.get(i).getName());
                 addFile.setIsDirectory(inputFiles.get(i).isDirectory());
@@ -209,13 +208,14 @@ public class Search {
         List <File> swapFilesTemp2 = new ArrayList<>();
         List <File> swapFilesTemp3 = new ArrayList<>();
 
-        swapFiles = searchByPath(new File("c:/test"));
+        swapFiles = searchByPath(new File("src/com/jalasoft/search/resources/test"));
         swapFilesTemp = searchByExtension(swapFiles, "txt");
         swapFilesTemp2 = searchByHidden(swapFilesTemp);
         swapFilesTemp3 = searchByContens(swapFilesTemp2, "POZZO");
 
-        for(int  i = 0; i <swapFilesTemp3 .size(); i ++){
-            System.out.println(swapFilesTemp3 .get(i).getAbsolutePath());
+        for(int  i = 0; i <swapFilesTemp3.size(); i ++){
+           // System.out.println("found file: ");
+            System.out.println(swapFilesTemp3.get(i).getPath());
         }
 
     }

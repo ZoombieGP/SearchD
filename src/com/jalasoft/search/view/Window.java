@@ -1,3 +1,14 @@
+/*
+ * Windows.java
+ *
+ * Copyright (c) 2018 Jalasoft.
+ *
+ * This software is the confidential and proprietary information of Jalasoft.
+ * ("Confidential Information").  You shall not
+ * disclose such Confidential Information and shall use it only in
+ * accordance with the terms of the license agreement you entered into
+ */
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -76,15 +87,5 @@ public class Window extends JFrame{
         simpleTab.add(searchForPanel);
         this.getContentPane().setLayout(new BorderLayout());
         this.getContentPane().add(tabPane);
-    }
-
-    /**
-     * Main method:
-     * Creates the window object and set it visible
-     * @param args
-     */
-    public static void main(String [] args){
-        JFrame window = new Window();
-        window.setVisible(true);
     }
 }

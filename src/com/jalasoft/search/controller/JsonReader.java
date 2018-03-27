@@ -24,7 +24,6 @@ import java.io.IOException;
  */
 public class JsonReader {
 
-
     /**
      * Read the a json file
      * @param jsonFile path of the json file to read
@@ -32,16 +31,11 @@ public class JsonReader {
      * @return the value in string type according to the key passed
      */
     public static String getJsonValue(String jsonFile,String key){
-
         JSONParser parser= new JSONParser();
-
         try {
 
             Object fileObject = parser.parse(new FileReader(jsonFile));
-
             JSONObject jsonObject = (JSONObject) fileObject;
-
-
             return (String) jsonObject.get(key);
 
         } catch (FileNotFoundException e) {
@@ -51,9 +45,9 @@ public class JsonReader {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
         return "Has been a exception";
     }
 }
+
 
 

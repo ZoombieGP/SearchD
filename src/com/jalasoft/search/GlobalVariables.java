@@ -11,7 +11,7 @@
 package com.jalasoft.search;
 
 public class GlobalVariables {
-    public static String REGEX_FILE="./regex.json";
+    public static String REGEX_FILE="./configFiles/regex.json";
     public static String BASIC_CRITERIA_FILE;
     public static String KEY_REG_EX_PATH ="regexPath";
     public static String KEY_REG_EX_FILE_NAME ="regexFileName";

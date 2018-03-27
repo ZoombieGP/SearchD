@@ -9,6 +9,7 @@
  * accordance with the terms of the license agreement you entered into
  */
 package com.jalasoft.search.controller;
+
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;

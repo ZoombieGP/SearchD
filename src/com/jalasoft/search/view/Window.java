@@ -8,9 +8,9 @@ import java.awt.BorderLayout;
 
 public class Window extends JFrame{
 
-    private JTabbedPane tabPane;
-    private JPanel simpleTab;
-    private JPanel advancedTab;
+    private JTabbedPane tabPane;                                    //Tab Pane contains Simple and Advanced Search Tabs
+    private JPanel simpleTab;                                       //Simple Search Tab
+    private JPanel advancedTab;                                     //Advanced Search Tab
     private JPanel searchInPanel;                                   //Panel contains Search In Field Name, Text Field Browse button
     private JTextField searchInTextField;                           //Search In Text Field
     private JLabel searchInFieldName;                               //Search In Field Name

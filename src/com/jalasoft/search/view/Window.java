@@ -8,7 +8,7 @@
  * disclose such Confidential Information and shall use it only in
  * accordance with the terms of the license agreement you entered into
  */
-
+package com.jalasoft.search.view;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -30,6 +30,8 @@ public class Window extends JFrame{
     private JTextField searchForTextField;                          //Search For Text Field
     private JLabel searchForFieldName;                              //Search For Field Name
     private JButton searchButton;                                   //Search Button
+    //adding a table object
+    private Table tableResult;
 
     /**
      * Builder method:
@@ -56,6 +58,8 @@ public class Window extends JFrame{
      * Method to start the window components
      */
     private void startComponents(){
+
+
         tabPane = new JTabbedPane();
         simpleTab = new JPanel();
         advancedTab = new JPanel();
@@ -64,6 +68,10 @@ public class Window extends JFrame{
         searchInFieldName = new JLabel();
         searchInTextField = new JTextField(40);
         browseButton = new JButton();
+        //add table component
+        tableResult = new Table();
+
+
 
         searchForPanel = new JPanel();
         searchForFieldName = new JLabel();
@@ -80,11 +88,14 @@ public class Window extends JFrame{
         searchInPanel.add(searchInFieldName);
         searchInPanel.add(searchInTextField);
         searchInPanel.add(browseButton);
+
         searchForPanel.add(searchForFieldName);
         searchForPanel.add(searchForTextField);
         searchForPanel.add(searchButton);
         simpleTab.add(searchInPanel);
         simpleTab.add(searchForPanel);
+        // adding a table result to simple tab
+        simpleTab.add(tableResult);
         this.getContentPane().setLayout(new BorderLayout());
         this.getContentPane().add(tabPane);
     }

@@ -8,7 +8,7 @@
  * disclose such Confidential Information and shall use it only in
  * accordance with the terms of the license agreement you entered into
  */
-
+package com.jalasoft.search.view;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -87,5 +87,17 @@ public class Window extends JFrame{
         simpleTab.add(searchForPanel);
         this.getContentPane().setLayout(new BorderLayout());
         this.getContentPane().add(tabPane);
+    }
+
+    public JButton getSearchButton(){
+        return this.searchButton;
+    }
+
+    public String getFileName(){
+        return searchForTextField.getText();
+    }
+
+    public String getFilePath(){
+        return searchInTextField.getText();
     }
 }

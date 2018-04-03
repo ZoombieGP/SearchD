@@ -1,5 +1,5 @@
 /*
- * Windows.java
+ * Window.java
  *
  * Copyright (c) 2018 Jalasoft.
  *
@@ -9,6 +9,7 @@
  * accordance with the terms of the license agreement you entered into
  */
 package com.jalasoft.search.view;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;

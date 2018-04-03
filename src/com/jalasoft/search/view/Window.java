@@ -96,19 +96,35 @@ public class Window extends JFrame{
         this.getContentPane().add(tabPane);
     }
 
-    public JButton getSearchButton () {                 //Getter for Search button
+    /**
+     * Get the Search button
+     * @return the current Search button object
+     */
+    public JButton getSearchButton () {
         return this.searchButton;
     }
 
-    public String getSearchInTextField(){               //Getter for Search In Text Field
+    /**
+     * Get the Search In Text Field
+     * @return the Search In Text in String format
+     */
+    public String getSearchInTextField(){
         return this.searchInTextField.getText();
     }
 
-    public String getSearchForTextField (){             //Getter for Search For Text Field
+    /**
+     * Get the Search For Text Field
+     * @return the Search For Text in String format
+     */
+    public String getSearchForTextField (){
         return this.searchForTextField.getText();
     }
 
-    public Table getTableResult (){                     //Getter for Results Table
+    /**
+     * Get the Results Table
+     * @return the current Results Table object
+     */
+    public Table getTableResult (){
         return this.tableResult;
     }
 }

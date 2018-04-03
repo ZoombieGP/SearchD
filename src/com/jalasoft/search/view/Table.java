@@ -19,7 +19,7 @@ import java.awt.Dimension;
 public class Table extends JPanel {
 
     private String [] columnNames;
-    private Object [] [] data;
+    public Object [] [] data;
 
     public Table(){
         super(new GridLayout(1,0));

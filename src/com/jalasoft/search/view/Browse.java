@@ -19,22 +19,21 @@ public class Browse extends JPanel implements ActionListener {
     public Browse() {
         browseButton = new JButton("Browse...");
         browseButton.addActionListener(this);
+        chooser = new JFileChooser();
         add(browseButton);
     }
 
     public void actionPerformed(ActionEvent e) {
         int result;
 
-        chooser = new JFileChooser();
+        //chooser = new JFileChooser();
         chooser.setCurrentDirectory(new java.io.File("."));
         chooser.setDialogTitle(chooserTitle);
         chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        //
-        // disable the "All files" option.
-        //
         chooser.setAcceptAllFileFilterUsed(true);
-        //
+
         if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+
             System.out.println("getCurrentDirectory(): "
                     +  chooser.getCurrentDirectory());
             System.out.println("getSelectedFile() : "
@@ -62,5 +61,9 @@ public class Browse extends JPanel implements ActionListener {
         frame.getContentPane().add(panel,"Center");
         frame.setSize(panel.getPreferredSize());
         frame.setVisible(true);
+    }
+
+    public JFileChooser getChooser(){
+        return this.chooser;
     }
 }

@@ -28,7 +28,7 @@ public class Window extends JFrame{
     private JTextField searchInTextField;             //Search In Text Field
     private JLabel searchInFieldName;                 //Search In Field Name
     //private JButton browseButton;                     //Browse Button
-    private Browse chooser;
+    private Browse browseButton;
     private JPanel searchForPanel;                    //Panel contains Search For Field Name, Text Field, Search button
     private JTextField searchForTextField;            //Search For Text Field
     private JLabel searchForFieldName;                //Search For Field Name
@@ -69,7 +69,7 @@ public class Window extends JFrame{
         searchInFieldName = new JLabel();
         searchInTextField = new JTextField(40);
         //browseButton = new JButton();
-        chooser = new Browse();
+        browseButton = new Browse();
         tableResult = new Table();
 
         searchForPanel = new JPanel();
@@ -87,8 +87,9 @@ public class Window extends JFrame{
         searchInPanel.add(searchInFieldName);
         searchInPanel.add(searchInTextField);
         //searchInPanel.add(browseButton);
-        searchInPanel.add(chooser);
-        //searchInTextField.setText(chooser.getCurrentDirectory);
+        searchInPanel.add(browseButton);
+
+        searchInTextField.setText(browseButton.getChooser().getCurrentDirectory().toString());
 
         searchForPanel.add(searchForFieldName);
         searchForPanel.add(searchForTextField);

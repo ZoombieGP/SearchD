@@ -10,6 +10,7 @@
  */
 package com.jalasoft.search.view;
 
+import com.jalasoft.search.view.Browse;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -26,7 +27,8 @@ public class Window extends JFrame{
     private JPanel searchInPanel;                     //Panel contains Search In Field Name, Text Field Browse button
     private JTextField searchInTextField;             //Search In Text Field
     private JLabel searchInFieldName;                 //Search In Field Name
-    private JButton browseButton;                     //Browse Button
+    //private JButton browseButton;                     //Browse Button
+    private Browse chooser;
     private JPanel searchForPanel;                    //Panel contains Search For Field Name, Text Field, Search button
     private JTextField searchForTextField;            //Search For Text Field
     private JLabel searchForFieldName;                //Search For Field Name
@@ -66,7 +68,8 @@ public class Window extends JFrame{
         searchInPanel = new JPanel();
         searchInFieldName = new JLabel();
         searchInTextField = new JTextField(40);
-        browseButton = new JButton();
+        //browseButton = new JButton();
+        chooser = new Browse();
         tableResult = new Table();
 
         searchForPanel = new JPanel();
@@ -75,7 +78,7 @@ public class Window extends JFrame{
         searchButton = new JButton();
 
         searchInFieldName.setText("Search In:");
-        browseButton.setText("Browse...");
+        //browseButton.setText("Browse...");
         searchForFieldName.setText("Search For:");
         searchButton.setText("Search");
 
@@ -83,7 +86,9 @@ public class Window extends JFrame{
         tabPane.add("Advanced Search",advancedTab);
         searchInPanel.add(searchInFieldName);
         searchInPanel.add(searchInTextField);
-        searchInPanel.add(browseButton);
+        //searchInPanel.add(browseButton);
+        searchInPanel.add(chooser);
+        //searchInTextField.setText(chooser.getCurrentDirectory);
 
         searchForPanel.add(searchForFieldName);
         searchForPanel.add(searchForTextField);

@@ -11,6 +11,8 @@
  */
 package com.jalasoft.search.model;
 
+import com.jalasoft.search.controller.SearchCriteriaBasic;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.File;
@@ -186,7 +188,8 @@ public class Search {
         return (filterResults);
     }
 
-    private void fillFile (List <File> inputFiles){
+    private List<FileSearch> fillFile (List <File> inputFiles){
+        List<FileSearch> matchs = new ArrayList<>();
         if(inputFiles.size()>= 0){
             for (int i = 0; i< inputFiles.size(); i++){
                 FileSearch addFile = new FileSearch();
@@ -196,27 +199,31 @@ public class Search {
                 addFile.setIsHidden(inputFiles.get(i).isHidden());
                 addFile.setSize(inputFiles.get(i).length());
                 addFile.setDateModification(inputFiles.get(i).lastModified());
+                matchs.add(addFile);
             }
         }
+        return (matchs);
     }
     /**
      * getResults method under construction to test the functionality of Search Class
      */
-    public void getResults() {
+    public List<FileSearch> getResults(SearchCriteriaBasic criteria) {
+        String path = criteria.getPath();
+        String fileName = criteria.getCriteria()[0];
+
         List <File> swapFiles = new ArrayList<>();
         List <File> swapFilesTemp = new ArrayList<>();
-        List <File> swapFilesTemp2 = new ArrayList<>();
-        List <File> swapFilesTemp3 = new ArrayList<>();
+        List <FileSearch> results = new ArrayList<>();
 
-        swapFiles = searchByPath(new File("src/com/jalasoft/search/resources/test"));
-        swapFilesTemp = searchByExtension(swapFiles, "txt");
-        swapFilesTemp2 = searchByHidden(swapFilesTemp);
-        swapFilesTemp3 = searchByContens(swapFilesTemp2, "POZZO");
-
-        for(int  i = 0; i <swapFilesTemp3.size(); i ++){
-           // System.out.println("found file: ");
-            System.out.println(swapFilesTemp3.get(i).getPath());
+        if(fileName.equals("")){
+            swapFiles = searchByPath(new File(path));
+            results = fillFile(swapFiles);
+        }else{
+            swapFiles = searchByPath(new File(path));
+            swapFilesTemp = searchByName(swapFiles, fileName);
+            results = fillFile(swapFilesTemp);
         }
+        return (results);
 
     }
 }

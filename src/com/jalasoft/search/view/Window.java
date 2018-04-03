@@ -1,5 +1,5 @@
 /*
- * Windows.java
+ * Window.java
  *
  * Copyright (c) 2018 Jalasoft.
  *
@@ -8,6 +8,7 @@
  * disclose such Confidential Information and shall use it only in
  * accordance with the terms of the license agreement you entered into
  */
+package com.jalasoft.search.view;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -19,17 +20,18 @@ import java.awt.BorderLayout;
 
 public class Window extends JFrame{
 
-    private JTabbedPane tabPane;                                    //Tab Pane contains Simple and Advanced Search Tabs
-    private JPanel simpleTab;                                       //Simple Search Tab
-    private JPanel advancedTab;                                     //Advanced Search Tab
-    private JPanel searchInPanel;                                   //Panel contains Search In Field Name, Text Field Browse button
-    private JTextField searchInTextField;                           //Search In Text Field
-    private JLabel searchInFieldName;                               //Search In Field Name
-    private JButton browseButton;                                   //Browse Button
-    private JPanel searchForPanel;                                  //Panel contains Search For Field Name, Text Field, Search button
-    private JTextField searchForTextField;                          //Search For Text Field
-    private JLabel searchForFieldName;                              //Search For Field Name
-    private JButton searchButton;                                   //Search Button
+    private JTabbedPane tabPane;                      //Tab Pane contains Simple and Advanced Search Tabs
+    private JPanel simpleTab;                         //Simple Search Tab
+    private JPanel advancedTab;                       //Advanced Search Tab
+    private JPanel searchInPanel;                     //Panel contains Search In Field Name, Text Field Browse button
+    private JTextField searchInTextField;             //Search In Text Field
+    private JLabel searchInFieldName;                 //Search In Field Name
+    private JButton browseButton;                     //Browse Button
+    private JPanel searchForPanel;                    //Panel contains Search For Field Name, Text Field, Search button
+    private JTextField searchForTextField;            //Search For Text Field
+    private JLabel searchForFieldName;                //Search For Field Name
+    private JButton searchButton;                     //Search Button
+    private Table tableResult;                        //Results Table
 
     /**
      * Builder method:
@@ -56,6 +58,7 @@ public class Window extends JFrame{
      * Method to start the window components
      */
     private void startComponents(){
+
         tabPane = new JTabbedPane();
         simpleTab = new JPanel();
         advancedTab = new JPanel();
@@ -64,6 +67,7 @@ public class Window extends JFrame{
         searchInFieldName = new JLabel();
         searchInTextField = new JTextField(40);
         browseButton = new JButton();
+        tableResult = new Table();
 
         searchForPanel = new JPanel();
         searchForFieldName = new JLabel();
@@ -80,12 +84,47 @@ public class Window extends JFrame{
         searchInPanel.add(searchInFieldName);
         searchInPanel.add(searchInTextField);
         searchInPanel.add(browseButton);
+
         searchForPanel.add(searchForFieldName);
         searchForPanel.add(searchForTextField);
         searchForPanel.add(searchButton);
         simpleTab.add(searchInPanel);
         simpleTab.add(searchForPanel);
+        simpleTab.add(tableResult);
+
         this.getContentPane().setLayout(new BorderLayout());
         this.getContentPane().add(tabPane);
+    }
+
+    /**
+     * Get the Search button
+     * @return the current Search button object
+     */
+    public JButton getSearchButton () {
+        return this.searchButton;
+    }
+
+    /**
+     * Get the Search In Text Field
+     * @return the Search In Text in String format
+     */
+    public String getSearchInTextField(){
+        return this.searchInTextField.getText();
+    }
+
+    /**
+     * Get the Search For Text Field
+     * @return the Search For Text in String format
+     */
+    public String getSearchForTextField (){
+        return this.searchForTextField.getText();
+    }
+
+    /**
+     * Get the Results Table
+     * @return the current Results Table object
+     */
+    public Table getTableResult (){
+        return this.tableResult;
     }
 }

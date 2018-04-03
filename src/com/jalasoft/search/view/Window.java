@@ -19,19 +19,18 @@ import java.awt.BorderLayout;
 
 public class Window extends JFrame{
 
-    private JTabbedPane tabPane;                                    //Tab Pane contains Simple and Advanced Search Tabs
-    private JPanel simpleTab;                                       //Simple Search Tab
-    private JPanel advancedTab;                                     //Advanced Search Tab
-    private JPanel searchInPanel;                                   //Panel contains Search In Field Name, Text Field Browse button
-    private JTextField searchInTextField;                           //Search In Text Field
-    private JLabel searchInFieldName;                               //Search In Field Name
-    private JButton browseButton;                                   //Browse Button
-    private JPanel searchForPanel;                                  //Panel contains Search For Field Name, Text Field, Search button
-    private JTextField searchForTextField;                          //Search For Text Field
-    private JLabel searchForFieldName;                              //Search For Field Name
-    private JButton searchButton;                                   //Search Button
-    //adding a table object
-    private Table tableResult;
+    private JTabbedPane tabPane;                      //Tab Pane contains Simple and Advanced Search Tabs
+    private JPanel simpleTab;                         //Simple Search Tab
+    private JPanel advancedTab;                       //Advanced Search Tab
+    private JPanel searchInPanel;                     //Panel contains Search In Field Name, Text Field Browse button
+    private JTextField searchInTextField;             //Search In Text Field
+    private JLabel searchInFieldName;                 //Search In Field Name
+    private JButton browseButton;                     //Browse Button
+    private JPanel searchForPanel;                    //Panel contains Search For Field Name, Text Field, Search button
+    private JTextField searchForTextField;            //Search For Text Field
+    private JLabel searchForFieldName;                //Search For Field Name
+    private JButton searchButton;                     //Search Button
+    private Table tableResult;                        //Results Table
 
     /**
      * Builder method:
@@ -59,7 +58,6 @@ public class Window extends JFrame{
      */
     private void startComponents(){
 
-
         tabPane = new JTabbedPane();
         simpleTab = new JPanel();
         advancedTab = new JPanel();
@@ -68,10 +66,7 @@ public class Window extends JFrame{
         searchInFieldName = new JLabel();
         searchInTextField = new JTextField(40);
         browseButton = new JButton();
-        //add table component
         tableResult = new Table();
-
-
 
         searchForPanel = new JPanel();
         searchForFieldName = new JLabel();
@@ -94,9 +89,25 @@ public class Window extends JFrame{
         searchForPanel.add(searchButton);
         simpleTab.add(searchInPanel);
         simpleTab.add(searchForPanel);
-        // adding a table result to simple tab
         simpleTab.add(tableResult);
+
         this.getContentPane().setLayout(new BorderLayout());
         this.getContentPane().add(tabPane);
+    }
+
+    public JButton getSearchButton () {
+        return this.searchButton;
+    }
+
+    public String getSearchInTextField(){
+        return this.searchInTextField.getText();
+    }
+
+    public String getSearchForTextField (){
+        return this.searchForTextField.getText();
+    }
+
+    public Table getTableResult (){
+        return this.tableResult;
     }
 }

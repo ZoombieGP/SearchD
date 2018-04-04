@@ -15,18 +15,32 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.GridLayout;
 import java.awt.Dimension;
 
+/**
+ * Table: Implement a Jtable element with grid and scroll panel .
+ * add new  columns and rows to Table model
+ * @author Alvaro Acha
+ * @version 0.1.1
+ * @since 04/02/2018
+ */
 public class Table extends JPanel {
 
     private String [] columnNames;
     DefaultTableModel model;
 
-
+    /**
+     * Table: Construct method
+     * Method that construct an Controller object Table in base to JTable with a model
+     */
     public Table(){
         super(new GridLayout(1,0));
         columnNames = new String[]{"Path", "FileName", "Is Directory?", "Is Hidden?", "Size","Date Modified"};
         createTable();
     }
 
+    /**
+     * Instance the objects : JTable JScrollPane ,
+     * and initialize its properties and columns of the table
+     */
     private void createTable() {
         model= new DefaultTableModel();
         final JTable table = new JTable(model);
@@ -43,7 +57,12 @@ public class Table extends JPanel {
         add(scrollPane);
     }
 
+    /**
+     * Fill the model that will added to the Table , the model contain the data of the table
+     * @param object
+     */
     public void fillTableResult(Object[] object){
         model.addRow(object);
     }
 }
+

@@ -1,0 +1,65 @@
+Device Properties to sort by:
+    ID
+    Name
+    Address
+    PluginKey
+    AddedDate
+    LastState
+    LastUpdatedDate
+    RemovedDate
+
+
+{
+    "jsonrpc":"2.0",
+    "method":"OS.DeviceDataManager.GetReportByFilterAndRange",
+    "params":[
+        {
+            "DataFilter":[  
+                {  
+                    "PropertiesFilter":[  
+                        {  
+                            "PropertyName":"Name",
+                            "Operator" : "Or",
+		    		        "Comparator" : "Like",
+                            "Values":[  
+                                "%Jala%"
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        "2016-05-01T00:00:00Z",
+        "2016-05-10T00:00:00Z",
+        null,
+        [
+         {
+          "Criteria": "Address"
+         }
+        ]
+    ],
+    "level":1,
+    "id":123
+}
+
+
+Alert Properties to sort by:
+    ID
+    CreatedDate
+    LastState
+    LastOccurrenceCount
+    LastOccurrenceDate
+    AcknowledgedDate
+    ClosedDate
+    DeviceKey
+    DeviceName
+    DeviceFullName
+    ElementName
+    ElementFullName
+    RuleName
+    RuleType
+    ActiveRuleName
+    Severity
+    Description
+
+

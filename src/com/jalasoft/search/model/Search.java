@@ -193,7 +193,7 @@ public class Search {
         if(inputFiles.size()>= 0){
             for (int i = 0; i< inputFiles.size(); i++){
                 FileSearch addFile = new FileSearch();
-                addFile.setPath(inputFiles.get(i).getAbsolutePath());
+                addFile.setPath(inputFiles.get(i).getPath());
                 addFile.setName(inputFiles.get(i).getName());
                 addFile.setIsDirectory(inputFiles.get(i).isDirectory());
                 addFile.setIsHidden(inputFiles.get(i).isHidden());

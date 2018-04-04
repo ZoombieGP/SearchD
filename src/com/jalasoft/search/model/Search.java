@@ -18,6 +18,10 @@ import java.io.FileReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,12 +37,30 @@ public class Search {
     List <File> filterFiles = new ArrayList<File>();
 
     /**
-     * SearchByPath method, returns a List of Files, Folders,, sub Folder giving a initial Path
-     * @param dir
+     * SearchByPath2 method, returns a List of Files, Folders,, sub Folder giving a initial Path
+     * @param path
      * input initial Path where the search is recovering Folders and files
      * @return
      * a List of Files
      */
+    private List <Path> searchByPath2(Path path){
+        List<Path> files = new ArrayList<>();
+        try (DirectoryStream <Path> directoryStream = Files.newDirectoryStream (path)){
+            for (Path subPath: directoryStream){
+                if(Files.isDirectory(subPath)){
+                    files.addAll(searchByPath2(subPath));
+                }else {
+                    files.add(subPath);
+                }
+
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+        return(files);
+    }
+
     private List <File> searchByPath(File dir){
         File listFile[] = dir.listFiles();
         if(listFile.length >= 0){
@@ -63,6 +85,19 @@ public class Search {
      * @return
      * List of Files filtered by file name criteria
      */
+    private List <Path> searchByName2(List <Path> inputFiles, String fileName){
+        List <Path> filterResults = new ArrayList<>();
+        if(inputFiles.size() >= 0){
+            for (int i = 0; i < inputFiles.size(); i++){
+                //if(inputFiles.get(i).getFileName().equals(fileName)){
+                if(inputFiles.get(i).getFileName().toFile().getName().contains(fileName)){
+                    filterResults.add(inputFiles.get(i).toAbsolutePath());
+                }
+            }
+        }
+        return (filterResults);
+    }
+
     private List <File> searchByName(List <File> inputFiles, String fileName){
        List <File> filterResults = new ArrayList<>();
         if(inputFiles.size() >= 0){
@@ -207,8 +242,19 @@ public class Search {
     /**
      * getResults method under construction to test the functionality of Search Class
      */
-    public List<FileSearch> getResults(SearchCriteriaBasic criteria) {
-        String path = criteria.getPath();
+    //public List<FileSearch> getResults(SearchCriteriaBasic criteria) {
+      public void getResults() {
+        Path path = Paths.get("src/com/jalasoft/search/resources/test");
+        List<Path> swap = new ArrayList<>();
+        List<Path> results = new ArrayList<>();
+        swap = searchByPath2(path);
+        results = searchByName2(swap, "tcs");
+        for(int i = 0; i < results.size(); i ++){
+            System.out.println(results.get(i).toAbsolutePath());
+            System.out.println(results.get(i).getFileName());
+
+        }
+       /* String path = criteria.getPath();
         String fileName = criteria.getCriteria()[0];
 
         List <File> swapFiles = new ArrayList<>();
@@ -224,6 +270,6 @@ public class Search {
             results = fillFile(swapFilesTemp);
         }
         return (results);
-
+*/
     }
 }

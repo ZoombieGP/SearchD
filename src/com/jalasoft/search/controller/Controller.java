@@ -49,8 +49,8 @@ public class Controller {
         {
             basicCriteria= new SearchCriteriaBasic(win.getSearchInTextField(),win.getSearchForTextField());
             List<FileSearch> filesFound;
-            filesFound=search.getResults(basicCriteria);
-            fillTable(filesFound);
+           // filesFound=search.getResults(basicCriteria);
+            //fillTable(filesFound);
         }
     }
 

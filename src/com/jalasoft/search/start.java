@@ -1,6 +1,6 @@
 package com.jalasoft.search;
 /*
- * Search .java
+ * Start .java
  *
  * Copyright (c) 2018 Jalasoft.
  *

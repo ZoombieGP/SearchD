@@ -27,7 +27,7 @@ public class FileSearch {
     /**
      * FileSearch Method Constructor
      */
-    public void File (){}
+    public void FileSearch (){}
 
     /**
      *getPath method encapsulate Path variable

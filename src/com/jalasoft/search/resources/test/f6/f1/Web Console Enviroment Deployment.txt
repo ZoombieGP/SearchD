@@ -1,0 +1,90 @@
+*******************************************************************************************************************************************************
+**                                                                                                                                                   **
+**                                              Xian Web Console Pre-requisites Installation:                                                        **
+**                                                                                                                                                   **
+*******************************************************************************************************************************************************
+
+
+NodeJs V6(6.9.1): (http://tecadmin.net/install-latest-nodejs-npm-on-ubuntu/)
+========================================================================================================
+1.  $ sudo apt-get install python-software-properties
+2.  $ curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
+3.  $ sudo apt-get install nodejs
+4.  $ node -v
+
+
+Mongo DB 3.2.11 (https://docs.mongodb.com/v3.2/tutorial/install-mongodb-on-ubuntu/)
+============================================================================================================
+1.  #sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv EA312927
+for ubuntu 14.04:
+2.  #echo "deb http://repo.mongodb.org/apt/ubuntu trusty/mongodb-org/3.2 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.2.list
+3.  #sudo apt-get update
+4.  #sudo apt-get install -y mongodb-org
+Other way:
+------------------------------------------------------------------------------------------------------------------------------------------------------
+4.1.  #sudo apt-get install -y mongodb-org=3.2.11 mongodb-org-server=3.2.11 mongodb-org-shell=3.2.11 mongodb-org-mongos=3.2.11 mongodb-org-tools=3.2.11
+
+MongoDB 2.6.12 (http://www.techbeamers.com/how-to-install-mongodb-on-ubuntu-14-04/)
+==============================================================================================================================
+1.  #sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10
+2.  #echo 'deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen' | sudo tee /etc/apt/sources.list.d/mongodb.list
+3.  #sudo apt-get update
+4.  #sudo apt-get install -y mongodb-org
+
+Meteor 1.4.2.3 (https://www.meteor.com/install)
+=============================================================================================================================
+1.  #sudo curl https://install.meteor.com/ | sh
+2.  #meteor --version
+
+RoboMongo 0.9.0 (http://askubuntu.com/questions/739297/how-to-install-robomongo-ubuntu-system-please-let-me-know/781793):
+=============================================================================================================================
+1.  #wget https://download.robomongo.org/0.9.0/linux/robomongo-0.9.0-linux-x86_64-0786489.tar.gz
+2.  #tar -xvzf robomongo-0.9.0-linux-x86_64-0786489.tar.gz
+3.  #sudo mkdir /usr/local/bin/robomongo
+4.  #sudo mv  robomongo-0.9.0-linux-x86_64-0786489/* /usr/local/bin/robomongo
+5.  #cd /usr/local/bin/robomongo/bin
+6.  #sudo chmod +x robomongo ## run command only if robomongo isn't excutable file
+7.  #./robomongo
+
+
+RoboMongo 0.8.5 (http://askubuntu.com/questions/739297/how-to-install-robomongo-ubuntu-system-please-let-me-know/781793):
+=============================================================================================================================
+1.  #sudo wget https://download.robomongo.org/0.8.5/linux/robomongo-0.8.5-x86_64.deb
+2.  #sudo dpkg -i robomongo-0.8.5-x86_64.deb
+
+
+
+*******************************************************************************************************************************************************
+**                                                                                                                                                   **
+**                                              Xian Web Console deploying (Configuration):                                                          **
+**                                                                                                                                                   **
+*******************************************************************************************************************************************************
+1. Firstly it is required to have created the 'xianmp' database in mongodb.
+2. Copy the 'WebConsoleReact.zip' file to folder where user has permissions (recommended the home folder: /home/<USER_NAME>/)
+3. Unzip the 'WebConsoleReact.zip' file (- It is unzipped as 'dist).
+4. Give executable permissions to 'start.sh' file placed in '/home/<USER_NAME>/dist/bundle/' with the command: 'chmod 755 start.sh'.
+5. Edit the 'start.sh' file with JsonRPC Server IP address and Xian Web console IP address as root URL:
+
+	METEOR_SETTINGS='{
+	  "public": { },
+	  "JSONRPCHOST": "10.31.146.2",
+	  "JSONRPCPORT": "8480",
+	  "JSONRPCSSL": "false"
+	}'
+	
+	DB_NAME='xianmp'
+	
+	(cd programs/server && npm install)
+	export MONGO_URL='mongodb://localhost/'$DB_NAME
+	export ROOT_URL='http://10.31.146.2'
+	export PORT=3001
+	export METEOR_SETTINGS=$METEOR_SETTINGS 
+	node main.js
+
+6. Run the 'start.sh' script by this command: sudo ./start.sh
+7. Enjoy
+
+NOTE: Currently when running 'start.sh' file it needs internet access since there is some tasks executed like following:
+     -  fetchMetadata: sill mapToRegistry uri https://registry.npmjs.org/node-gyp
+     -  fetchMetadata: sill mapToRegistry uri https://registry.npmjs.org/guage
+     -  fetchMetadata: sill mapToRegistry uri https://registry.npmjs.org/d

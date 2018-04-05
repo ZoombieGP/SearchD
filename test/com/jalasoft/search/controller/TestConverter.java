@@ -9,6 +9,7 @@
  */
 package com.jalasoft.search.controller;
 
+import com.jalasoft.search.common.Converter;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
@@ -37,4 +38,3 @@ public class TestConverter {
         assertEquals(sizeExpected, converter.formatFileSize(size) );
     }
 }
-

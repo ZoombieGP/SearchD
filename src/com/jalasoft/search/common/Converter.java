@@ -8,7 +8,7 @@
  * disclose such Confidential Information and shall use it only in
  * accordance with the terms of the license agreement you entered into
  */
-package com.jalasoft.search.controller;
+package com.jalasoft.search.common;
 
 import java.util.Date;
 import java.text.SimpleDateFormat;

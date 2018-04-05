@@ -30,7 +30,7 @@ import java.util.List;
 
 
 public class Search {
-    List <File> filterFiles = new ArrayList<File>();
+    List <File> filterFiles;
 
     /**
      * SearchByPath method, returns a List of Files, Folders,, sub Folder giving a initial Path
@@ -41,6 +41,8 @@ public class Search {
      */
     private List <File> searchByPath(File dir){
         File listFile[] = dir.listFiles();
+        filterFiles = new ArrayList<File>();
+
         if(listFile.length >= 0){
                 for (int i = 0; i< listFile.length; i++){
                     if(listFile[i].isDirectory()){

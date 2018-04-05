@@ -64,4 +64,3 @@ public class Converter {
         return hrSize;
     }
 }
-

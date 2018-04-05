@@ -89,7 +89,6 @@ public class Search {
         List <Path> filterResults = new ArrayList<>();
         if(inputFiles.size() >= 0){
             for (int i = 0; i < inputFiles.size(); i++){
-                //if(inputFiles.get(i).getFileName().equals(fileName)){
                 if(inputFiles.get(i).getFileName().toFile().getName().contains(fileName)){
                     filterResults.add(inputFiles.get(i).toAbsolutePath());
                 }
@@ -117,6 +116,17 @@ public class Search {
      * @return
      * List of Files filtered by Hidden atribute criteria
      */
+    private List <Path> searchByHidden2(List <Path> inputFiles){
+        List <Path> filterResults = new ArrayList<>();
+        if(inputFiles.size() >= 0){
+            for (int i = 0; i < inputFiles.size(); i++){
+                if(inputFiles.get(i).getFileName().toFile().isHidden()){
+                    filterResults.add(inputFiles.get(i).toAbsolutePath());
+                }
+            }
+        }
+        return (filterResults);
+    }
     private List <File> searchByHidden(List<File> inputFiles){
         List <File> filterResults = new ArrayList<>();
         if(inputFiles.size() >= 0){
@@ -132,19 +142,19 @@ public class Search {
     /**
      *searchByContens method, searches into a file that belongs to List of Files finding out an specific String and return List of Files
      * @param inputFiles
-     * receives a list of Files
+     * receives a list of Path Files
      * @param contens
      * receives a search criteria
      * @return
      * List of Files filtered by Contens atribute criteria
      */
-    private List <File> searchByContens(List <File> inputFiles, String contens){
-        List <File> filterResults = new ArrayList<>();
+    private List <Path> searchByContens(List <Path> inputFiles, String contens){
+        List <Path> filterResults = new ArrayList<>();
         if(inputFiles.size() >= 0){
             for (int i = 0; i< inputFiles.size(); i++){
                 try {
                        final BufferedReader reader = new BufferedReader(
-                                new FileReader(inputFiles.get(i))
+                                new FileReader((inputFiles.get(i).toFile()))
                         );
                         String line = "";
                         while((line = reader.readLine())!= null){
@@ -169,6 +179,18 @@ public class Search {
      * @return
      * List of Files filtered by Extension criteria
      */
+    private List <Path> searchByExtension2(List <Path> inputFiles, String extension){
+        List <Path> filterResults = new ArrayList<>();
+        if(inputFiles.size() >= 0){
+            for (int i = 0; i < inputFiles.size(); i++){
+                if(inputFiles.get(i).endsWith(extension)){
+                    filterResults.add(inputFiles.get(i).toAbsolutePath());
+                }
+            }
+        }
+        return (filterResults);
+    }
+
     private List <File> searchByExtension(List <File> inputFiles, String extension){
         List <File> filterResults = new ArrayList<>();
         if(inputFiles.size()>= 0){
@@ -190,6 +212,29 @@ public class Search {
      * @return
      * List of Files filtered by Size criteria
      */
+    private List <Path> searchBySize2 (List <Path> inputFiles, long size, int mode){
+        List <Path> filterResults = new ArrayList<>();
+        if(inputFiles.size() >= 0){
+            for (int i = 0; i < inputFiles.size(); i++){
+                if (mode == 0){ // equal
+                    if(inputFiles.get(i).toFile().length() == size){
+                        filterResults.add(inputFiles.get(i).toAbsolutePath());
+                    }
+                }
+                if (mode == 1){ // major
+                    if(inputFiles.get(i).toFile().length() >= size){
+                        filterResults.add(inputFiles.get(i).toAbsolutePath());
+                    }
+                }
+                if (mode == 2){ // minor
+                    if(inputFiles.get(i).toFile().length() <= size){
+                        filterResults.add(inputFiles.get(i).toAbsolutePath());
+                    }
+                }
+            }
+        }
+        return (filterResults);
+    }
     private List <File> searchBySize(List <File> inputFiles, long size){
         List <File> filterResults = new ArrayList<>();
         if(inputFiles.size() >=0 ){
@@ -211,6 +256,31 @@ public class Search {
      * @return
      * List of Files filtered by modification date criteria
      */
+    private List <Path> searchByModificationDate2(List <Path> inputFiles, long modification, int mode){
+        List <Path> filterResults = new ArrayList<>();
+        if(inputFiles.size() >= 0){
+            for (int i = 0; i < inputFiles.size(); i++){
+                if(mode == 0 ){ // equals
+                    if(inputFiles.get(i).toFile().lastModified() == modification){
+                        filterResults.add(inputFiles.get(i).toAbsolutePath());
+                    }
+                }
+                if(mode == 1 ){ // major
+                    if(inputFiles.get(i).toFile().lastModified() >= modification){
+                        filterResults.add(inputFiles.get(i).toAbsolutePath());
+                    }
+                }
+
+                if(mode == 2 ){ // minor
+                    if(inputFiles.get(i).toFile().lastModified() <= modification){
+                        filterResults.add(inputFiles.get(i).toAbsolutePath());
+                    }
+                }
+            }
+        }
+        return (filterResults);
+    }
+
     private List <File> searchByModificationDate(List <File> inputFiles, long modification){
         List <File> filterResults = new ArrayList<>();
         if(inputFiles.size()>= 0){

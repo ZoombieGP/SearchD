@@ -22,37 +22,40 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.nio.file.attribute.FileTime;
+import java.nio.file.attribute.UserPrincipal;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 
 /**
- * Class Searches Files by content, extension, name, and some other attributes receives a Object Criteria, evaluates it and return and Object.
+ * Class Searches Files by content, extension, name, and some other attributes receives a Object Criteria, evaluates it and returns a list of  fileSearch Object.
  * @version  1.0
  * @author Gilmar Pozzo
  */
 
 
 public class Search {
-    List <File> filterFiles = new ArrayList<File>();
-
-    /**
-     * SearchByPath2 method, returns a List of Files, Folders,, sub Folder giving a initial Path
+     /**
+     * searchByPath method, returns recursively a List of Paths of all files that belongs to giving Path
      * @param path
      * input initial Path where the search is recovering Folders and files
      * @return
-     * a List of Files
+     * a List of Path
      */
-    private List <Path> searchByPath2(Path path){
+    private List <Path> searchByPath(Path path){
         List<Path> files = new ArrayList<>();
         try (DirectoryStream <Path> directoryStream = Files.newDirectoryStream (path)){
             for (Path subPath: directoryStream){
                 if(Files.isDirectory(subPath)){
-                    files.addAll(searchByPath2(subPath));
+                    files.add(subPath);
+                    searchByPath(subPath);
                 }else {
                     files.add(subPath);
                 }
-
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -61,31 +64,16 @@ public class Search {
         return(files);
     }
 
-    private List <File> searchByPath(File dir){
-        File listFile[] = dir.listFiles();
-        if(listFile.length >= 0){
-                for (int i = 0; i< listFile.length; i++){
-                    if(listFile[i].isDirectory()){
-                        filterFiles.add(listFile[i]);
-                        searchByPath(listFile[i]);
-                    }else{
-                        filterFiles.add(listFile[i]);
-                    }
-                }
-            }
-        return (filterFiles);
-    }
-
     /**
-     * searchByName method, searches into a List of Files specific ones giving a FileSearch Name and return a filter List of Files
+     * searchByName method, searches into a List of Paths specific files giving a file Name and returns a filtered List of Path
      * @param inputFiles
-     * receives a list of Files
+     * receives a list of Path
      * @param fileName
      * Filter criteria
      * @return
-     * List of Files filtered by file name criteria
+     * List of Path filtered by file name criteria
      */
-    private List <Path> searchByName2(List <Path> inputFiles, String fileName){
+    private List <Path> searchByName(List <Path> inputFiles, String fileName){
         List <Path> filterResults = new ArrayList<>();
         if(inputFiles.size() >= 0){
             for (int i = 0; i < inputFiles.size(); i++){
@@ -97,58 +85,35 @@ public class Search {
         return (filterResults);
     }
 
-    private List <File> searchByName(List <File> inputFiles, String fileName){
-       List <File> filterResults = new ArrayList<>();
-        if(inputFiles.size() >= 0){
-            for (int i = 0; i < inputFiles.size(); i++){
-                if(inputFiles.get(i).getName().contains(fileName)){
-                    filterResults.add(inputFiles.get(i));
-                }
-            }
-        }
-        return (filterResults);
-    }
-
     /**
-     *searchByHidden method, searches into a List of Files specific ones that have Hidden attribute enabled and return List of Files
+     * searchByHidden method, searches into a List of Path specific files that have Hidden attribute enabled and returns List of Path
      * @param inputFiles
-     * receives a list of Files
+     * receives a list of Path
      * @return
-     * List of Files filtered by Hidden atribute criteria
+     * List of Path filtered by Hidden attribute criteria
      */
-    private List <Path> searchByHidden2(List <Path> inputFiles){
+    private List <Path> searchByHidden(List <Path> inputFiles){
         List <Path> filterResults = new ArrayList<>();
         if(inputFiles.size() >= 0){
             for (int i = 0; i < inputFiles.size(); i++){
-                if(inputFiles.get(i).getFileName().toFile().isHidden()){
+                if(inputFiles.get(i).toFile().isHidden()){
                     filterResults.add(inputFiles.get(i).toAbsolutePath());
                 }
             }
         }
         return (filterResults);
     }
-    private List <File> searchByHidden(List<File> inputFiles){
-        List <File> filterResults = new ArrayList<>();
-        if(inputFiles.size() >= 0){
-            for (int i = 0; i< inputFiles.size(); i++){
-                if(inputFiles.get(i).isHidden()){
-                    filterResults.add(inputFiles.get(i));
-                }
-            }
-        }
-        return (filterResults);
-    }
 
     /**
-     *searchByContens method, searches into a file that belongs to List of Files finding out an specific String and return List of Files
+     * searchByContend method, searches into a file that belongs to List of Path finding out for an specific String and returns List of Path
      * @param inputFiles
-     * receives a list of Path Files
-     * @param contens
+     * receives a list of Path
+     * @param contend
      * receives a search criteria
      * @return
-     * List of Files filtered by Contens atribute criteria
+     * List of Path filtered by Contend attribute criteria
      */
-    private List <Path> searchByContens(List <Path> inputFiles, String contens){
+    private List <Path> searchByContend(List <Path> inputFiles, String contend){
         List <Path> filterResults = new ArrayList<>();
         if(inputFiles.size() >= 0){
             for (int i = 0; i< inputFiles.size(); i++){
@@ -158,7 +123,7 @@ public class Search {
                         );
                         String line = "";
                         while((line = reader.readLine())!= null){
-                            if(line.indexOf(contens)!= -1){
+                            if(line.indexOf(contend)!= -1){
                                 filterResults.add(inputFiles.get(i));
                             }
                         }
@@ -171,19 +136,19 @@ public class Search {
         }
 
     /**
-     *searchByExtension method searches into a List of Files specific ones that have an specific extension and return List of Files
+     * searchByExtension method searches into a List of Path specific file that have an specific extension and returns List of Path
      * @param inputFiles
-     * receives a list of Files
+     * receives a list of Path
      * @param extension
      * receives a search criteria
      * @return
-     * List of Files filtered by Extension criteria
+     * List of Path filtered by Extension criteria
      */
-    private List <Path> searchByExtension2(List <Path> inputFiles, String extension){
+    private List <Path> searchByExtension(List <Path> inputFiles, String extension){
         List <Path> filterResults = new ArrayList<>();
         if(inputFiles.size() >= 0){
             for (int i = 0; i < inputFiles.size(); i++){
-                if(inputFiles.get(i).endsWith(extension)){
+                if(inputFiles.get(i).toFile().getName().endsWith(extension)){
                     filterResults.add(inputFiles.get(i).toAbsolutePath());
                 }
             }
@@ -191,42 +156,32 @@ public class Search {
         return (filterResults);
     }
 
-    private List <File> searchByExtension(List <File> inputFiles, String extension){
-        List <File> filterResults = new ArrayList<>();
-        if(inputFiles.size()>= 0){
-            for (int i = 0; i< inputFiles.size(); i++){
-                if(inputFiles.get(i).getName().endsWith(extension)){
-                    filterResults.add(inputFiles.get(i));
-                }
-            }
-        }
-        return (filterResults);
-    }
-
     /**
-     *searchBySize method searches into a List of Files specific ones that have an specific size and return List of Files
+     * searchBySize method searches into a List of Path specific files that have an specific size , major and minor then returns a List of Path
      * @param inputFiles
-     * receives a list of Files
+     * receives a list of Path
      * @param size
      * receives a search criteria
+     * @param mode
+     * 0 for equal, 1 for major than, 2 for minor than
      * @return
-     * List of Files filtered by Size criteria
+     * List of Path filtered by Size criteria
      */
-    private List <Path> searchBySize2 (List <Path> inputFiles, long size, int mode){
+    private List <Path> searchBySize(List <Path> inputFiles, long size, int mode){
         List <Path> filterResults = new ArrayList<>();
         if(inputFiles.size() >= 0){
             for (int i = 0; i < inputFiles.size(); i++){
-                if (mode == 0){ // equal
+                if (mode == 0){ // equal than
                     if(inputFiles.get(i).toFile().length() == size){
                         filterResults.add(inputFiles.get(i).toAbsolutePath());
                     }
                 }
-                if (mode == 1){ // major
+                if (mode == 1){ // major than
                     if(inputFiles.get(i).toFile().length() >= size){
                         filterResults.add(inputFiles.get(i).toAbsolutePath());
                     }
                 }
-                if (mode == 2){ // minor
+                if (mode == 2){ // minor than
                     if(inputFiles.get(i).toFile().length() <= size){
                         filterResults.add(inputFiles.get(i).toAbsolutePath());
                     }
@@ -235,12 +190,26 @@ public class Search {
         }
         return (filterResults);
     }
-    private List <File> searchBySize(List <File> inputFiles, long size){
-        List <File> filterResults = new ArrayList<>();
-        if(inputFiles.size() >=0 ){
-            for (int i = 0; i< inputFiles.size(); i++){
-                if(inputFiles.get(i).length() == size){
-                    filterResults.add(inputFiles.get(i));
+
+    /**
+     * searchByModificationDate method searches into a List of Path specific files that have an modification date and returns List of Path
+     * @param inputFiles
+     * receives a list of Path
+     * @param modification
+     * receives a search criteria
+     * @return
+     * List of Path filtered by modification date criteria
+     */
+    private List <Path> searchByModificationDate(List <Path> inputFiles, String modification) throws IOException {
+        List <Path> filterResults = new ArrayList<>();
+        if(inputFiles.size() >= 0){
+            for (int i = 0; i < inputFiles.size(); i++){
+                BasicFileAttributes attributes = Files.readAttributes(inputFiles.get(i), BasicFileAttributes.class);
+                FileTime attDate = attributes.lastModifiedTime();
+                SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+                String dateToCompare = dateFormat.format(attDate.toMillis());
+                if(dateToCompare.equals(modification)){
+                    filterResults.add(inputFiles.get(i).toAbsolutePath());
                 }
             }
         }
@@ -248,62 +217,100 @@ public class Search {
     }
 
     /**
-     *searchByModificationDate method searches into a List of Files specific ones that have an modification date and return List of Files
+     * searchByCreationDate method searches into a List of Path specific files that have an specifc creation date and returns List of Path
      * @param inputFiles
-     * receives a list of Files
-     * @param modification
+     * receives a list of Paths
+     * @param date
      * receives a search criteria
      * @return
-     * List of Files filtered by modification date criteria
+     * List of Path filtered by modification date criteria.
+     * @throws IOException
+     * in case there is not a file with search criteria.
      */
-    private List <Path> searchByModificationDate2(List <Path> inputFiles, long modification, int mode){
+    private List <Path> searchByCreationDate(List <Path> inputFiles, String date) throws IOException {
         List <Path> filterResults = new ArrayList<>();
         if(inputFiles.size() >= 0){
             for (int i = 0; i < inputFiles.size(); i++){
-                if(mode == 0 ){ // equals
-                    if(inputFiles.get(i).toFile().lastModified() == modification){
+                BasicFileAttributes attributes = Files.readAttributes(inputFiles.get(i), BasicFileAttributes.class);
+                FileTime attDate = attributes.creationTime();
+                SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+                String dateToCompare = dateFormat.format(attDate.toMillis());
+                if(dateToCompare.equals(date)){
                         filterResults.add(inputFiles.get(i).toAbsolutePath());
-                    }
-                }
-                if(mode == 1 ){ // major
-                    if(inputFiles.get(i).toFile().lastModified() >= modification){
-                        filterResults.add(inputFiles.get(i).toAbsolutePath());
-                    }
-                }
-
-                if(mode == 2 ){ // minor
-                    if(inputFiles.get(i).toFile().lastModified() <= modification){
-                        filterResults.add(inputFiles.get(i).toAbsolutePath());
-                    }
                 }
             }
         }
         return (filterResults);
     }
 
-    private List <File> searchByModificationDate(List <File> inputFiles, long modification){
-        List <File> filterResults = new ArrayList<>();
-        if(inputFiles.size()>= 0){
-            for (int i = 0; i< inputFiles.size(); i++){
-                if(inputFiles.get(i).lastModified() == modification) {
-                    filterResults.add(inputFiles.get(i));
+    /**
+     * searchByAccessDate method searches into a List of Path specific files that have an specifc access date and returns List of Path
+     * @param inputFiles
+     * receives a list of Paths
+     * @param access
+     * receives a search criteria
+     * @return
+     * List of Path filtered by access date criteria.
+     * @throws IOException
+     * in case there is not a file with search criteria.
+     */
+    private List <Path> searchByAccessDate(List <Path> inputFiles, String access) throws IOException {
+        List <Path> filterResults = new ArrayList<>();
+        if(inputFiles.size() >= 0){
+            for (int i = 0; i < inputFiles.size(); i++){
+                BasicFileAttributes attributes = Files.readAttributes(inputFiles.get(i), BasicFileAttributes.class);
+                FileTime attDate = attributes.lastAccessTime();
+                SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+                String dateToCompare = dateFormat.format(attDate.toMillis());
+                if(dateToCompare.equals(access)){
+                    filterResults.add(inputFiles.get(i).toAbsolutePath());
                 }
             }
         }
         return (filterResults);
     }
 
-    private List<FileSearch> fillFile (List <File> inputFiles){
+    /**
+     * searchByOwner method searches into a List of Path specific files that have an specifc owner and returns List of Path
+     * @param inputFiles
+     * receives a list of Paths
+     * @param owner
+     * receives a search criteria
+     * @return
+     * @throws IOException
+     * in case there is not a file with search criteria.
+     */
+    private List <Path> searchByOwner(List <Path> inputFiles, String owner) throws IOException {
+        List <Path> filterResults = new ArrayList<>();
+        if(inputFiles.size() >= 0){
+            for (int i = 0; i < inputFiles.size(); i++){
+                UserPrincipal ownerP = Files.getOwner(inputFiles.get(i));
+                String userName = ownerP.getName();
+                if(userName.equals(owner)){
+                    filterResults.add(inputFiles.get(i).toAbsolutePath());
+                }
+            }
+        }
+        return (filterResults);
+    }
+
+    /**
+     * fillAsset method sets all properties of files than acommplish with search criteria
+     * @param inputFiles
+     * receives a list of Paths
+     * @return
+     */
+    private List<FileSearch> fillFile (List <Path> inputFiles){
         List<FileSearch> matchs = new ArrayList<>();
         if(inputFiles.size()>= 0){
             for (int i = 0; i< inputFiles.size(); i++){
                 FileSearch addFile = new FileSearch();
-                addFile.setPath(inputFiles.get(i).getPath());
-                addFile.setName(inputFiles.get(i).getName());
-                addFile.setIsDirectory(inputFiles.get(i).isDirectory());
-                addFile.setIsHidden(inputFiles.get(i).isHidden());
-                addFile.setSize(inputFiles.get(i).length());
-                addFile.setDateModification(inputFiles.get(i).lastModified());
+                addFile.setPath(inputFiles.get(i).toFile().getPath());
+                addFile.setName(inputFiles.get(i).toFile().getName());
+                addFile.setIsDirectory(inputFiles.get(i).toFile().isDirectory());
+                addFile.setIsHidden(inputFiles.get(i).toFile().isHidden());
+                addFile.setSize(inputFiles.get(i).toFile().length());
+                addFile.setDateModification(inputFiles.get(i).toFile().lastModified());
                 matchs.add(addFile);
             }
         }
@@ -312,34 +319,21 @@ public class Search {
     /**
      * getResults method under construction to test the functionality of Search Class
      */
-    //public List<FileSearch> getResults(SearchCriteriaBasic criteria) {
-      public void getResults() {
-        Path path = Paths.get("src/com/jalasoft/search/resources/test");
-        List<Path> swap = new ArrayList<>();
-        List<Path> results = new ArrayList<>();
-        swap = searchByPath2(path);
-        results = searchByName2(swap, "tcs");
-        for(int i = 0; i < results.size(); i ++){
-            System.out.println(results.get(i).toAbsolutePath());
-            System.out.println(results.get(i).getFileName());
-
-        }
-       /* String path = criteria.getPath();
+    public List<FileSearch> getResults(SearchCriteriaBasic criteria) {
+        Path path = Paths.get(criteria.getPath());
         String fileName = criteria.getCriteria()[0];
-
-        List <File> swapFiles = new ArrayList<>();
-        List <File> swapFilesTemp = new ArrayList<>();
-        List <FileSearch> results = new ArrayList<>();
+        List <Path> swapFiles ;
+        List <Path> swapFilesTemp;
+        List <FileSearch> results;
 
         if(fileName.equals("")){
-            swapFiles = searchByPath(new File(path));
+            swapFiles = searchByPath(path);
             results = fillFile(swapFiles);
         }else{
-            swapFiles = searchByPath(new File(path));
+            swapFiles = searchByPath(path);
             swapFilesTemp = searchByName(swapFiles, fileName);
             results = fillFile(swapFilesTemp);
         }
         return (results);
-*/
     }
 }

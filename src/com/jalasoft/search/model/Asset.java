@@ -38,7 +38,7 @@ public class Asset {
         return ModificationDate;
     }
 
-    public void setModificationDate(String modificationDate) {
+    public void setModificationDate(long modificationDate) {
         ModificationDate = modificationDate;
     }
 
@@ -81,4 +81,6 @@ public class Asset {
     public void setHidden(boolean hidden) {
         isHidden = hidden;
     }
+
+
 }

@@ -14,7 +14,7 @@ public class Directory extends Asset{
     public void Directory (){
     }
 
-    public boolean isDirectory() {
+    public boolean isDirectory(boolean directory) {
         return isDirectory;
     }
 

@@ -12,127 +12,32 @@
 package com.jalasoft.search.model;
 
 /**
- Class FileSearch creates Objects with Properties of Files since a Search has been performed
+ Class FileSearch inherit form ASSET and creates Objects with Properties of Files since a Search has been performed
  * @version  1.0
  * @author Gilmar Pozzo
  */
-public class FileSearch {
-    private String path;
-    private String name;
-    private Long size;
-    private Long dateModification;
-    private boolean isDirectory;
-    private boolean isHidden;
-
+public class FileSearch extends Asset{
+    private String extension;
+    private String content;
     /**
      * FileSearch Method Constructor
      */
     public void FileSearch (){}
 
-    /**
-     *getPath method encapsulate Path variable
-     * @return
-     * path value
-     */
-    public String getPath() {
-        return path;
+
+    public String getExtension() {
+        return extension;
     }
 
-    /**
-     * getName method encapsulate name variable
-     * @return
-     * FileSearch name Value
-     */
-    public String getName() {
-        return name;
+    public void setExtension(String extension) {
+        this.extension = extension;
     }
 
-    /**
-     * getSize method encapsulate size variable
-     * @return
-     * size value
-     */
-    public Long getSize() {
-        return size;
+    public String getContent() {
+        return content;
     }
 
-    /**
-     *method encapsulate dateModification variable
-     * @return
-     * dateModification value
-     */
-    public Long getDateModification() {
-        return dateModification;
-    }
-
-    /**
-     *method encapsulate isDirectory variable
-     * @return
-     * isDirectory value
-     */
-    public boolean getIsDirectory() {
-        return isDirectory;
-    }
-
-    /**
-     * method encapsulate isHidden variable
-     * @return
-     * isHidden value
-     */
-    public boolean getIsHidden() {
-        return isHidden;
-    }
-
-    /**
-     * method encapsulate path variable
-     * @param path
-     * set path value
-     */
-    public void setPath(String path) {
-        this.path = path;
-    }
-
-    /**
-     * method encapsulate name variable
-     * @param name
-     * set name value
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /**
-     * method encapsulate dateModification variable
-     * @param size
-     */
-    public void setSize(Long size) {
-        this.size = size;
-    }
-
-    /**
-     * method encapsulate dateModification variable
-     * @param dateModification
-     * set dateModification value
-     */
-    public void setDateModification(Long dateModification) {
-        this.dateModification = dateModification;
-    }
-
-    /**
-     * method encapsulate isDirectory variable
-     * @param isDirectory
-     * set isDirectory value
-     */
-    public void setIsDirectory(boolean isDirectory) {
-        this.isDirectory = isDirectory;
-    }
-
-    /**
-     * method encapsulate isHidden variable
-     * @param isHidden
-     * set isHidden value
-     */
-    public void setIsHidden(boolean isHidden) {
-        this.isHidden = isHidden;
+    public void setContent(String content) {
+        this.content = content;
     }
 }

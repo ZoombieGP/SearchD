@@ -39,6 +39,7 @@ import java.util.List;
 
 
 public class Search {
+
      /**
      * searchByPath method, returns recursively a List of Paths of all files that belongs to giving Path
      * @param path

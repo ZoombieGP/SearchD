@@ -44,13 +44,20 @@ public class Controller {
      *that send those data to search ,get the file found and fill the UI table result,
      */
     private void fillSearchCriteria(){
+        //Cleaning the rows in the model of table
+        win.getTableResult().model.setNumRows(0);
+        List<FileSearch> filesFound=null;
         validator = new InterfaceValidator();
         if(validator.isValidPath(win.getSearchInTextField()))
         {
             basicCriteria= new SearchCriteriaBasic(win.getSearchInTextField(),win.getSearchForTextField());
             List<FileSearch> filesFound;
-           // filesFound=search.getResults(basicCriteria);
-            //fillTable(filesFound);
+            filesFound=search.getResults(basicCriteria);
+            fillTable(filesFound);
+            filesFound=search.getResults(basicCriteria);
+            if(filesFound.size()!=0)
+                fillTable(filesFound);
+
         }
     }
 

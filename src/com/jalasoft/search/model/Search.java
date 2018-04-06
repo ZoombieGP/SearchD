@@ -39,6 +39,7 @@ import java.util.List;
 
 
 public class Search {
+
      /**
      * searchByPath method, returns recursively a List of Paths of all files that belongs to giving Path
      * @param path
@@ -329,9 +330,7 @@ public class Search {
      */
     public List<FileSearch> getResults(SearchCriteriaBasic criteria) {
         Path path = Paths.get(criteria.getPath());
-        System.out.println("path: " + path);
         String fileName = criteria.getCriteria()[0];
-        System.out.println("File name:" + fileName);
         List <Path> swapFiles ;
         List <Path> swapFilesTemp;
         List <FileSearch> results;

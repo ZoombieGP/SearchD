@@ -192,6 +192,20 @@ public class Search {
     }
 
     /**
+     * dateToString method changes Dates to String
+     * @param attributes
+     * input Date as file attribute
+     * @return
+     * a String with yyyy-dd-mm format
+     */
+    private String dateToString(BasicFileAttributes attributes){
+        FileTime attDate = attributes.lastModifiedTime();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-dd-mm");
+        String dateToCompare = dateFormat.format(attDate.toMillis());
+        return (dateToCompare);
+    }
+
+    /**
      * searchByModificationDate method searches into a List of Path specific files that have an modification date and returns List of Path
      * @param inputFiles
      * receives a list of Path
@@ -205,9 +219,7 @@ public class Search {
         if(inputFiles.size() >= 0){
             for (int i = 0; i < inputFiles.size(); i++){
                 BasicFileAttributes attributes = Files.readAttributes(inputFiles.get(i), BasicFileAttributes.class);
-                FileTime attDate = attributes.lastModifiedTime();
-                SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
-                String dateToCompare = dateFormat.format(attDate.toMillis());
+                String dateToCompare = dateToString(attributes);
                 if(dateToCompare.equals(modification)){
                     filterResults.add(inputFiles.get(i).toAbsolutePath());
                 }
@@ -232,9 +244,7 @@ public class Search {
         if(inputFiles.size() >= 0){
             for (int i = 0; i < inputFiles.size(); i++){
                 BasicFileAttributes attributes = Files.readAttributes(inputFiles.get(i), BasicFileAttributes.class);
-                FileTime attDate = attributes.creationTime();
-                SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
-                String dateToCompare = dateFormat.format(attDate.toMillis());
+                String dateToCompare = dateToString(attributes);
                 if(dateToCompare.equals(date)){
                         filterResults.add(inputFiles.get(i).toAbsolutePath());
                 }
@@ -259,9 +269,7 @@ public class Search {
         if(inputFiles.size() >= 0){
             for (int i = 0; i < inputFiles.size(); i++){
                 BasicFileAttributes attributes = Files.readAttributes(inputFiles.get(i), BasicFileAttributes.class);
-                FileTime attDate = attributes.lastAccessTime();
-                SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
-                String dateToCompare = dateFormat.format(attDate.toMillis());
+                String dateToCompare = dateToString(attributes);
                 if(dateToCompare.equals(access)){
                     filterResults.add(inputFiles.get(i).toAbsolutePath());
                 }
@@ -321,7 +329,9 @@ public class Search {
      */
     public List<FileSearch> getResults(SearchCriteriaBasic criteria) {
         Path path = Paths.get(criteria.getPath());
+        System.out.println("path: " + path);
         String fileName = criteria.getCriteria()[0];
+        System.out.println("File name:" + fileName);
         List <Path> swapFiles ;
         List <Path> swapFilesTemp;
         List <FileSearch> results;

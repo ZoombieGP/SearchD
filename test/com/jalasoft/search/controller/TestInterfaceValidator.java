@@ -11,6 +11,8 @@
 package com.jalasoft.search.controller;
 
 import org.junit.Test;
+import org.junit.runners.Parameterized;
+
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
 
@@ -87,7 +89,6 @@ public class TestInterfaceValidator {
 
     }
 }
-
 
 
 

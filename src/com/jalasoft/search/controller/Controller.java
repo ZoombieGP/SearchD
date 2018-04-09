@@ -9,9 +9,13 @@
  * accordance with the terms of the license agreement you entered into
  */
 package com.jalasoft.search.controller;
+import com.jalasoft.search.model.Asset;
+import com.jalasoft.search.model.Directory;
 import com.jalasoft.search.model.FileSearch;
 import com.jalasoft.search.view.Window;
 import com.jalasoft.search.model.Search;
+
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -36,19 +40,26 @@ public class Controller {
     public Controller (Search search,Window win){
         this.search=search;
         this.win=win;
-        win.getSearchButton().addActionListener(e -> fillSearchCriteria());
+        win.getSearchButton().addActionListener(e -> {
+            try {
+                fillSearchCriteria();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+        });
     }
 
     /**
      *Method that get the filename and path ,
      *that send those data to search ,get the file found and fill the UI table result,
      */
-    private void fillSearchCriteria(){
+    private void fillSearchCriteria() throws IOException {
         validator = new InterfaceValidator();
+        win.getTableResult().model.setRowCount(0);
         if(validator.isValidPath(win.getSearchInTextField()))
         {
             basicCriteria= new SearchCriteriaBasic(win.getSearchInTextField(),win.getSearchForTextField());
-            List<FileSearch> filesFound;
+            List<Asset> filesFound;
             filesFound=search.getResults(basicCriteria);
             fillTable(filesFound);
         }
@@ -58,12 +69,23 @@ public class Controller {
      * Method that receive the file found and fill the table of result in the UI.
      * @param filesFound
      */
-    private void fillTable(List<FileSearch> filesFound){
+    private void fillTable(List<Asset> filesFound){
 
-        for (FileSearch file:filesFound)
-        {
-            win.getTableResult().fillTableResult(new Object[]{file.getPath(),file.getName(),file.getIsDirectory(),file.getIsHidden(),file.getSize(),file.getDateModification()});
+        for (int i= 0; i < filesFound.size(); i++){
+            if(filesFound.get(i) instanceof Directory){
+                win.getTableResult().fillTableResult(new Object[]{filesFound.get(i).getPath(),filesFound.get(i).getFileName(),filesFound.get(i).getIsDirectory(),filesFound.get(i).isHidden(),filesFound.get(i).getSize(),filesFound.get(i).getModificationDate()});
+            }
+            if (filesFound.get(i) instanceof FileSearch){
+                win.getTableResult().fillTableResult(new Object[]{filesFound.get(i).getPath(),filesFound.get(i).getFileName(),filesFound.get(i).getIsDirectory(),filesFound.get(i).isHidden(),filesFound.get(i).getSize(),filesFound.get(i).getModificationDate()});
+            }
         }
+        /*for (Asset file:filesFound)
+        {
+
+
+            //win.getTableResult().fillTableResult(new Object[]{file.getPath(),file.getName(),file.getIsDirectory(),file.getIsHidden(),file.getSize(),file.getDateModification()});
+            win.getTableResult().fillTableResult(new Object[]{file.getPath(),file.getFileName(),file.ge,file.isHidden(),file.getSize(),file.getModificationDate()});
+        }*/
 
     }
 }

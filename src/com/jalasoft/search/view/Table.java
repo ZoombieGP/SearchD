@@ -25,7 +25,7 @@ import java.awt.Dimension;
 public class Table extends JPanel {
 
     private String [] columnNames;
-    DefaultTableModel model;
+    public DefaultTableModel model;
 
     /**
      * Table: Construct method
@@ -62,6 +62,7 @@ public class Table extends JPanel {
      * @param object
      */
     public void fillTableResult(Object[] object){
+
         model.addRow(object);
     }
 }

@@ -18,11 +18,9 @@ import com.jalasoft.search.view.Window;
 public class start {
     public static void main(String [ ] args) {
         Search search = new Search();
-       // search.getResults();
         Window win =new Window();
         win.setVisible(true);
         Controller controller = new Controller(search,win);
         LoggerCreator.getInstance();
-
     }
 }

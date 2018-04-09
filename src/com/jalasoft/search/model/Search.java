@@ -319,7 +319,7 @@ public class Search {
                     Directory addDirectory = new Directory();
                     addDirectory.setPath(inputFiles.get(i).toFile().getPath());
                     addDirectory.setFileName(inputFiles.get(i).toFile().getName());
-                    addDirectory.setIsDirectory(inputFiles.get(i).toFile().isDirectory());
+                    addDirectory.setDirectory(inputFiles.get(i).toFile().isDirectory());
                     addDirectory.setSize(inputFiles.get(i).toFile().length());
                     addDirectory.setHidden(inputFiles.get(i).toFile().isHidden());
                     UserPrincipal ownerP = Files.getOwner(inputFiles.get(i));
@@ -340,6 +340,7 @@ public class Search {
                     addFile.setHidden(inputFiles.get(i).toFile().isHidden());
                     addFile.setSize(inputFiles.get(i).toFile().length());
                     addFile.setHidden(inputFiles.get(i).toFile().isHidden());
+                    addFile.setDirectory(false);
                     UserPrincipal ownerP = Files.getOwner(inputFiles.get(i));
                     String userName = ownerP.getName();
                     addFile.setOwner(userName);
@@ -364,11 +365,15 @@ public class Search {
         String fileName = criteria.getCriteria()[0];
         List <Path> swapFiles ;
         List <Path> swapFilesTemp;
-        List<Asset> results;
+        List<Asset> results = null;
 
         if(fileName.equals("")){
             swapFiles = searchByPath(path);
-            results = fillAsset(swapFiles);
+            try {
+                results = fillAsset(swapFiles);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }else{
             swapFiles = searchByPath(path);
             swapFilesTemp = searchByName(swapFiles, fileName);
@@ -376,4 +381,6 @@ public class Search {
         }
         return (results);
     }
+
+
 }

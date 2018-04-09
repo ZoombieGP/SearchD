@@ -16,30 +16,9 @@ package com.jalasoft.search.model;
  * @author Gilmar Pozzo
  */
 public class Directory extends Asset{
-
-    private boolean isDirectory;
-
-    /**
+   /**
      * Directory Method Constructor
      */
     public void Directory (){
-    }
-
-    /**
-     * isDirectory method returns a boolean true when the attribute of directory is detected
-     * @return
-     * boolean when search criteria found a directory as match
-     */
-    public boolean isDirectory() {
-        return isDirectory;
-    }
-
-    /**
-     * setIsDirectory method sets a boolean value true when the serach criteria returns as valida a folder.
-     * @param directory
-     * Boolean that contains true if it is a folder.
-     */
-    public void setIsDirectory(boolean directory) {
-        isDirectory = directory;
     }
 }

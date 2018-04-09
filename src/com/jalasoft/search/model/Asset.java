@@ -24,6 +24,8 @@ public class Asset {
     private String owner;
     private Long size;
     private boolean isHidden;
+    private boolean isDirectory;
+
 
 
     public void Asset (){
@@ -165,11 +167,29 @@ public class Asset {
     }
 
     /**
+     * setIsDirectory method sets a boolean value true when the serach criteria returns as valida a folder.
+     * @param directory
+     * Boolean that contains true if it is a folder.
+     */
+    public void setDirectory(boolean directory) {
+        isDirectory = directory;
+    }
+
+    /**
      * setHidden method sets boolen value true when file or folder has enabled  its hidden attribute
      * @param hidden
      * boolean value for hidden attribute of file or folder.
      */
     public void setHidden(boolean hidden) {
         isHidden = hidden;
+    }
+
+    /**
+     * getIsDirectory method returns true if in its attributes isDirectory is true
+     * @return
+     * treu if it is Folder, and false if it is a file
+     */
+    public boolean getIsDirectory() {
+        return isDirectory;
     }
 }

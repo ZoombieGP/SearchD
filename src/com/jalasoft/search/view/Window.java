@@ -11,12 +11,14 @@
 package com.jalasoft.search.view;
 
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import java.awt.BorderLayout;
+import java.io.File;
 
 public class Window extends JFrame{
 
@@ -32,6 +34,18 @@ public class Window extends JFrame{
     private JLabel searchForFieldName;                //Search For Field Name
     private JButton searchButton;                     //Search Button
     private Table tableResult;                        //Results Table
+
+    private JPanel searchInPanel2;                     //Panel contains Search In Field Name, Text Field Browse button
+    private JTextField searchInTextField2;             //Search In Text Field
+    private JLabel searchInFieldName2;                 //Search In Field Name
+    private JButton browseButton2;                     //Browse Button
+    private JPanel searchForPanel2;                    //Panel contains Search For Field Name, Text Field, Search button
+    private JTextField searchForTextField2;            //Search For Text Field
+    private JLabel searchForFieldName2;                //Search For Field Name
+    private JButton searchButton2;                     //Search Button
+    private Table tableResult2;                        //Results Table
+
+    private Checkbox checkbox;
 
     /**
      * Builder method:
@@ -67,7 +81,7 @@ public class Window extends JFrame{
         searchInFieldName = new JLabel();
         searchInTextField = new JTextField(40);
         browseButton = new JButton();
-        tableResult = new Table();
+        tableResult = new Table(725,400);
 
         searchForPanel = new JPanel();
         searchForFieldName = new JLabel();
@@ -84,6 +98,7 @@ public class Window extends JFrame{
         searchInPanel.add(searchInFieldName);
         searchInPanel.add(searchInTextField);
         searchInPanel.add(browseButton);
+        browseButton.addActionListener(e -> createFileChooser(searchInTextField));
 
         searchForPanel.add(searchForFieldName);
         searchForPanel.add(searchForTextField);
@@ -91,6 +106,37 @@ public class Window extends JFrame{
         simpleTab.add(searchInPanel);
         simpleTab.add(searchForPanel);
         simpleTab.add(tableResult);
+
+        searchInPanel2 = new JPanel();
+        searchInFieldName2 = new JLabel();
+        searchInTextField2 = new JTextField(40);
+        browseButton2 = new JButton();
+        tableResult2 = new Table(725,350);
+
+        searchForPanel2 = new JPanel();
+        searchForFieldName2 = new JLabel();
+        searchForTextField2 = new JTextField(40);
+        searchButton2 = new JButton();
+
+        checkbox = new Checkbox();
+
+        searchInFieldName2.setText("Search In:");
+        browseButton2.setText("Browse...");
+        searchForFieldName2.setText("Search For:");
+        searchButton2.setText("Search");
+
+        searchInPanel2.add(searchInFieldName2);
+        searchInPanel2.add(searchInTextField2);
+        searchInPanel2.add(browseButton2);
+        browseButton2.addActionListener(e -> createFileChooser(searchInTextField2));
+
+        searchForPanel2.add(searchForFieldName2);
+        searchForPanel2.add(searchForTextField2);
+        searchForPanel2.add(searchButton2);
+        advancedTab.add(searchInPanel2);
+        advancedTab.add(searchForPanel2);
+        advancedTab.add(checkbox);
+        advancedTab.add(tableResult2);
 
         this.getContentPane().setLayout(new BorderLayout());
         this.getContentPane().add(tabPane);
@@ -126,5 +172,16 @@ public class Window extends JFrame{
      */
     public Table getTableResult (){
         return this.tableResult;
+    }
+
+    private void createFileChooser(JTextField field){
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        int returnValue = fileChooser.showOpenDialog(null);
+        if (returnValue == JFileChooser.APPROVE_OPTION) {
+            File selectedPath = fileChooser.getSelectedFile();
+            System.out.println(selectedPath.getPath());
+            field.setText(selectedPath.getPath());
+        }
     }
 }

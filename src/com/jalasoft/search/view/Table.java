@@ -10,7 +10,9 @@
  */
 package com.jalasoft.search.view;
 
-import javax.swing.*;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import java.awt.GridLayout;
 import java.awt.Dimension;
@@ -31,17 +33,17 @@ public class Table extends JPanel {
      * Table: Construct method
      * Method that construct an Controller object Table in base to JTable with a model
      */
-    public Table(){
+    public Table(int width , int height){
         super(new GridLayout(1,0));
         columnNames = new String[]{"Path", "FileName", "Is Directory?", "Is Hidden?", "Size","Date Modified"};
-        createTable();
+        createTable(width,height);
     }
 
     /**
      * Instance the objects : JTable JScrollPane ,
      * and initialize its properties and columns of the table
      */
-    private void createTable() {
+    private void createTable(int width , int height) {
         model= new DefaultTableModel();
         final JTable table = new JTable(model);
         JScrollPane scrollPane = new JScrollPane(table);
@@ -51,7 +53,7 @@ public class Table extends JPanel {
             model.addColumn(columnNames[i]);
         }
 
-        table.setPreferredScrollableViewportSize(new Dimension(725, 400));
+        table.setPreferredScrollableViewportSize(new Dimension(width,height));
         table.setFillsViewportHeight(true);
         table.setEnabled(false);
         add(scrollPane);
@@ -65,4 +67,3 @@ public class Table extends JPanel {
         model.addRow(object);
     }
 }
-

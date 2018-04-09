@@ -1,5 +1,5 @@
 /*
- * File.java
+ * FileSearch.java
  *
  * Copyright (c) 2018 Jalasoft.
  *
@@ -12,127 +12,51 @@
 package com.jalasoft.search.model;
 
 /**
- Class FileSearch creates Objects with Properties of Files since a Search has been performed
+ Class FileSearch inherit from ASSET and creates Objects with Properties of Files since a Search has been performed
  * @version  1.0
  * @author Gilmar Pozzo
  */
-public class FileSearch {
-    private String path;
-    private String name;
-    private Long size;
-    private Long dateModification;
-    private boolean isDirectory;
-    private boolean isHidden;
-
+public class FileSearch extends Asset{
+    private String extension;
+    private String content;
     /**
      * FileSearch Method Constructor
      */
     public void FileSearch (){}
 
     /**
-     *getPath method encapsulate Path variable
+     * getExtension method returns the extension of some file
      * @return
-     * path value
+     * String that contains the extension of file
      */
-    public String getPath() {
-        return path;
+    public String getExtension() {
+        return extension;
     }
 
     /**
-     * getName method encapsulate name variable
+     * setExtension method sets the value of extension of a file
+     * @param extension
+     * String that contains the extension of a file
+     */
+    public void setExtension(String extension) {
+        this.extension = extension;
+    }
+
+    /**
+     * getContens method returns a String with search criteria value
      * @return
-     * FileSearch name Value
+     * String that contains the search criteria
      */
-    public String getName() {
-        return name;
+    public String getContent() {
+        return content;
     }
 
     /**
-     * getSize method encapsulate size variable
-     * @return
-     * size value
+     * setContains method, sets the content search criteria as string
+     * @param content
+     * String that contains the search criteria
      */
-    public Long getSize() {
-        return size;
-    }
-
-    /**
-     *method encapsulate dateModification variable
-     * @return
-     * dateModification value
-     */
-    public Long getDateModification() {
-        return dateModification;
-    }
-
-    /**
-     *method encapsulate isDirectory variable
-     * @return
-     * isDirectory value
-     */
-    public boolean getIsDirectory() {
-        return isDirectory;
-    }
-
-    /**
-     * method encapsulate isHidden variable
-     * @return
-     * isHidden value
-     */
-    public boolean getIsHidden() {
-        return isHidden;
-    }
-
-    /**
-     * method encapsulate path variable
-     * @param path
-     * set path value
-     */
-    public void setPath(String path) {
-        this.path = path;
-    }
-
-    /**
-     * method encapsulate name variable
-     * @param name
-     * set name value
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /**
-     * method encapsulate dateModification variable
-     * @param size
-     */
-    public void setSize(Long size) {
-        this.size = size;
-    }
-
-    /**
-     * method encapsulate dateModification variable
-     * @param dateModification
-     * set dateModification value
-     */
-    public void setDateModification(Long dateModification) {
-        this.dateModification = dateModification;
-    }
-
-    /**
-     * method encapsulate isDirectory variable
-     * @param isDirectory
-     * set isDirectory value
-     */
-    public void setIsDirectory(boolean isDirectory) {
-        this.isDirectory = isDirectory;
-    }
-
-    /**
-     * method encapsulate isHidden variable
-     * @param isHidden
-     * set isHidden value
-     */
-    public void setIsHidden(boolean isHidden) {
-        this.isHidden = isHidden;
+    public void setContent(String content) {
+        this.content = content;
     }
 }

@@ -106,15 +106,15 @@ public class Search {
     }
 
     /**
-     * searchByContend method, searches into a file that belongs to List of Path finding out for an specific String and returns List of Path
+     * searchByContent method, searches into a file that belongs to List of Path finding out for an specific String and returns List of Path
      * @param inputFiles
      * receives a list of Path
-     * @param contend
+     * @param content
      * receives a search criteria
      * @return
      * List of Path filtered by Contend attribute criteria
      */
-    private List <Path> searchByContend(List <Path> inputFiles, String contend){
+    private List <Path> searchByContent(List <Path> inputFiles, String content){
         List <Path> filterResults = new ArrayList<>();
         if(inputFiles.size() >= 0){
             for (int i = 0; i< inputFiles.size(); i++){
@@ -124,7 +124,7 @@ public class Search {
                         );
                         String line = "";
                         while((line = reader.readLine())!= null){
-                            if(line.indexOf(contend)!= -1){
+                            if(line.indexOf(content)!= -1){
                                 filterResults.add(inputFiles.get(i));
                             }
                         }
@@ -194,14 +194,13 @@ public class Search {
 
     /**
      * dateToString method changes Dates to String
-     * @param attributes
+     * @param attDate
      * input Date as file attribute
      * @return
-     * a String with yyyy-dd-mm format
+     * a String with yyyy-dd-MM format
      */
-    private String dateToString(BasicFileAttributes attributes){
-        FileTime attDate = attributes.lastModifiedTime();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-dd-mm");
+    private String dateToString(FileTime attDate){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-dd-MM");
         String dateToCompare = dateFormat.format(attDate.toMillis());
         return (dateToCompare);
     }
@@ -220,7 +219,8 @@ public class Search {
         if(inputFiles.size() >= 0){
             for (int i = 0; i < inputFiles.size(); i++){
                 BasicFileAttributes attributes = Files.readAttributes(inputFiles.get(i), BasicFileAttributes.class);
-                String dateToCompare = dateToString(attributes);
+                FileTime attDate = attributes.lastModifiedTime();
+                String dateToCompare = dateToString(attDate);
                 if(dateToCompare.equals(modification)){
                     filterResults.add(inputFiles.get(i).toAbsolutePath());
                 }
@@ -236,7 +236,7 @@ public class Search {
      * @param date
      * receives a search criteria
      * @return
-     * List of Path filtered by modification date criteria.
+     * List of Path filtered by creation date criteria.
      * @throws IOException
      * in case there is not a file with search criteria.
      */
@@ -245,7 +245,8 @@ public class Search {
         if(inputFiles.size() >= 0){
             for (int i = 0; i < inputFiles.size(); i++){
                 BasicFileAttributes attributes = Files.readAttributes(inputFiles.get(i), BasicFileAttributes.class);
-                String dateToCompare = dateToString(attributes);
+                FileTime attDate = attributes.creationTime();
+                String dateToCompare = dateToString(attDate);
                 if(dateToCompare.equals(date)){
                         filterResults.add(inputFiles.get(i).toAbsolutePath());
                 }
@@ -270,7 +271,8 @@ public class Search {
         if(inputFiles.size() >= 0){
             for (int i = 0; i < inputFiles.size(); i++){
                 BasicFileAttributes attributes = Files.readAttributes(inputFiles.get(i), BasicFileAttributes.class);
-                String dateToCompare = dateToString(attributes);
+                FileTime attDate = attributes.lastAccessTime();
+                String dateToCompare = dateToString(attDate);
                 if(dateToCompare.equals(access)){
                     filterResults.add(inputFiles.get(i).toAbsolutePath());
                 }
@@ -309,18 +311,47 @@ public class Search {
      * receives a list of Paths
      * @return
      */
-    private List<FileSearch> fillFile (List <Path> inputFiles){
-        List<FileSearch> matchs = new ArrayList<>();
+    private List<Asset> fillAsset (List <Path> inputFiles) throws IOException {
+        List<Asset> matchs = new ArrayList<>();
         if(inputFiles.size()>= 0){
             for (int i = 0; i< inputFiles.size(); i++){
-                FileSearch addFile = new FileSearch();
-                addFile.setPath(inputFiles.get(i).toFile().getPath());
-                addFile.setName(inputFiles.get(i).toFile().getName());
-                addFile.setIsDirectory(inputFiles.get(i).toFile().isDirectory());
-                addFile.setIsHidden(inputFiles.get(i).toFile().isHidden());
-                addFile.setSize(inputFiles.get(i).toFile().length());
-                addFile.setDateModification(inputFiles.get(i).toFile().lastModified());
-                matchs.add(addFile);
+                if(inputFiles.get(i).toFile().isDirectory()){
+                    Directory addDirectory = new Directory();
+                    addDirectory.setPath(inputFiles.get(i).toFile().getPath());
+                    addDirectory.setFileName(inputFiles.get(i).toFile().getName());
+                    addDirectory.setIsDirectory(inputFiles.get(i).toFile().isDirectory());
+                    addDirectory.setSize(inputFiles.get(i).toFile().length());
+                    addDirectory.setHidden(inputFiles.get(i).toFile().isHidden());
+                    UserPrincipal ownerP = Files.getOwner(inputFiles.get(i));
+                    String userName = ownerP.getName();
+                    addDirectory.setOwner(userName);
+                    BasicFileAttributes attributes = Files.readAttributes(inputFiles.get(i), BasicFileAttributes.class);
+                    FileTime attDate = attributes.lastAccessTime();
+                    FileTime modDate = attributes.lastModifiedTime();
+                    FileTime creationDate = attributes.creationTime();
+                    addDirectory.setAccessDate(dateToString(attDate));
+                    addDirectory.setModificationDate(dateToString(modDate));
+                    addDirectory.setCreationDate(dateToString(creationDate));
+                    matchs.add(addDirectory);
+                }else{
+                    FileSearch addFile = new FileSearch();
+                    addFile.setPath(inputFiles.get(i).toFile().getPath());
+                    addFile.setFileName(inputFiles.get(i).toFile().getName());
+                    addFile.setHidden(inputFiles.get(i).toFile().isHidden());
+                    addFile.setSize(inputFiles.get(i).toFile().length());
+                    addFile.setHidden(inputFiles.get(i).toFile().isHidden());
+                    UserPrincipal ownerP = Files.getOwner(inputFiles.get(i));
+                    String userName = ownerP.getName();
+                    addFile.setOwner(userName);
+                    BasicFileAttributes attributes = Files.readAttributes(inputFiles.get(i), BasicFileAttributes.class);
+                    FileTime attDate = attributes.lastAccessTime();
+                    FileTime modDate = attributes.lastModifiedTime();
+                    FileTime creationDate = attributes.creationTime();
+                    addFile.setAccessDate(dateToString(attDate));
+                    addFile.setModificationDate(dateToString(modDate));
+                    addFile.setCreationDate(dateToString(creationDate));
+                    matchs.add(addFile);
+                }
             }
         }
         return (matchs);
@@ -328,20 +359,20 @@ public class Search {
     /**
      * getResults method under construction to test the functionality of Search Class
      */
-    public List<FileSearch> getResults(SearchCriteriaBasic criteria) {
+    public List<Asset> getResults(SearchCriteriaBasic criteria) throws IOException {
         Path path = Paths.get(criteria.getPath());
         String fileName = criteria.getCriteria()[0];
         List <Path> swapFiles ;
         List <Path> swapFilesTemp;
-        List <FileSearch> results;
+        List<Asset> results;
 
         if(fileName.equals("")){
             swapFiles = searchByPath(path);
-            results = fillFile(swapFiles);
+            results = fillAsset(swapFiles);
         }else{
             swapFiles = searchByPath(path);
             swapFilesTemp = searchByName(swapFiles, fileName);
-            results = fillFile(swapFilesTemp);
+            results = fillAsset(swapFilesTemp);
         }
         return (results);
     }

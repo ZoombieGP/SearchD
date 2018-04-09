@@ -11,6 +11,7 @@ package com.jalasoft.search;
  */
 
 import com.jalasoft.search.controller.Controller;
+import com.jalasoft.search.controller.LoggerCreator;
 import com.jalasoft.search.model.Search;
 import com.jalasoft.search.view.Window;
 
@@ -20,6 +21,6 @@ public class start {
         Window win =new Window();
         win.setVisible(true);
         Controller controller = new Controller(search,win);
-
+        LoggerCreator.getInstance();
     }
 }

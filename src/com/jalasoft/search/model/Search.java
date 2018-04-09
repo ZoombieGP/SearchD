@@ -311,22 +311,45 @@ public class Search {
      * receives a list of Paths
      * @return
      */
-    private List<Asset> fillFile (List <Path> inputFiles){
+    private List<Asset> fillAsset (List <Path> inputFiles) throws IOException {
         List<Asset> matchs = new ArrayList<>();
         if(inputFiles.size()>= 0){
             for (int i = 0; i< inputFiles.size(); i++){
-                FileSearch addFile = new FileSearch();
-                Directory addDirectory = new Directory();
                 if(inputFiles.get(i).toFile().isDirectory()){
+                    Directory addDirectory = new Directory();
+                    addDirectory.setPath(inputFiles.get(i).toFile().getPath());
+                    addDirectory.setFileName(inputFiles.get(i).toFile().getName());
                     addDirectory.isDirectory(inputFiles.get(i).toFile().isDirectory());
+                    addDirectory.setSize(inputFiles.get(i).toFile().length());
+                    addDirectory.setHidden(inputFiles.get(i).toFile().isHidden());
+                    UserPrincipal ownerP = Files.getOwner(inputFiles.get(i));
+                    String userName = ownerP.getName();
+                    addDirectory.setOwner(userName);
+                    BasicFileAttributes attributes = Files.readAttributes(inputFiles.get(i), BasicFileAttributes.class);
+                    FileTime attDate = attributes.lastAccessTime();
+                    FileTime modDate = attributes.lastModifiedTime();
+                    FileTime creationDate = attributes.creationTime();
+                    addDirectory.setAccessDate(dateToString(attDate));
+                    addDirectory.setModificationDate(dateToString(modDate));
+                    addDirectory.setCreationDate(dateToString(creationDate));
                     matchs.add(addDirectory);
                 }else{
+                    FileSearch addFile = new FileSearch();
                     addFile.setPath(inputFiles.get(i).toFile().getPath());
                     addFile.setFileName(inputFiles.get(i).toFile().getName());
                     addFile.setHidden(inputFiles.get(i).toFile().isHidden());
                     addFile.setSize(inputFiles.get(i).toFile().length());
-                    addFile.setModificationDate(inputFiles.get(i).toFile().lastModified());
-                    
+                    addFile.setHidden(inputFiles.get(i).toFile().isHidden());
+                    UserPrincipal ownerP = Files.getOwner(inputFiles.get(i));
+                    String userName = ownerP.getName();
+                    addFile.setOwner(userName);
+                    BasicFileAttributes attributes = Files.readAttributes(inputFiles.get(i), BasicFileAttributes.class);
+                    FileTime attDate = attributes.lastAccessTime();
+                    FileTime modDate = attributes.lastModifiedTime();
+                    FileTime creationDate = attributes.creationTime();
+                    addFile.setAccessDate(dateToString(attDate));
+                    addFile.setModificationDate(dateToString(modDate));
+                    addFile.setCreationDate(dateToString(creationDate));
                     matchs.add(addFile);
                 }
             }
@@ -336,7 +359,7 @@ public class Search {
     /**
      * getResults method under construction to test the functionality of Search Class
      */
-    public List<Asset> getResults(SearchCriteriaBasic criteria) {
+    public List<Asset> getResults(SearchCriteriaBasic criteria) throws IOException {
         Path path = Paths.get(criteria.getPath());
         String fileName = criteria.getCriteria()[0];
         List <Path> swapFiles ;
@@ -345,11 +368,11 @@ public class Search {
 
         if(fileName.equals("")){
             swapFiles = searchByPath(path);
-            results = fillFile(swapFiles);
+            results = fillAsset(swapFiles);
         }else{
             swapFiles = searchByPath(path);
             swapFilesTemp = searchByName(swapFiles, fileName);
-            results = fillFile(swapFilesTemp);
+            results = fillAsset(swapFilesTemp);
         }
         return (results);
     }

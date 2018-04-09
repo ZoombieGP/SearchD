@@ -1,5 +1,5 @@
 /*
- * File.java
+ * FileSearch.java
  *
  * Copyright (c) 2018 Jalasoft.
  *
@@ -12,7 +12,7 @@
 package com.jalasoft.search.model;
 
 /**
- Class FileSearch inherit form ASSET and creates Objects with Properties of Files since a Search has been performed
+ Class FileSearch inherit from ASSET and creates Objects with Properties of Files since a Search has been performed
  * @version  1.0
  * @author Gilmar Pozzo
  */
@@ -24,19 +24,38 @@ public class FileSearch extends Asset{
      */
     public void FileSearch (){}
 
-
+    /**
+     * getExtension method returns the extension of some file
+     * @return
+     * String that contains the extension of file
+     */
     public String getExtension() {
         return extension;
     }
 
+    /**
+     * setExtension method sets the value of extension of a file
+     * @param extension
+     * String that contains the extension of a file
+     */
     public void setExtension(String extension) {
         this.extension = extension;
     }
 
+    /**
+     * getContens method returns a String with search criteria value
+     * @return
+     * String that contains the search criteria
+     */
     public String getContent() {
         return content;
     }
 
+    /**
+     * setContains method, sets the content search criteria as string
+     * @param content
+     * String that contains the search criteria
+     */
     public void setContent(String content) {
         this.content = content;
     }

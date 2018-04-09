@@ -319,7 +319,7 @@ public class Search {
                     Directory addDirectory = new Directory();
                     addDirectory.setPath(inputFiles.get(i).toFile().getPath());
                     addDirectory.setFileName(inputFiles.get(i).toFile().getName());
-                    addDirectory.isDirectory(inputFiles.get(i).toFile().isDirectory());
+                    addDirectory.setIsDirectory(inputFiles.get(i).toFile().isDirectory());
                     addDirectory.setSize(inputFiles.get(i).toFile().length());
                     addDirectory.setHidden(inputFiles.get(i).toFile().isHidden());
                     UserPrincipal ownerP = Files.getOwner(inputFiles.get(i));

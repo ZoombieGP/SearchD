@@ -175,6 +175,37 @@ public class Window extends JFrame{
     }
 
     /**
+     * Get the Advanced Search button
+     * @return the current Advanced Search button object
+     */
+    public JButton getAdvancedSearchButton () {
+        return this.searchButton2;
+    }
+
+    /**
+     * Get the Advanced Search In Text Field
+     * @return the Advanced Search In Text in String format
+     */
+    public String getAdvancedSearchInTextField(){
+        return this.searchInTextField2.getText();
+    }
+
+    /**
+     * Get the Advanced Search For Text Field
+     * @return the Advanced Search For Text in String format
+     */
+    public String getAdvancedSearchForTextField (){
+        return this.searchForTextField2.getText();
+    }
+
+    /**
+     * Get the Advanced Results Table
+     * @return the current Advanced Results Table object
+     */
+    public Table getAdvancedTableResult (){
+        return this.tableResult2;
+    }
+    /**
      * Get the Checkbox
      * @return the current Checkbox object
      */

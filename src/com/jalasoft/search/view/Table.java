@@ -28,7 +28,7 @@ public class Table extends JPanel {
      */
     public Table(int width , int height){
         super(new GridLayout(1,0));
-        columnNames = new String[]{"Path", "FileName", "Is Directory?", "Is Hidden?", "Size","Date Modified"};
+        columnNames = new String[]{"Path", "File Name", "Is Directory?", "Is Hidden?", "Size","Date Modified"};
         createTable(width,height);
     }
 

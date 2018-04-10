@@ -11,7 +11,6 @@
 package com.jalasoft.search.controller;
 
 import org.junit.Test;
-import org.junit.runners.Parameterized;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
@@ -24,7 +23,7 @@ public class TestInterfaceValidator {
      */
     @Test
     public void isAValidPath(){
-        String path = "/user/temp";
+        String path = "D:\\Android tools";
         InterfaceValidator pathTest = new InterfaceValidator();
         assertTrue(pathTest.isValidPath(path));
     }
@@ -35,7 +34,7 @@ public class TestInterfaceValidator {
      */
     @Test
     public void isNotAValidPath(){
-        String path = "/../user";
+        String path = "C:\\installers>>>>";
         InterfaceValidator pathTest = new InterfaceValidator();
         assertFalse(pathTest.isValidPath(path));
 

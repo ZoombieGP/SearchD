@@ -24,24 +24,27 @@ import java.text.SimpleDateFormat;
 
 public class Checkbox extends JPanel {
 
-    private JCheckBox caseSensitive;
-    private JCheckBox fileName;
-    private JCheckBox fileContent;
-    private JCheckBox hiddenFiles;
-    private JCheckBox creationDate;
-    //private JTextField creationDateTextField;
-    private JFormattedTextField creationDateTextField;
-    private JCheckBox modificationDate;
-    //private JTextField modificationDateTextField;
-    private JFormattedTextField modificationDateTextField;
-    private JCheckBox accessDate;
-    //private JTextField accessDateTextField;
-    private JFormattedTextField accessDateTextField;
-    private JCheckBox owner;
-    private JTextField ownerTextField;
-    private JCheckBox size;
-    private JTextField sizeTextField;
+    private JCheckBox caseSensitive;                //Case sensitive checkbox
+    private JCheckBox fileName;                     //File Name checkbox
+    private JCheckBox fileContent;                  //File Content checkbox
+    private JCheckBox hiddenFiles;                  //Hidden Files checkbox
+    private JCheckBox creationDate;                 //Creation Date checkbox
+    private JTextField creationDateTextField;       //Creation Date text field
+    private JCheckBox modificationDate;             //Modification Date checkbox
+    private JTextField modificationDateTextField;   //Modification Date text field
+    private JCheckBox accessDate;                   //Access Date checkbox
+    private JTextField accessDateTextField;         //Access Date text field
+    private JCheckBox owner;                        //Owner checkbox
+    private JTextField ownerTextField;              //Owner text field
+    private JCheckBox size;                         //Size checkbox
+    private JTextField sizeTextField;               //Size text field
+    private JPanel checkPanel1;                     //First panel
+    private JPanel checkPanel2;                     //Second panel
 
+    /**
+     * Creates the components and add them to respective panels
+     * also the alignment is set
+     */
     public Checkbox() {
         super(new BorderLayout());
         caseSensitive = new JCheckBox("Case Sensitive");
@@ -49,9 +52,7 @@ public class Checkbox extends JPanel {
         fileContent = new JCheckBox("File Content");
         hiddenFiles = new JCheckBox("Hidden Files");
 
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-M-d");
-
-        JPanel checkPanel1 = new JPanel(new GridLayout(0, 1));
+        checkPanel1 = new JPanel(new GridLayout(0, 1));
         checkPanel1.add(caseSensitive);
         checkPanel1.add(fileName);
         checkPanel1.add(fileContent);
@@ -60,13 +61,13 @@ public class Checkbox extends JPanel {
         this.add(checkPanel1, BorderLayout.PAGE_START);
 
         creationDate = new JCheckBox("Creation Date");
-        creationDateTextField = new JFormattedTextField();
+        creationDateTextField = new JTextField();
         modificationDate = new JCheckBox("Modification Date");
-        modificationDateTextField = new JFormattedTextField();
+        modificationDateTextField = new JTextField();
         accessDate = new JCheckBox("Access Date");
-        accessDateTextField = new JFormattedTextField();
+        accessDateTextField = new JTextField();
 
-        JPanel checkPanel2 = new JPanel(new GridLayout(0, 1));
+        checkPanel2 = new JPanel(new GridLayout(0, 1));
         checkPanel2.add(creationDate);
         checkPanel2.add(creationDateTextField);
         checkPanel2.add(modificationDate);
@@ -85,5 +86,117 @@ public class Checkbox extends JPanel {
         checkPanel1.add(ownerTextField);
         checkPanel1.add(size);
         checkPanel1.add(sizeTextField);
+    }
+
+    /**
+     * Get the Creation Date checkbox
+     * @return the current Creation Date checkbox object
+     */
+    public JCheckBox getCreationDate() {
+        return creationDate;
+    }
+
+    /**
+     * Get the Creation Date text field
+     * @return the current Creation Date text field object
+     */
+    public JTextField getCreationDateTextField() {
+        return creationDateTextField;
+    }
+
+    /**
+     * Get the Access Date checkbox
+     * @return the current Access Date checkbox object
+     */
+    public JCheckBox getAccessDate() {
+        return accessDate;
+    }
+
+    /**
+     * Get the Access Date text field
+     * @return the current Access Date text field object
+     */
+    public JTextField getAccessDateTextField() {
+        return accessDateTextField;
+    }
+
+    /**
+     * Get the Modification Date checkbox
+     * @return the current Modification Date checkbox object
+     */
+    public JCheckBox getModificationDate() {
+        return modificationDate;
+    }
+
+    /**
+     * Get the Modification Date text field
+     * @return the current Modification Date text field object
+     */
+    public JTextField getModificationDateTextField() {
+        return modificationDateTextField;
+    }
+
+    /**
+     * Get the Case Sensitive checkbox
+     * @return the current Case Sensitive checkbox object
+     */
+    public JCheckBox getCaseSensitive() {
+        return caseSensitive;
+    }
+
+    /**
+     * Get the File Content checkbox
+     * @return the current File Content checkbox object
+     */
+    public JCheckBox getFileContent() {
+        return fileContent;
+    }
+
+    /**
+     * Get the File Name checkbox
+     * @return the current File Name checkbox object
+     */
+    public JCheckBox getFileName() {
+        return fileName;
+    }
+
+    /**
+     * Get the Hidden Filed checkbox
+     * @return the current Hidden Files checkbox object
+     */
+    public JCheckBox getHiddenFiles() {
+        return hiddenFiles;
+    }
+
+    /**
+     * Get the Owner checkbox
+     * @return the current Owner checkbox object
+     */
+    public JCheckBox getOwner() {
+        return owner;
+    }
+
+    /**
+     * Get the Owner text field
+     * @return the current Owner text field object
+     */
+    public JTextField getOwnerTextField() {
+        return ownerTextField;
+    }
+
+    /**
+     * Get the Size checkbox
+     * @return the current Size checkbox object
+     */
+    public JCheckBox getCheckBoxSize() {
+        return size;
+    }
+
+    /**
+     * Get the Size text field
+     * @return the current Size text field object
+     */
+    public JTextField getSizeTextField() {
+        return sizeTextField;
     }
 }

@@ -17,13 +17,6 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.GridLayout;
 import java.awt.Dimension;
 
-/**
- * Table: Implement a Jtable element with grid and scroll panel .
- * add new  columns and rows to Table model
- * @author Alvaro Acha
- * @version 0.1.1
- * @since 04/02/2018
- */
 public class Table extends JPanel {
 
     private String [] columnNames;
@@ -31,7 +24,7 @@ public class Table extends JPanel {
 
     /**
      * Table: Construct method
-     * Method that construct an Controller object Table in base to JTable with a model
+     * Method that construct a Controller object Table in base to JTable with a model
      */
     public Table(int width , int height){
         super(new GridLayout(1,0));

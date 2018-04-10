@@ -45,7 +45,7 @@ public class Window extends JFrame{
     private JButton searchButton2;                     //Search Button
     private Table tableResult2;                        //Results Table
 
-    private Checkbox checkbox;
+    private Checkbox checkbox;                         //Advanced Search Checkboxes
 
     /**
      * Builder method:
@@ -174,13 +174,25 @@ public class Window extends JFrame{
         return this.tableResult;
     }
 
+    /**
+     * Get the Checkbox
+     * @return the current Checkbox object
+     */
+    public Checkbox getCheckbox (){
+        return this.checkbox;
+    }
+
+    /**
+     * Method to create the File Chooser, set as directories only
+     * and to fill the Search In Text Field with the selected path
+     * @param field
+     */
     private void createFileChooser(JTextField field){
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         int returnValue = fileChooser.showOpenDialog(null);
         if (returnValue == JFileChooser.APPROVE_OPTION) {
             File selectedPath = fileChooser.getSelectedFile();
-            System.out.println(selectedPath.getPath());
             field.setText(selectedPath.getPath());
         }
     }

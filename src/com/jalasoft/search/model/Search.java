@@ -316,42 +316,25 @@ public class Search {
         if(inputFiles.size()>= 0){
             for (int i = 0; i< inputFiles.size(); i++){
                 if(inputFiles.get(i).toFile().isDirectory()){
-                    Directory addDirectory = new Directory();
-                    addDirectory.setPath(inputFiles.get(i).toFile().getPath());
-                    addDirectory.setFileName(inputFiles.get(i).toFile().getName());
-                    addDirectory.setDirectory(inputFiles.get(i).toFile().isDirectory());
-                    addDirectory.setSize(inputFiles.get(i).toFile().length());
-                    addDirectory.setHidden(inputFiles.get(i).toFile().isHidden());
-                    UserPrincipal ownerP = Files.getOwner(inputFiles.get(i));
-                    String userName = ownerP.getName();
-                    addDirectory.setOwner(userName);
+                    //createAsset(String path, String fileName, String modificationDate, String creationDate, String accessDate, String owner, Long size, boolean isHidden, boolean isDirectory){
                     BasicFileAttributes attributes = Files.readAttributes(inputFiles.get(i), BasicFileAttributes.class);
                     FileTime attDate = attributes.lastAccessTime();
                     FileTime modDate = attributes.lastModifiedTime();
                     FileTime creationDate = attributes.creationTime();
-                    addDirectory.setAccessDate(dateToString(attDate));
-                    addDirectory.setModificationDate(dateToString(modDate));
-                    addDirectory.setCreationDate(dateToString(creationDate));
-                    matchs.add(addDirectory);
+                    UserPrincipal ownerP = Files.getOwner(inputFiles.get(i));
+                    String userName = ownerP.getName();
+                    matchs.add(FactoryAsset.createAsset(0, inputFiles.get(i).toFile().getPath(),inputFiles.get(i).toFile().getName(),dateToString(modDate),dateToString(creationDate), dateToString(attDate),userName,inputFiles.get(i).toFile().length(),inputFiles.get(i).toFile().isHidden(), true, null,null));
+
                 }else{
-                    FileSearch addFile = new FileSearch();
-                    addFile.setPath(inputFiles.get(i).toFile().getPath());
-                    addFile.setFileName(inputFiles.get(i).toFile().getName());
-                    addFile.setHidden(inputFiles.get(i).toFile().isHidden());
-                    addFile.setSize(inputFiles.get(i).toFile().length());
-                    addFile.setHidden(inputFiles.get(i).toFile().isHidden());
-                    addFile.setDirectory(false);
                     UserPrincipal ownerP = Files.getOwner(inputFiles.get(i));
                     String userName = ownerP.getName();
-                    addFile.setOwner(userName);
                     BasicFileAttributes attributes = Files.readAttributes(inputFiles.get(i), BasicFileAttributes.class);
                     FileTime attDate = attributes.lastAccessTime();
                     FileTime modDate = attributes.lastModifiedTime();
                     FileTime creationDate = attributes.creationTime();
-                    addFile.setAccessDate(dateToString(attDate));
-                    addFile.setModificationDate(dateToString(modDate));
-                    addFile.setCreationDate(dateToString(creationDate));
-                    matchs.add(addFile);
+                    String name = inputFiles.get(i).toFile().getName();
+                    String ext = name.substring(name.lastIndexOf(".") + 1);
+                    matchs.add(FactoryAsset.createAsset(0, inputFiles.get(i).toFile().getPath(),inputFiles.get(i).toFile().getName(),dateToString(modDate),dateToString(creationDate), dateToString(attDate),userName,inputFiles.get(i).toFile().length(),inputFiles.get(i).toFile().isHidden(), false, ext,inputFiles.get(i).toFile().getName()));
                 }
             }
         }
@@ -363,6 +346,16 @@ public class Search {
     public List<Asset> getResults(SearchCriteriaBasic criteria) throws IOException {
         Path path = Paths.get(criteria.getPath());
         String fileName = criteria.getCriteria()[0];
+        boolean isHidden = true;
+        String content = "";
+        String ext = 'txt';
+        Long size = 121325566;
+        int mode = 0;
+        String modificationDate = "2017-05-12";
+        String accessDate= "2017-05-12";
+        String creationDate= "2017-05-12";
+        String owner= "2017-05-12";
+
         List <Path> swapFiles ;
         List <Path> swapFilesTemp;
         List<Asset> results = null;
@@ -381,6 +374,4 @@ public class Search {
         }
         return (results);
     }
-
-
 }

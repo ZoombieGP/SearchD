@@ -42,7 +42,7 @@ public class SearchCriteria {
     }
 
     /**
-     *
+     * Overwrite of construct methos with the search criteria advanced
      * @param path
      * @param searchFor
      * @param isHidden
@@ -70,43 +70,71 @@ public class SearchCriteria {
 
     }
 
-
     /**
      * Get the path
      * @return the path of file
      */
-    public String getPath(){
-        return pathToSearch;
-    }
+    public String getPath(){ return pathToSearch; }
 
     /**
      * Get the criteria(textToSearch)
      * @return the criteria
      */
-    public String[] getCriteria(){
-        return criteria;
-    }
+    public String[] getCriteria(){ return criteria; }
 
-    public boolean getIsHidden(){
-        return isHidden;
-    }
+    /**
+     * Get the the hidden flase or true
+     * @return
+     */
+    public boolean getIsHidden(){ return isHidden; }
 
+    /**
+     * Get the content
+     * @return
+     */
     public String getContent()  { return content;}
 
+    /**
+     * Get the extension
+     * @return
+     */
     public String getExtension()  { return extension;}
 
+    /**
+     * Get the size in bytes
+     * @return
+     */
     public long getSize()  { return size;}
 
+    /**
+     * Get the mode
+     * @return
+     */
     public int getMode () { return mode;}
 
+    /**
+     * Get the creation date
+     * @return
+     */
     public String getCreationDate() {return creationDate;}
 
+    /**
+     * Get the modification date
+     * @return
+     */
     public String getModificationDate() {return modificationDate;}
 
+    /**
+     * Get the creation date
+     * @return
+     */
     public String getAccessDate() {return accessDate;}
 
+    /**
+     * Get the owner name
+     * @return
+     */
     public String getOwner() {return owner;}
-
 
     /**
      * Split the criteris by ";"
@@ -118,4 +146,5 @@ public class SearchCriteria {
         return criteria;
     }
 }
+
 

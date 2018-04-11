@@ -73,6 +73,10 @@ public class Controller {
         }
     }
 
+    /**
+     * Get the UI dta ,Fill the search criteria advanced and create the object
+     * @throws IOException
+     */
     private void fillSearchCriteriaAdvanced()throws IOException{
         validator = new InterfaceValidator();
         win.getAdvancedTableResult().model.setRowCount(0);
@@ -88,8 +92,6 @@ public class Controller {
         long size = convertToLong(win.getCheckbox().getSizeTextField());
         int mode=0;
         boolean isHidden=win.getCheckbox().getHiddenFiles().isSelected();
-        boolean searchByContent=win.getCheckbox().getFileContent().isSelected();
-
 
         if(validator.isValidPath(win.getAdvancedSearchInTextField()))
         {
@@ -108,11 +110,13 @@ public class Controller {
         System.out.println("Date of cre : "+basicCriteria.getCreationDate());
         System.out.println("Date of acc : "+basicCriteria.getAccessDate());
         System.out.println("Date of owner : "+basicCriteria.getOwner());
-
-
-
     }
 
+    /**
+     * Convert the size in  MB  to long in bytes
+     * @param sizeTextField
+     * @return
+     */
     private long convertToLong(String sizeTextField) {
         if(!sizeTextField.isEmpty())
         {
@@ -125,12 +129,23 @@ public class Controller {
 
     }
 
+    /**
+     * Fill the content with the search for text if the content is selected
+     * @param searchFor
+     * @param isSelect
+     * @return
+     */
     private String getContentOfSearchFor(String searchFor,boolean isSelect) {
         if(isSelect)
             return searchFor;
         return null;
     }
 
+    /**
+     * get the extension of the searchFor text
+     * @param searchFor
+     * @return
+     */
     private String getExtension(String searchFor) {
 
         String [] aux=searchFor.split("\\.");
@@ -153,15 +168,9 @@ public class Controller {
                 win.getTableResult().fillTableResult(new Object[]{filesFound.get(i).getPath(),filesFound.get(i).getFileName(),filesFound.get(i).getIsDirectory(),filesFound.get(i).isHidden(),filesFound.get(i).getSize(),filesFound.get(i).getModificationDate()});
             }
         }
-        /*for (Asset file:filesFound)
-        {
-
-
-            //win.getTableResult().fillTableResult(new Object[]{file.getPath(),file.getName(),file.getIsDirectory(),file.getIsHidden(),file.getSize(),file.getDateModification()});
-            win.getTableResult().fillTableResult(new Object[]{file.getPath(),file.getFileName(),file.ge,file.isHidden(),file.getSize(),file.getModificationDate()});
-        }*/
 
     }
 
 }
+
 

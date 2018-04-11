@@ -30,7 +30,7 @@ public class Controller {
     private Window win;
     private Search search;
     private InterfaceValidator validator;
-    private SearchCriteriaBasic basicCriteria;
+    private SearchCriteria basicCriteria;
 
     /**
      * Controller: Construct method
@@ -47,6 +47,14 @@ public class Controller {
                 e1.printStackTrace();
             }
         });
+
+        win.getAdvancedSearchButton().addActionListener(e -> {
+            try {
+                fillSearchCriteriaAdvanced();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+        });
     }
 
     /**
@@ -58,11 +66,77 @@ public class Controller {
         win.getTableResult().model.setRowCount(0);
         if(validator.isValidPath(win.getSearchInTextField()))
         {
-            basicCriteria= new SearchCriteriaBasic(win.getSearchInTextField(),win.getSearchForTextField());
+            basicCriteria= new SearchCriteria(win.getSearchInTextField(),win.getSearchForTextField());
             List<Asset> filesFound;
             filesFound=search.getResults(basicCriteria);
             fillTable(filesFound);
         }
+    }
+
+    private void fillSearchCriteriaAdvanced()throws IOException{
+        validator = new InterfaceValidator();
+        win.getAdvancedTableResult().model.setRowCount(0);
+
+        String path=win.getAdvancedSearchInTextField();
+        String searchFor=win.getAdvancedSearchForTextField();
+        String content=getContentOfSearchFor(searchFor,win.getCheckbox().getFileContent().isSelected());
+        String extension=getExtension(searchFor);
+        String modifDate=win.getCheckbox().getModificationDateTextField();
+        String creationDate=win.getCheckbox().getCreationDateTextField();
+        String accessDate=win.getCheckbox().getAccessDateTextField();
+        String owner=win.getCheckbox().getOwnerTextField();
+        long size = convertToLong(win.getCheckbox().getSizeTextField());
+        int mode=0;
+        boolean isHidden=win.getCheckbox().getHiddenFiles().isSelected();
+        boolean searchByContent=win.getCheckbox().getFileContent().isSelected();
+
+
+        if(validator.isValidPath(win.getAdvancedSearchInTextField()))
+        {
+
+            basicCriteria=new SearchCriteria(path,searchFor,isHidden,content,extension,size,mode,modifDate,creationDate,accessDate,owner);
+        }
+
+        System.out.println("Path : "+basicCriteria.getPath());
+        System.out.println("text to search : "+basicCriteria.getCriteria()[0]);
+        System.out.println("Is hidden? : "+basicCriteria.getIsHidden());
+        System.out.println("Content : "+basicCriteria.getContent());
+        System.out.println("Extension : "+basicCriteria.getExtension());
+        System.out.println("Size in bytes : "+basicCriteria.getSize());
+        System.out.println("Mode : "+basicCriteria.getMode());
+        System.out.println("Date of mod : "+basicCriteria.getModificationDate());
+        System.out.println("Date of cre : "+basicCriteria.getCreationDate());
+        System.out.println("Date of acc : "+basicCriteria.getAccessDate());
+        System.out.println("Date of owner : "+basicCriteria.getOwner());
+
+
+
+    }
+
+    private long convertToLong(String sizeTextField) {
+        if(!sizeTextField.isEmpty())
+        {
+            int InBytes=Integer.parseInt(sizeTextField);
+            InBytes=InBytes*1024*1024;
+            return Long.valueOf(InBytes);
+        }
+        else
+            return 0;
+
+    }
+
+    private String getContentOfSearchFor(String searchFor,boolean isSelect) {
+        if(isSelect)
+            return searchFor;
+        return null;
+    }
+
+    private String getExtension(String searchFor) {
+
+        String [] aux=searchFor.split("\\.");
+            if(aux.length-1!=0)
+                return aux[aux.length-1];
+            return null;
     }
 
     /**
@@ -88,5 +162,6 @@ public class Controller {
         }*/
 
     }
+
 }
 

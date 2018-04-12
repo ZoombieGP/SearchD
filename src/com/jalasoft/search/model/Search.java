@@ -11,11 +11,10 @@
  */
 package com.jalasoft.search.model;
 
-import com.jalasoft.search.controller.SearchCriteriaBasic;
+import com.jalasoft.search.controller.SearchCriteria;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
@@ -25,7 +24,6 @@ import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.FileTime;
 import java.nio.file.attribute.UserPrincipal;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -343,7 +341,7 @@ public class Search {
     /**
      * getResults method under construction to test the functionality of Search Class
      */
-    public List<Asset> getResults(SearchCriteriaBasic criteria) throws IOException {
+    public List<Asset> getResults(SearchCriteria criteria) throws IOException {
         Path path = Paths.get(criteria.getPath());
         String fileName = criteria.getCriteria()[0];
         boolean isHidden = true; //criteria.getIsHidden();

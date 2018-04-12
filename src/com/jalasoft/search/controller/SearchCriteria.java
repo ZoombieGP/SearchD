@@ -116,7 +116,9 @@ public class SearchCriteria {
      * Get the creation date
      * @return
      */
-    public String getCreationDate() {return creationDate;}
+    public String getCreationDate() {
+        return creationDate;
+    }
 
     /**
      * Get the modification date

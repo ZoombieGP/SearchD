@@ -93,10 +93,14 @@ public class Search {
      */
     private List <Path> searchByHidden(List <Path> inputFiles){
         List <Path> filterResults = new ArrayList<>();
+        System.out.println("tamanio recibido hiiden: " + inputFiles.size());
+        System.out.println("searching hidden");
         if(inputFiles.size() >= 0){
             for (int i = 0; i < inputFiles.size(); i++){
+                System.out.println("hidden : " + inputFiles.get(i).toFile().isHidden());
                 if(inputFiles.get(i).toFile().isHidden()){
-                    filterResults.add(inputFiles.get(i).toAbsolutePath());
+
+                    filterResults.add(inputFiles.get(i).toFile().toPath());
                 }
             }
         }
@@ -116,23 +120,23 @@ public class Search {
         List <Path> filterResults = new ArrayList<>();
         if(inputFiles.size() >= 0){
             for (int i = 0; i< inputFiles.size(); i++){
-                try {
-                       final BufferedReader reader = new BufferedReader(
-                                new FileReader((inputFiles.get(i).toFile()))
-                        );
+                if(inputFiles.get(i).toFile().isDirectory() == false){
+                    try {
+                        final BufferedReader reader = new BufferedReader(new FileReader(inputFiles.get(i).toFile()));
                         String line = "";
                         while((line = reader.readLine())!= null){
                             if(line.indexOf(content)!= -1){
                                 filterResults.add(inputFiles.get(i));
                             }
-                        }
-                        reader.close();
+                        }reader.close();
                     } catch (FileNotFoundException e) {e.printStackTrace();
-                    } catch (IOException e) {e.printStackTrace();}
+                    } catch (IOException e) {e.printStackTrace();
+                    }
                 }
             }
-            return(filterResults);
         }
+            return(filterResults);
+    }
 
     /**
      * searchByExtension method searches into a List of Path specific file that have an specific extension and returns List of Path
@@ -295,6 +299,7 @@ public class Search {
             for (int i = 0; i < inputFiles.size(); i++){
                 UserPrincipal ownerP = Files.getOwner(inputFiles.get(i));
                 String userName = ownerP.getName();
+                System.out.println("Owner: " +   userName);
                 if(userName.equals(owner)){
                     filterResults.add(inputFiles.get(i).toAbsolutePath());
                 }
@@ -314,7 +319,6 @@ public class Search {
         if(inputFiles.size()>= 0){
             for (int i = 0; i< inputFiles.size(); i++){
                 if(inputFiles.get(i).toFile().isDirectory()){
-                    //createAsset(String path, String fileName, String modificationDate, String creationDate, String accessDate, String owner, Long size, boolean isHidden, boolean isDirectory){
                     BasicFileAttributes attributes = Files.readAttributes(inputFiles.get(i), BasicFileAttributes.class);
                     FileTime attDate = attributes.lastAccessTime();
                     FileTime modDate = attributes.lastModifiedTime();
@@ -344,25 +348,23 @@ public class Search {
     public List<Asset> getResults(SearchCriteria criteria) throws IOException {
         Path path = Paths.get(criteria.getPath());
         String fileName = criteria.getCriteria()[0];
-        boolean isHidden = true; //criteria.getIsHidden();
-        String content = ""; // criteria.getContent();
-        String ext = "txt"; // criteria. getExtension();
-        Long size = 2315254; // criteria.getSize();
-        int mode = 0; // criteria.getMode();
-        String modificationDate = "2017-05-12"; //criteria.getModificationDate();
-        String accessDate= "2017-05-12"; // criteria.getAccessDate();
-        String creationDate= "2017-05-12"; // criteria.getCreationDate();
-        String owner= "2017-05-12"; // criteria.getOwner;
+        boolean isHidden = criteria.getIsHidden();
+        String content = criteria.getContent();
+        String ext = criteria. getExtension();
+        Long size = criteria.getSize();
+        int mode = criteria.getMode();
+        String modificationDate = criteria.getModificationDate();
+        String accessDate= criteria.getAccessDate();
+        String creationDate= criteria.getCreationDate();
+        String owner= criteria.getOwner();
 
-        List <Path> swapFiles = null;
-        List <Path> swapFilesTemp = null;
+        List <Path> swapFiles;
         List <Path> resultsTemp = null;
 
-        List<Asset> results = null;
-        boolean control = false;
-        boolean control2 = false;
+        List<Asset> results;
+
         //Search by Path
-        if(fileName.equals("")){
+        if(fileName.equals("") && content == null){
             resultsTemp = searchByPath(path);
 
             if(isHidden){
@@ -389,18 +391,20 @@ public class Search {
                 swapFiles = searchByExtension(resultsTemp, ext);
                 resultsTemp= swapFiles;
             }
-            if(size != null){
-                swapFiles = searchBySize(resultsTemp, size);
+            if(size != -1){
+                swapFiles = searchBySize(resultsTemp, size, mode);
                 resultsTemp= swapFiles;
             }
 
             results = fillAsset(resultsTemp);
         }else{
             if(content!= null){
+                resultsTemp = searchByPath(path);
                 swapFiles = searchByContent(resultsTemp, content);
                 resultsTemp= swapFiles;
             }
-            if(fileName!= null){
+            if(fileName!= ""){
+                resultsTemp = searchByPath(path);
                 swapFiles = searchByName(resultsTemp, fileName);
                 resultsTemp= swapFiles;
             }
@@ -428,8 +432,8 @@ public class Search {
                 swapFiles = searchByExtension(resultsTemp, ext);
                 resultsTemp= swapFiles;
             }
-            if(size != null){
-                swapFiles = searchBySize(resultsTemp, size);
+            if(size != -1){
+                swapFiles = searchBySize(resultsTemp, size , mode);
                 resultsTemp= swapFiles;
             }
 

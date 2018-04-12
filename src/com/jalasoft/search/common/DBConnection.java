@@ -54,8 +54,8 @@ public class DBConnection {
         Class.forName("org.sqlite.JDBC");
         con = DriverManager.getConnection("jdbc:sqlite:search.db");
         Statement state=con.createStatement();
-        state.execute("CREATE TABLE SEARCH(\n" +
-                "   ID   INT              NOT NULL,\n" +
+        state.execute("CREATE TABLE IF NOT EXISTS SEARCH(\n" +
+                "   ID   INTEGER,\n" +
                 "   CRITERIA VARCHAR (90),       \n" +
                 "   PRIMARY KEY (ID)\n" +
                 ");");

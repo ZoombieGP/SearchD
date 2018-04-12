@@ -34,16 +34,20 @@ public class SearchQuery {
         con= DBConnection.getInstance().getCon();
     }
 
-    public void addCriteria (String criteriaJSON)
+    public String addCriteria (String criteriaJSON)
     {
         String query="INSERT INTO SEARCH (ID,CRITERIA)\n" +
                 "VALUES (?,?);";
         try {
             PreparedStatement preparedStatement= con.prepareStatement(query);
+          //  preparedStatement.setString(1,"1");
             preparedStatement.setString(2,criteriaJSON);
+            preparedStatement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
+            return "No se pudo insertar el criterio";
         }
+        return "The criteria was inserted";
     }
 
     public ResultSet getAllCriteria() throws SQLException {

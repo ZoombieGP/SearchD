@@ -346,31 +346,96 @@ public class Search {
     public List<Asset> getResults(SearchCriteriaBasic criteria) throws IOException {
         Path path = Paths.get(criteria.getPath());
         String fileName = criteria.getCriteria()[0];
-        boolean isHidden = true;
-        String content = "";
-        String ext = 'txt';
-        Long size = 121325566;
-        int mode = 0;
-        String modificationDate = "2017-05-12";
-        String accessDate= "2017-05-12";
-        String creationDate= "2017-05-12";
-        String owner= "2017-05-12";
+        boolean isHidden = true; //criteria.getIsHidden();
+        String content = ""; // criteria.getContent();
+        String ext = "txt"; // criteria. getExtension();
+        Long size = 2315254; // criteria.getSize();
+        int mode = 0; // criteria.getMode();
+        String modificationDate = "2017-05-12"; //criteria.getModificationDate();
+        String accessDate= "2017-05-12"; // criteria.getAccessDate();
+        String creationDate= "2017-05-12"; // criteria.getCreationDate();
+        String owner= "2017-05-12"; // criteria.getOwner;
 
-        List <Path> swapFiles ;
-        List <Path> swapFilesTemp;
+        List <Path> swapFiles = null;
+        List <Path> swapFilesTemp = null;
+        List <Path> resultsTemp = null;
+
         List<Asset> results = null;
-
+        boolean control = false;
+        boolean control2 = false;
+        //Search by Path
         if(fileName.equals("")){
-            swapFiles = searchByPath(path);
-            try {
-                results = fillAsset(swapFiles);
-            } catch (IOException e) {
-                e.printStackTrace();
+            resultsTemp = searchByPath(path);
+
+            if(isHidden){
+                swapFiles = searchByHidden(resultsTemp);
+                resultsTemp = swapFiles;
             }
+            if(creationDate!= null){
+                swapFiles = searchByCreationDate(resultsTemp, creationDate);
+                resultsTemp= swapFiles;
+            }
+            if(modificationDate!= null ){
+                swapFiles = searchByModificationDate(resultsTemp, modificationDate);
+                resultsTemp= swapFiles;
+            }
+            if(accessDate!= null){
+                swapFiles = searchByAccessDate(resultsTemp, accessDate);
+                resultsTemp= swapFiles;
+            }
+            if(owner!= null){
+                swapFiles = searchByOwner(resultsTemp,owner);
+                resultsTemp= swapFiles;
+            }
+            if(ext != null){
+                swapFiles = searchByExtension(resultsTemp, ext);
+                resultsTemp= swapFiles;
+            }
+            if(size != null){
+                swapFiles = searchBySize(resultsTemp, size);
+                resultsTemp= swapFiles;
+            }
+
+            results = fillAsset(resultsTemp);
         }else{
-            swapFiles = searchByPath(path);
-            swapFilesTemp = searchByName(swapFiles, fileName);
-            results = fillAsset(swapFilesTemp);
+            if(content!= null){
+                swapFiles = searchByContent(resultsTemp, content);
+                resultsTemp= swapFiles;
+            }
+            if(fileName!= null){
+                swapFiles = searchByName(resultsTemp, fileName);
+                resultsTemp= swapFiles;
+            }
+            if(isHidden){
+                swapFiles = searchByHidden(resultsTemp);
+                resultsTemp = swapFiles;
+            }
+            if(creationDate!= null){
+                swapFiles = searchByCreationDate(resultsTemp, creationDate);
+                resultsTemp= swapFiles;
+            }
+            if(modificationDate!= null ){
+                swapFiles = searchByModificationDate(resultsTemp, modificationDate);
+                resultsTemp= swapFiles;
+            }
+            if(accessDate!= null){
+                swapFiles = searchByAccessDate(resultsTemp, accessDate);
+                resultsTemp= swapFiles;
+            }
+            if(owner!= null){
+                swapFiles = searchByOwner(resultsTemp,owner);
+                resultsTemp= swapFiles;
+            }
+            if(ext != null){
+                swapFiles = searchByExtension(resultsTemp, ext);
+                resultsTemp= swapFiles;
+            }
+            if(size != null){
+                swapFiles = searchBySize(resultsTemp, size);
+                resultsTemp= swapFiles;
+            }
+
+            results = fillAsset(resultsTemp);
         }
         return (results);
     }

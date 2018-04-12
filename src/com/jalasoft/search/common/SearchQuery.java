@@ -11,6 +11,10 @@
 package com.jalasoft.search.common;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
  * Implements the queries methods for get data from Data Base SEARCH
@@ -28,5 +32,25 @@ public class SearchQuery {
     public SearchQuery(){
 
         con= DBConnection.getInstance().getCon();
+    }
+
+    public void addCriteria (String criteriaJSON)
+    {
+        String query="INSERT INTO SEARCH (ID,CRITERIA)\n" +
+                "VALUES (?,?);";
+        try {
+            PreparedStatement preparedStatement= con.prepareStatement(query);
+            preparedStatement.setString(2,criteriaJSON);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public ResultSet getAllCriteria() throws SQLException {
+
+            Statement statement=con.createStatement();
+            ResultSet resultSet= statement.executeQuery("SELECT * FROM SEARCH;");
+            return resultSet;
+
     }
 }

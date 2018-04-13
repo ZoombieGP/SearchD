@@ -23,7 +23,7 @@ public class Converter {
     /**
      *Convert a long date to date in format yyyy-dd-mm
      * @param longDate
-     * @return a date in String type
+     * @return a date in String type with format yyyy-dd-MMM
      */
     public String covertLongToDate(long longDate){
 

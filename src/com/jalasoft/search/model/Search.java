@@ -93,10 +93,14 @@ public class Search {
      */
     private List <Path> searchByHidden(List <Path> inputFiles){
         List <Path> filterResults = new ArrayList<>();
+        System.out.println("tamanio recibido hiiden: " + inputFiles.size());
+        System.out.println("searching hidden");
         if(inputFiles.size() >= 0){
             for (int i = 0; i < inputFiles.size(); i++){
+                System.out.println("hidden : " + inputFiles.get(i).toFile().isHidden());
                 if(inputFiles.get(i).toFile().isHidden()){
-                    filterResults.add(inputFiles.get(i).toAbsolutePath());
+
+                    filterResults.add(inputFiles.get(i).toFile().toPath());
                 }
             }
         }
@@ -116,23 +120,23 @@ public class Search {
         List <Path> filterResults = new ArrayList<>();
         if(inputFiles.size() >= 0){
             for (int i = 0; i< inputFiles.size(); i++){
-                try {
-                       final BufferedReader reader = new BufferedReader(
-                                new FileReader((inputFiles.get(i).toFile()))
-                        );
+                if(inputFiles.get(i).toFile().isDirectory() == false){
+                    try {
+                        final BufferedReader reader = new BufferedReader(new FileReader(inputFiles.get(i).toFile()));
                         String line = "";
                         while((line = reader.readLine())!= null){
                             if(line.indexOf(content)!= -1){
                                 filterResults.add(inputFiles.get(i));
                             }
-                        }
-                        reader.close();
+                        }reader.close();
                     } catch (FileNotFoundException e) {e.printStackTrace();
-                    } catch (IOException e) {e.printStackTrace();}
+                    } catch (IOException e) {e.printStackTrace();
+                    }
                 }
             }
-            return(filterResults);
         }
+            return(filterResults);
+    }
 
     /**
      * searchByExtension method searches into a List of Path specific file that have an specific extension and returns List of Path
@@ -295,6 +299,7 @@ public class Search {
             for (int i = 0; i < inputFiles.size(); i++){
                 UserPrincipal ownerP = Files.getOwner(inputFiles.get(i));
                 String userName = ownerP.getName();
+                System.out.println("Owner: " +   userName);
                 if(userName.equals(owner)){
                     filterResults.add(inputFiles.get(i).toAbsolutePath());
                 }
@@ -314,42 +319,24 @@ public class Search {
         if(inputFiles.size()>= 0){
             for (int i = 0; i< inputFiles.size(); i++){
                 if(inputFiles.get(i).toFile().isDirectory()){
-                    Directory addDirectory = new Directory();
-                    addDirectory.setPath(inputFiles.get(i).toFile().getPath());
-                    addDirectory.setFileName(inputFiles.get(i).toFile().getName());
-                    addDirectory.setDirectory(inputFiles.get(i).toFile().isDirectory());
-                    addDirectory.setSize(inputFiles.get(i).toFile().length());
-                    addDirectory.setHidden(inputFiles.get(i).toFile().isHidden());
-                    UserPrincipal ownerP = Files.getOwner(inputFiles.get(i));
-                    String userName = ownerP.getName();
-                    addDirectory.setOwner(userName);
                     BasicFileAttributes attributes = Files.readAttributes(inputFiles.get(i), BasicFileAttributes.class);
                     FileTime attDate = attributes.lastAccessTime();
                     FileTime modDate = attributes.lastModifiedTime();
                     FileTime creationDate = attributes.creationTime();
-                    addDirectory.setAccessDate(dateToString(attDate));
-                    addDirectory.setModificationDate(dateToString(modDate));
-                    addDirectory.setCreationDate(dateToString(creationDate));
-                    matchs.add(addDirectory);
+                    UserPrincipal ownerP = Files.getOwner(inputFiles.get(i));
+                    String userName = ownerP.getName();
+                    matchs.add(FactoryAsset.createAsset(0, inputFiles.get(i).toFile().getPath(),inputFiles.get(i).toFile().getName(),dateToString(modDate),dateToString(creationDate), dateToString(attDate),userName,inputFiles.get(i).toFile().length(),inputFiles.get(i).toFile().isHidden(), true, null,null));
+
                 }else{
-                    FileSearch addFile = new FileSearch();
-                    addFile.setPath(inputFiles.get(i).toFile().getPath());
-                    addFile.setFileName(inputFiles.get(i).toFile().getName());
-                    addFile.setHidden(inputFiles.get(i).toFile().isHidden());
-                    addFile.setSize(inputFiles.get(i).toFile().length());
-                    addFile.setHidden(inputFiles.get(i).toFile().isHidden());
-                    addFile.setDirectory(false);
                     UserPrincipal ownerP = Files.getOwner(inputFiles.get(i));
                     String userName = ownerP.getName();
-                    addFile.setOwner(userName);
                     BasicFileAttributes attributes = Files.readAttributes(inputFiles.get(i), BasicFileAttributes.class);
                     FileTime attDate = attributes.lastAccessTime();
                     FileTime modDate = attributes.lastModifiedTime();
                     FileTime creationDate = attributes.creationTime();
-                    addFile.setAccessDate(dateToString(attDate));
-                    addFile.setModificationDate(dateToString(modDate));
-                    addFile.setCreationDate(dateToString(creationDate));
-                    matchs.add(addFile);
+                    String name = inputFiles.get(i).toFile().getName();
+                    String ext = name.substring(name.lastIndexOf(".") + 1);
+                    matchs.add(FactoryAsset.createAsset(0, inputFiles.get(i).toFile().getPath(),inputFiles.get(i).toFile().getName(),dateToString(modDate),dateToString(creationDate), dateToString(attDate),userName,inputFiles.get(i).toFile().length(),inputFiles.get(i).toFile().isHidden(), false, ext,inputFiles.get(i).toFile().getName()));
                 }
             }
         }
@@ -361,24 +348,97 @@ public class Search {
     public List<Asset> getResults(SearchCriteria criteria) throws IOException {
         Path path = Paths.get(criteria.getPath());
         String fileName = criteria.getCriteria()[0];
-        List <Path> swapFiles ;
-        List <Path> swapFilesTemp;
-        List<Asset> results = null;
+        boolean isHidden = criteria.getIsHidden();
+        String content = criteria.getContent();
+        String ext = criteria. getExtension();
+        Long size = criteria.getSize();
+        int mode = criteria.getMode();
+        String modificationDate = criteria.getModificationDate();
+        String accessDate= criteria.getAccessDate();
+        String creationDate= criteria.getCreationDate();
+        String owner= criteria.getOwner();
 
-        if(fileName.equals("")){
-            swapFiles = searchByPath(path);
-            try {
-                results = fillAsset(swapFiles);
-            } catch (IOException e) {
-                e.printStackTrace();
+        List <Path> swapFiles;
+        List <Path> resultsTemp = null;
+
+        List<Asset> results;
+
+        //Search by Path
+        if(fileName.equals("") && content == null){
+            resultsTemp = searchByPath(path);
+
+            if(isHidden){
+                swapFiles = searchByHidden(resultsTemp);
+                resultsTemp = swapFiles;
             }
+            if(creationDate!= null){
+                swapFiles = searchByCreationDate(resultsTemp, creationDate);
+                resultsTemp= swapFiles;
+            }
+            if(modificationDate!= null ){
+                swapFiles = searchByModificationDate(resultsTemp, modificationDate);
+                resultsTemp= swapFiles;
+            }
+            if(accessDate!= null){
+                swapFiles = searchByAccessDate(resultsTemp, accessDate);
+                resultsTemp= swapFiles;
+            }
+            if(owner!= null){
+                swapFiles = searchByOwner(resultsTemp,owner);
+                resultsTemp= swapFiles;
+            }
+            if(ext != null){
+                swapFiles = searchByExtension(resultsTemp, ext);
+                resultsTemp= swapFiles;
+            }
+            if(size != -1){
+                swapFiles = searchBySize(resultsTemp, size, mode);
+                resultsTemp= swapFiles;
+            }
+
+            results = fillAsset(resultsTemp);
         }else{
-            swapFiles = searchByPath(path);
-            swapFilesTemp = searchByName(swapFiles, fileName);
-            results = fillAsset(swapFilesTemp);
+            if(content!= null){
+                resultsTemp = searchByPath(path);
+                swapFiles = searchByContent(resultsTemp, content);
+                resultsTemp= swapFiles;
+            }
+            if(fileName!= ""){
+                resultsTemp = searchByPath(path);
+                swapFiles = searchByName(resultsTemp, fileName);
+                resultsTemp= swapFiles;
+            }
+            if(isHidden){
+                swapFiles = searchByHidden(resultsTemp);
+                resultsTemp = swapFiles;
+            }
+            if(creationDate!= null){
+                swapFiles = searchByCreationDate(resultsTemp, creationDate);
+                resultsTemp= swapFiles;
+            }
+            if(modificationDate!= null ){
+                swapFiles = searchByModificationDate(resultsTemp, modificationDate);
+                resultsTemp= swapFiles;
+            }
+            if(accessDate!= null){
+                swapFiles = searchByAccessDate(resultsTemp, accessDate);
+                resultsTemp= swapFiles;
+            }
+            if(owner!= null){
+                swapFiles = searchByOwner(resultsTemp,owner);
+                resultsTemp= swapFiles;
+            }
+            if(ext != null){
+                swapFiles = searchByExtension(resultsTemp, ext);
+                resultsTemp= swapFiles;
+            }
+            if(size != -1){
+                swapFiles = searchBySize(resultsTemp, size , mode);
+                resultsTemp= swapFiles;
+            }
+
+            results = fillAsset(resultsTemp);
         }
         return (results);
     }
-
-
 }

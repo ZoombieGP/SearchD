@@ -9,9 +9,11 @@
  * accordance with the terms of the license agreement you entered into
  */
 package com.jalasoft.search.controller;
+import com.jalasoft.search.common.Converter;
 import com.jalasoft.search.model.Asset;
 import com.jalasoft.search.model.Directory;
 import com.jalasoft.search.model.FileSearch;
+import com.jalasoft.search.view.Table;
 import com.jalasoft.search.view.Window;
 import com.jalasoft.search.model.Search;
 
@@ -31,6 +33,7 @@ public class Controller {
     private Search search;
     private InterfaceValidator validator;
     private SearchCriteria basicCriteria;
+    private Converter converter =new Converter();
 
     /**
      * Controller: Construct method
@@ -69,7 +72,12 @@ public class Controller {
             basicCriteria= new SearchCriteria(win.getSearchInTextField(),win.getSearchForTextField());
             List<Asset> filesFound;
             filesFound=search.getResults(basicCriteria);
-            fillTable(filesFound);
+
+            fillTable(filesFound,win.getTableResult());
+
+            for(int i = 0; i<= filesFound.size(); i++){
+                System.out.println("basic/------> " + filesFound.get(i).getFileName());
+            }
         }
     }
 
@@ -81,23 +89,32 @@ public class Controller {
         validator = new InterfaceValidator();
         win.getAdvancedTableResult().model.setRowCount(0);
 
+
         String path=win.getAdvancedSearchInTextField();
         String searchFor=win.getAdvancedSearchForTextField();
         String content=getContentOfSearchFor(searchFor,win.getCheckbox().getFileContent().isSelected());
+        if(win.getCheckbox().getFileContent().isSelected())
+            searchFor="";
+
         String extension=getExtension(searchFor);
-        String modifDate=win.getCheckbox().getModificationDateTextField();
-        String creationDate=win.getCheckbox().getCreationDateTextField();
-        String accessDate=win.getCheckbox().getAccessDateTextField();
-        String owner=win.getCheckbox().getOwnerTextField();
+        String modifDate=getDate(win.getCheckbox().getModificationDateTextField());
+        String creationDate=getDate(win.getCheckbox().getCreationDateTextField());
+        String accessDate=getDate(win.getCheckbox().getAccessDateTextField());
+        String owner=getDate(win.getCheckbox().getOwnerTextField());
         long size = convertToLong(win.getCheckbox().getSizeTextField());
         int mode=0;
         boolean isHidden=win.getCheckbox().getHiddenFiles().isSelected();
 
-        if(validator.isValidPath(win.getAdvancedSearchInTextField()))
-        {
+       // if(validator.isValidPath(win.getAdvancedSearchInTextField()))
+       // {
 
             basicCriteria=new SearchCriteria(path,searchFor,isHidden,content,extension,size,mode,modifDate,creationDate,accessDate,owner);
-        }
+            List<Asset> filesFound;
+            filesFound=search.getResults(basicCriteria);
+
+            fillTable(filesFound,win.getAdvancedTableResult());
+
+       // }
 
         System.out.println("Path : "+basicCriteria.getPath());
         System.out.println("text to search : "+basicCriteria.getCriteria()[0]);
@@ -125,7 +142,7 @@ public class Controller {
             return Long.valueOf(InBytes);
         }
         else
-            return 0;
+            return -1;
 
     }
 
@@ -136,8 +153,12 @@ public class Controller {
      * @return
      */
     private String getContentOfSearchFor(String searchFor,boolean isSelect) {
+
         if(isSelect)
+        {
             return searchFor;
+        }
+
         return null;
     }
 
@@ -154,18 +175,30 @@ public class Controller {
             return null;
     }
 
+    private String getDate(String date) {
+        if(date.isEmpty())
+            return null;
+         return date;
+
+        }
+
+
     /**
      * Method that receive the file found and fill the table of result in the UI.
      * @param filesFound
      */
-    private void fillTable(List<Asset> filesFound){
+    private void fillTable(List<Asset> filesFound, Table table){
+
+
 
         for (int i= 0; i < filesFound.size(); i++){
+
+
             if(filesFound.get(i) instanceof Directory){
-                win.getTableResult().fillTableResult(new Object[]{filesFound.get(i).getPath(),filesFound.get(i).getFileName(),filesFound.get(i).getIsDirectory(),filesFound.get(i).isHidden(),filesFound.get(i).getSize(),filesFound.get(i).getModificationDate()});
+                table.fillTableResult(new Object[]{filesFound.get(i).getPath(),filesFound.get(i).getFileName(),filesFound.get(i).getIsDirectory(),filesFound.get(i).isHidden(),converter.formatFileSize(filesFound.get(i).getSize()),filesFound.get(i).getModificationDate()});
             }
             if (filesFound.get(i) instanceof FileSearch){
-                win.getTableResult().fillTableResult(new Object[]{filesFound.get(i).getPath(),filesFound.get(i).getFileName(),filesFound.get(i).getIsDirectory(),filesFound.get(i).isHidden(),filesFound.get(i).getSize(),filesFound.get(i).getModificationDate()});
+                table.fillTableResult(new Object[]{filesFound.get(i).getPath(),filesFound.get(i).getFileName(),filesFound.get(i).getIsDirectory(),filesFound.get(i).isHidden(),converter.formatFileSize(filesFound.get(i).getSize()),filesFound.get(i).getModificationDate()});
             }
         }
 

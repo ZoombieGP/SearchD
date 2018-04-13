@@ -11,6 +11,7 @@
 
 package com.jalasoft.search.controller;
 
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import com.jalasoft.search.GlobalVariables;
@@ -99,6 +100,12 @@ public class InterfaceValidator {
 
         fileName= fileName.replaceAll("\\s","");
         return fileName;
+    }
+
+    public boolean validateAdvancedTab(List<Object> uiElemnts){
+        if(uiElemnts.get(0).toString().isEmpty())
+            return false;
+        return true;
     }
 }
 

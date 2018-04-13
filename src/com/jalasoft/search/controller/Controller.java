@@ -19,6 +19,7 @@ import com.jalasoft.search.model.Search;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Controller: Class that integrate the view and the model
@@ -101,6 +102,20 @@ public class Controller {
         boolean isHidden=win.getCheckbox().getHiddenFiles().isSelected();
         if(searchFor.contains("*."))
             searchFor="";
+        List<Object> uiElements = new ArrayList<>();
+        uiElements.add(path);
+        uiElements.add(searchFor);
+        uiElements.add(content);
+        uiElements.add(extension);
+        uiElements.add(modifDate);
+        uiElements.add(creationDate);
+        uiElements.add(accessDate);
+        uiElements.add(owner);
+        uiElements.add(size);
+        uiElements.add(mode);
+        uiElements.add(isHidden);
+        validator.validateAdvancedTab(uiElements);
+
         basicCriteria=new SearchCriteria(path,searchFor,isHidden,content,extension,size,mode,modifDate,creationDate,accessDate,owner);
         List<Asset> filesFound;
         filesFound=search.getResults(basicCriteria);

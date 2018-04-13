@@ -1,3 +1,4 @@
+POZZO
 ROM
 ACE - 640
 Cell 5
@@ -65,7 +66,7 @@ Cell 1
 5. Spotify 00:11.551
 6. Maps 00:00:11.586
 7. Aliexpress 00:09.051
-8. Cámara 00:11.195
+8. Cï¿½mara 00:11.195
 9. Ajustes 00:02.201
 10. Calendario 00:01.047
 
@@ -78,7 +79,7 @@ Cell 1
 5. Spotify 00:01.835
 6. Maps 00:02.751
 7. Aliexpress 00:05.860
-8. Cámara 00:02.272
+8. Cï¿½mara 00:02.272
 9. Ajustes 00:01.528
 10. Calendario 00:01.293
 

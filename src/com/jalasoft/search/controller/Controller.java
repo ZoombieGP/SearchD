@@ -67,18 +67,13 @@ public class Controller {
     private void fillSearchCriteria() throws IOException {
         validator = new InterfaceValidator();
         win.getTableResult().model.setRowCount(0);
-        if(validator.isValidPath(win.getSearchInTextField()))
-        {
-            basicCriteria= new SearchCriteria(win.getSearchInTextField(),win.getSearchForTextField());
-            List<Asset> filesFound;
-            filesFound=search.getResults(basicCriteria);
+        basicCriteria= new SearchCriteria(win.getSearchInTextField(),win.getSearchForTextField());
+        List<Asset> filesFound;
+        filesFound=search.getResults(basicCriteria);
+        fillTable(filesFound,win.getTableResult());
+        System.out.println(basicCriteria.getPath()+ "    " + basicCriteria.getCriteria()[0]);
 
-            fillTable(filesFound,win.getTableResult());
 
-            for(int i = 0; i<= filesFound.size(); i++){
-                System.out.println("basic/------> " + filesFound.get(i).getFileName());
-            }
-        }
     }
 
     /**
@@ -104,17 +99,13 @@ public class Controller {
         long size = convertToLong(win.getCheckbox().getSizeTextField());
         int mode=0;
         boolean isHidden=win.getCheckbox().getHiddenFiles().isSelected();
+        if(searchFor.contains("*."))
+            searchFor="";
+        basicCriteria=new SearchCriteria(path,searchFor,isHidden,content,extension,size,mode,modifDate,creationDate,accessDate,owner);
+        List<Asset> filesFound;
+        filesFound=search.getResults(basicCriteria);
+        fillTable(filesFound,win.getAdvancedTableResult());
 
-       // if(validator.isValidPath(win.getAdvancedSearchInTextField()))
-       // {
-
-            basicCriteria=new SearchCriteria(path,searchFor,isHidden,content,extension,size,mode,modifDate,creationDate,accessDate,owner);
-            List<Asset> filesFound;
-            filesFound=search.getResults(basicCriteria);
-
-            fillTable(filesFound,win.getAdvancedTableResult());
-
-       // }
 
         System.out.println("Path : "+basicCriteria.getPath());
         System.out.println("text to search : "+basicCriteria.getCriteria()[0]);

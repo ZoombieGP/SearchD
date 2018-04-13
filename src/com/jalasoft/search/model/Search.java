@@ -13,10 +13,7 @@ package com.jalasoft.search.model;
 
 import com.jalasoft.search.controller.SearchCriteria;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -27,6 +24,9 @@ import java.nio.file.attribute.UserPrincipal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+
+import static java.nio.file.Files.isDirectory;
+import static java.nio.file.Files.newDirectoryStream;
 
 
 /**
@@ -45,20 +45,21 @@ public class Search {
      * @return
      * a List of Path
      */
+    private List<Path> files = new ArrayList<>();
+
+
     private List <Path> searchByPath(Path path){
-        List<Path> files = new ArrayList<>();
-        try (DirectoryStream <Path> directoryStream = Files.newDirectoryStream (path)){
-            for (Path subPath: directoryStream){
-                if(Files.isDirectory(subPath)){
-                    files.add(subPath);
-                    searchByPath(subPath);
-                }else {
-                    files.add(subPath);
+        File dir = new File(path.toString());
+        File listFile[] = dir.listFiles();
+        if(listFile != null){
+            for (int i = 0; i< listFile.length; i++){
+                if(listFile[i].isDirectory()){
+                    searchByPath(listFile[i].toPath());
+                    files.add(listFile[i].toPath());
+                }else{
+                    files.add(listFile[i].toPath());
                 }
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
         }
         return(files);
     }
@@ -93,13 +94,9 @@ public class Search {
      */
     private List <Path> searchByHidden(List <Path> inputFiles){
         List <Path> filterResults = new ArrayList<>();
-        System.out.println("tamanio recibido hiiden: " + inputFiles.size());
-        System.out.println("searching hidden");
         if(inputFiles.size() >= 0){
             for (int i = 0; i < inputFiles.size(); i++){
-                System.out.println("hidden : " + inputFiles.get(i).toFile().isHidden());
                 if(inputFiles.get(i).toFile().isHidden()){
-
                     filterResults.add(inputFiles.get(i).toFile().toPath());
                 }
             }
@@ -299,7 +296,6 @@ public class Search {
             for (int i = 0; i < inputFiles.size(); i++){
                 UserPrincipal ownerP = Files.getOwner(inputFiles.get(i));
                 String userName = ownerP.getName();
-                System.out.println("Owner: " +   userName);
                 if(userName.equals(owner)){
                     filterResults.add(inputFiles.get(i).toAbsolutePath());
                 }
@@ -364,9 +360,9 @@ public class Search {
         List<Asset> results;
 
         //Search by Path
-        if(fileName.equals("") && content == null){
+        if(fileName.equals("") || content == null){
+            files.clear();
             resultsTemp = searchByPath(path);
-
             if(isHidden){
                 swapFiles = searchByHidden(resultsTemp);
                 resultsTemp = swapFiles;
@@ -399,11 +395,13 @@ public class Search {
             results = fillAsset(resultsTemp);
         }else{
             if(content!= null){
+                files.clear();
                 resultsTemp = searchByPath(path);
                 swapFiles = searchByContent(resultsTemp, content);
                 resultsTemp= swapFiles;
             }
             if(fileName!= ""){
+                files.clear();
                 resultsTemp = searchByPath(path);
                 swapFiles = searchByName(resultsTemp, fileName);
                 resultsTemp= swapFiles;

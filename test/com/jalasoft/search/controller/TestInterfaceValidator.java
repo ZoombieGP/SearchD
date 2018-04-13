@@ -23,7 +23,7 @@ public class TestInterfaceValidator {
      */
     @Test
     public void isAValidPath(){
-        String path = "D:\\Android tools";
+        String path = "C:\\installers.txt";
         InterfaceValidator pathTest = new InterfaceValidator();
         assertTrue(pathTest.isValidPath(path));
     }

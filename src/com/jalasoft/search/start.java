@@ -28,7 +28,7 @@ public class start {
         //Controller controller = new Controller(search,win);
         //LoggerCreator.getInstance();
         SearchQuery searchQuery= new SearchQuery();
-        String message=searchQuery.addCriteria("pruebaaaa");
+        String message=searchQuery.addCriteria("Json prueba");
         ResultSet result=searchQuery.getAllCriteria();
         System.out.println(message);
         while (result.next()){

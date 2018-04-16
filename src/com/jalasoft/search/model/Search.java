@@ -360,7 +360,7 @@ public class Search {
         List<Asset> results;
 
         //Search by Path
-        if(fileName.equals("") || content == null){
+        if(fileName.equals("") && content == null){
             files.clear();
             resultsTemp = searchByPath(path);
             if(isHidden){

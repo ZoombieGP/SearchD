@@ -30,6 +30,10 @@ public class Checkbox extends JPanel {
     private JTextField sizeTextField;               //Size text field
     private JPanel checkPanel1;                     //First panel
     private JPanel checkPanel2;                     //Second panel
+    private JComboBox sizeComboBox;
+    private JComboBox creationDateComboBox;
+    private JComboBox modificationDateComboBox;
+    private JComboBox accessDateComboBox;
 
     /**
      * Creates the components and add them to respective panels
@@ -43,6 +47,10 @@ public class Checkbox extends JPanel {
         ownerTextField = new JTextField();
         size = new JLabel("  Size (MB): ");
         sizeTextField = new JTextField();
+        sizeComboBox = new JComboBox();
+        sizeComboBox.addItem("=");
+        sizeComboBox.addItem(">");
+        sizeComboBox.addItem("<");
 
         checkPanel1 = new JPanel(new GridLayout(0, 1));
         checkPanel1.add(fileContent);
@@ -50,6 +58,7 @@ public class Checkbox extends JPanel {
         checkPanel1.add(owner);
         checkPanel1.add(ownerTextField);
         checkPanel1.add(size);
+        checkPanel1.add(sizeComboBox);
         checkPanel1.add(sizeTextField);
         checkPanel1.setLayout(new javax.swing.BoxLayout(checkPanel1, BoxLayout.X_AXIS));
         this.add(checkPanel1, BorderLayout.NORTH);
@@ -60,13 +69,28 @@ public class Checkbox extends JPanel {
         modificationDateTextField = new JTextField(7);
         accessDate = new JLabel("  Access Date: ");
         accessDateTextField = new JTextField(7);
+        creationDateComboBox = new JComboBox();
+        creationDateComboBox.addItem("=");
+        creationDateComboBox.addItem(">");
+        creationDateComboBox.addItem("<");
+        modificationDateComboBox = new JComboBox();
+        modificationDateComboBox.addItem("=");
+        modificationDateComboBox.addItem(">");
+        modificationDateComboBox.addItem("<");
+        accessDateComboBox = new JComboBox();
+        accessDateComboBox.addItem("=");
+        accessDateComboBox.addItem(">");
+        accessDateComboBox.addItem("<");
 
         checkPanel2 = new JPanel(new GridLayout(0, 1));
         checkPanel2.add(creationDate);
+        checkPanel2.add(creationDateComboBox);
         checkPanel2.add(creationDateTextField);
         checkPanel2.add(modificationDate);
+        checkPanel2.add(modificationDateComboBox);
         checkPanel2.add(modificationDateTextField);
         checkPanel2.add(accessDate);
+        checkPanel2.add(accessDateComboBox);
         checkPanel2.add(accessDateTextField);
         checkPanel2.setLayout(new javax.swing.BoxLayout(checkPanel2, BoxLayout.X_AXIS));
         this.add(checkPanel2, BorderLayout.CENTER);

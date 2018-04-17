@@ -10,42 +10,44 @@
  */
 package com.jalasoft.search.view;
 
-import javax.swing.JButton;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
-import javax.swing.JTextField;
+import javax.swing.*;
 import java.awt.BorderLayout;
 import java.io.File;
 
 public class Window extends JFrame{
 
-    private JTabbedPane tabPane;                      //Tab Pane contains Simple and Advanced Search Tabs
-    private JPanel simpleTab;                         //Simple Search Tab
-    private JPanel advancedTab;                       //Advanced Search Tab
-    private JPanel searchInPanel;                     //Panel contains Search In Field Name, Text Field Browse button
-    private JTextField searchInTextField;             //Search In Text Field
-    private JLabel searchInFieldName;                 //Search In Field Name
-    private JButton browseButton;                     //Browse Button
-    private JPanel searchForPanel;                    //Panel contains Search For Field Name, Text Field, Search button
-    private JTextField searchForTextField;            //Search For Text Field
-    private JLabel searchForFieldName;                //Search For Field Name
-    private JButton searchButton;                     //Search Button
-    private Table tableResult;                        //Results Table
-
-    private JPanel searchInPanel2;                     //Panel contains Search In Field Name, Text Field Browse button
-    private JTextField searchInTextField2;             //Search In Text Field
-    private JLabel searchInFieldName2;                 //Search In Field Name
-    private JButton browseButton2;                     //Browse Button
-    private JPanel searchForPanel2;                    //Panel contains Search For Field Name, Text Field, Search button
-    private JTextField searchForTextField2;            //Search For Text Field
-    private JLabel searchForFieldName2;                //Search For Field Name
-    private JButton searchButton2;                     //Search Button
-    private Table tableResult2;                        //Results Table
-
+    private JTabbedPane tabPane;                       //Tab Pane contains Simple and Advanced Search Tabs
+    private JPanel simpleTab;                          //Simple Search Tab
+    private JPanel advancedTab;                        //Advanced Search Tab
+    private JPanel savedSearchCriteriaTab;             //Saved Search Criteria Tab
+    private JPanel searchInPanel;                      //Panel contains Search In Field Name, Text Field Browse button
+    private JTextField searchInTextField;              //Search In Text Field
+    private JLabel searchInFieldName;                  //Search In Field Name
+    private JButton browseButton;                      //Browse Button
+    private JPanel searchForPanel;                     //Panel contains Search For Field Name, Text Field, Search button
+    private JTextField searchForTextField;             //Search For Text Field
+    private JLabel searchForFieldName;                 //Search For Field Name
+    private JButton searchButton;                      //Search Button
+    private Table tableResult;                         //Results Table
+    private JLabel saveLabel;                          //Save Label
+    private JTextField saveTextField;                  //Save Text Field
+    private JButton saveButton;                        //Save Button
+    private JPanel searchInPanel2;                     //Panel contains Advanced Search In Field Name, Text Field Browse button
+    private JTextField searchInTextField2;             //Advanced Search In Text Field
+    private JLabel searchInFieldName2;                 //Advanced Search In Field Name
+    private JButton browseButton2;                     //Advanced Browse Button
+    private JPanel searchForPanel2;                    //Panel contains Advanced Search For Field Name, Text Field, Search button
+    private JTextField searchForTextField2;            //Advanced Search For Text Field
+    private JLabel searchForFieldName2;                //Advanced Search For Field Name
+    private JButton searchButton2;                     //Advanced Search Button
+    private Table tableResult2;                        //Advanced Results Table
+    private JLabel saveLabel2;                         //Advanced Save Label
+    private JTextField saveTextField2;                 //Advanced Save Text Field
+    private JButton saveButton2;                       //Advanced Save Button
     private Checkbox checkbox;                         //Advanced Search Checkboxes
+    private Table criteriaTable;                       //Criteria Table
+    private JPanel loadButtonPanel;                    //Panel contains Load Button
+    private JButton loadButton;                        //Load Button
 
     /**
      * Builder method:
@@ -76,60 +78,70 @@ public class Window extends JFrame{
         tabPane = new JTabbedPane();
         simpleTab = new JPanel();
         advancedTab = new JPanel();
-
+        savedSearchCriteriaTab = new JPanel();
         searchInPanel = new JPanel();
         searchInFieldName = new JLabel();
         searchInTextField = new JTextField(40);
         browseButton = new JButton();
-        tableResult = new Table(725,400);
-
+        String[] columnNames = new String[]{"Path", "File Name", "Is Directory?", "Is Hidden?", "Size","Date Modified"};
+        tableResult = new Table(725,380,columnNames);
         searchForPanel = new JPanel();
         searchForFieldName = new JLabel();
         searchForTextField = new JTextField(40);
         searchButton = new JButton();
+        saveLabel = new JLabel();
+        saveTextField = new JTextField(40);
+        saveButton = new JButton();
 
         searchInFieldName.setText("Search In:");
         browseButton.setText("Browse...");
         searchForFieldName.setText("Search For:");
         searchButton.setText("Search");
+        saveLabel.setText("Save Search Criteria: ");
+        saveButton.setText("Save");
 
         tabPane.add("Simple Search",simpleTab);
         tabPane.add("Advanced Search",advancedTab);
+        tabPane.add("Saved Search Criteria",savedSearchCriteriaTab);
         searchInPanel.add(searchInFieldName);
         searchInPanel.add(searchInTextField);
         searchInPanel.add(browseButton);
         browseButton.addActionListener(e -> createFileChooser(searchInTextField));
-
         searchForPanel.add(searchForFieldName);
         searchForPanel.add(searchForTextField);
         searchForPanel.add(searchButton);
         simpleTab.add(searchInPanel);
         simpleTab.add(searchForPanel);
         simpleTab.add(tableResult);
+        simpleTab.add(saveLabel);
+        simpleTab.add(saveTextField);
+        simpleTab.add(saveButton);
 
         searchInPanel2 = new JPanel();
         searchInFieldName2 = new JLabel();
         searchInTextField2 = new JTextField(40);
         browseButton2 = new JButton();
-        tableResult2 = new Table(725,350);
-
+        tableResult2 = new Table(725,325,columnNames);
         searchForPanel2 = new JPanel();
         searchForFieldName2 = new JLabel();
         searchForTextField2 = new JTextField(40);
         searchButton2 = new JButton();
-
         checkbox = new Checkbox();
+        saveLabel2 = new JLabel();
+        saveTextField2 = new JTextField(40);
+        saveButton2 = new JButton();
 
         searchInFieldName2.setText("Search In:");
         browseButton2.setText("Browse...");
         searchForFieldName2.setText("Search For:");
         searchButton2.setText("Search");
+        saveLabel2.setText("Save Search Criteria: ");
+        saveButton2.setText("Save");
 
         searchInPanel2.add(searchInFieldName2);
         searchInPanel2.add(searchInTextField2);
         searchInPanel2.add(browseButton2);
         browseButton2.addActionListener(e -> createFileChooser(searchInTextField2));
-
         searchForPanel2.add(searchForFieldName2);
         searchForPanel2.add(searchForTextField2);
         searchForPanel2.add(searchButton2);
@@ -137,6 +149,17 @@ public class Window extends JFrame{
         advancedTab.add(searchForPanel2);
         advancedTab.add(checkbox);
         advancedTab.add(tableResult2);
+        advancedTab.add(saveLabel2);
+        advancedTab.add(saveTextField2);
+        advancedTab.add(saveButton2);
+
+        String[] columnNames2 = new String[]{"ID","Name","Type"};
+        criteriaTable = new Table(725,460,columnNames2);
+        loadButtonPanel = new JPanel();
+        loadButton = new JButton("Load");
+        savedSearchCriteriaTab.add(criteriaTable, BorderLayout.NORTH);
+        savedSearchCriteriaTab.add(loadButtonPanel,BorderLayout.SOUTH);
+        loadButtonPanel.add(loadButton);
 
         this.getContentPane().setLayout(new BorderLayout());
         this.getContentPane().add(tabPane);

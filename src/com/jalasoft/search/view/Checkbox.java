@@ -16,6 +16,7 @@ import java.awt.GridLayout;
 
 public class Checkbox extends JPanel {
 
+    private JCheckBox directoriesOnly;              //Directories Only checkbox
     private JCheckBox fileContent;                  //File Content checkbox
     private JCheckBox hiddenFiles;                  //Hidden Files checkbox
     private JLabel creationDate;                    //Creation Date label
@@ -30,10 +31,10 @@ public class Checkbox extends JPanel {
     private JTextField sizeTextField;               //Size text field
     private JPanel checkPanel1;                     //First panel
     private JPanel checkPanel2;                     //Second panel
-    private JComboBox sizeComboBox;
-    private JComboBox creationDateComboBox;
-    private JComboBox modificationDateComboBox;
-    private JComboBox accessDateComboBox;
+    private JComboBox sizeComboBox;                 //Size combo box
+    private JComboBox creationDateComboBox;         //Creation Date combo box
+    private JComboBox modificationDateComboBox;     //Modification Date combo box
+    private JComboBox accessDateComboBox;           //Access Date combo box
 
     /**
      * Creates the components and add them to respective panels
@@ -41,6 +42,7 @@ public class Checkbox extends JPanel {
      */
     public Checkbox() {
         super(new BorderLayout());
+        directoriesOnly = new JCheckBox("Directories Only");
         fileContent = new JCheckBox("File Content");
         hiddenFiles = new JCheckBox("Hidden Files");
         owner = new JLabel("  Owner: ");
@@ -53,6 +55,7 @@ public class Checkbox extends JPanel {
         sizeComboBox.addItem("<");
 
         checkPanel1 = new JPanel(new GridLayout(0, 1));
+        checkPanel1.add(directoriesOnly);
         checkPanel1.add(fileContent);
         checkPanel1.add(hiddenFiles);
         checkPanel1.add(owner);
@@ -118,6 +121,14 @@ public class Checkbox extends JPanel {
      */
     public String getModificationDateTextField() {
         return modificationDateTextField.getText();
+    }
+
+    /**
+     * Get the Directories Only checkbox
+     * @return the current Directories Only checkbox object
+     */
+    public JCheckBox getDirectoriesOnly() {
+        return directoriesOnly;
     }
 
     /**

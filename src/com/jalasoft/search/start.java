@@ -10,12 +10,21 @@ package com.jalasoft.search;
  * accordance with the terms of the license agreement you entered into
  */
 
+import com.jalasoft.search.common.SaveCriteria;
+import com.jalasoft.search.common.SearchQuery;
 import com.jalasoft.search.controller.Controller;
 import com.jalasoft.search.controller.LoggerCreator;
+import com.jalasoft.search.controller.SearchCriteriaBasic;
 import com.jalasoft.search.model.Search;
 import com.jalasoft.search.view.Window;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
+
 public class start {
+
     public static void main(String [ ] args) {
         LoggerCreator.getInstance().getLogger().info("Enter");
         Search search = new Search();

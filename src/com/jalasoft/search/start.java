@@ -14,7 +14,7 @@ import com.jalasoft.search.common.SaveCriteria;
 import com.jalasoft.search.common.SearchQuery;
 import com.jalasoft.search.controller.Controller;
 import com.jalasoft.search.controller.LoggerCreator;
-import com.jalasoft.search.controller.SearchCriteriaBasic;
+import com.jalasoft.search.controller.SearchCriteria;
 import com.jalasoft.search.model.Search;
 import com.jalasoft.search.view.Window;
 

@@ -10,6 +10,7 @@
  */
 package com.jalasoft.search.controller;
 import com.jalasoft.search.common.Converter;
+import com.jalasoft.search.common.SaveCriteria;
 import com.jalasoft.search.model.Asset;
 import com.jalasoft.search.model.Directory;
 import com.jalasoft.search.model.FileSearch;
@@ -18,6 +19,7 @@ import com.jalasoft.search.view.Window;
 import com.jalasoft.search.model.Search;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -58,6 +60,15 @@ public class Controller {
                 e1.printStackTrace();
             }
         });
+        win.getSaveButton().addActionListener(e -> {
+            try {
+                saveCriteria(win.getSearchInTextField(),win.getSearchForTextField());
+
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+        });
+
     }
 
     /**
@@ -151,17 +162,17 @@ public class Controller {
     private String getExtension(String searchFor) {
 
         String [] aux=searchFor.split("\\.");
-            if(aux.length-1!=0)
-                return aux[aux.length-1];
-            return null;
+        if(aux.length-1!=0)
+            return aux[aux.length-1];
+        return null;
     }
 
     private String getDate(String date) {
         if(date.isEmpty())
             return null;
-         return date;
+        return date;
 
-        }
+    }
 
 
     /**
@@ -182,6 +193,21 @@ public class Controller {
                 table.fillTableResult(new Object[]{filesFound.get(i).getPath(),filesFound.get(i).getFileName(),filesFound.get(i).getIsDirectory(),filesFound.get(i).isHidden(),converter.formatFileSize(filesFound.get(i).getSize()),filesFound.get(i).getModificationDate()});
             }
         }
+
+    }
+
+    private void saveCriteria(String path , String searchFor) throws IOException{
+        String extension=getExtension(searchFor);
+        SearchCriteria searchCriteria= new SearchCriteria(path,searchFor,extension);
+        SaveCriteria saveCriteria=new SaveCriteria();
+        saveCriteria.saveCriteria(searchCriteria);
+        try {
+            saveCriteria.getAllData().forEach( (k,v) -> System.out.println("Key: " + k + ": Value: " + v.getPath()));
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
 
     }
 

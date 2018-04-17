@@ -26,17 +26,17 @@ public class Table extends JPanel {
      * Table: Construct method
      * Method that construct a Controller object Table in base to JTable with a model
      */
-    public Table(int width , int height){
+    public Table(int width , int height, String [] columnNames){
         super(new GridLayout(1,0));
-        columnNames = new String[]{"Path", "File Name", "Is Directory?", "Is Hidden?", "Size","Date Modified"};
-        createTable(width,height);
+        //columnNames = new String[]{"Path", "File Name", "Is Directory?", "Is Hidden?", "Size","Date Modified"};
+        createTable(width,height,columnNames);
     }
 
     /**
      * Instance the objects : JTable JScrollPane ,
      * and initialize its properties and columns of the table
      */
-    private void createTable(int width , int height) {
+    private void createTable(int width , int height,String [] columnNames) {
         model= new DefaultTableModel();
         final JTable table = new JTable(model);
         JScrollPane scrollPane = new JScrollPane(table);
@@ -48,7 +48,7 @@ public class Table extends JPanel {
 
         table.setPreferredScrollableViewportSize(new Dimension(width,height));
         table.setFillsViewportHeight(true);
-        table.setEnabled(false);
+        table.setEnabled(true);
         add(scrollPane);
     }
 

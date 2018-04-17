@@ -9,9 +9,11 @@
  * accordance with the terms of the license agreement you entered into
  */
 package com.jalasoft.search.controller;
+import com.jalasoft.search.common.Converter;
 import com.jalasoft.search.model.Asset;
 import com.jalasoft.search.model.Directory;
 import com.jalasoft.search.model.FileSearch;
+import com.jalasoft.search.view.Table;
 import com.jalasoft.search.view.Window;
 import com.jalasoft.search.model.Search;
 
@@ -30,7 +32,8 @@ public class Controller {
     private Window win;
     private Search search;
     private InterfaceValidator validator;
-    private SearchCriteriaBasic basicCriteria;
+    private SearchCriteria basicCriteria;
+    private Converter converter =new Converter();
 
     /**
      * Controller: Construct method
@@ -47,6 +50,14 @@ public class Controller {
                 e1.printStackTrace();
             }
         });
+
+        win.getAdvancedSearchButton().addActionListener(e -> {
+            try {
+                fillSearchCriteriaAdvanced();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+        });
     }
 
     /**
@@ -56,37 +67,124 @@ public class Controller {
     private void fillSearchCriteria() throws IOException {
         validator = new InterfaceValidator();
         win.getTableResult().model.setRowCount(0);
-        if(validator.isValidPath(win.getSearchInTextField()))
-        {
-            basicCriteria= new SearchCriteriaBasic(win.getSearchInTextField(),win.getSearchForTextField());
-            List<Asset> filesFound;
-            filesFound=search.getResults(basicCriteria);
-            fillTable(filesFound);
-        }
+        String path=win.getSearchInTextField();
+        String searchFor=win.getSearchForTextField();
+        String extension = getExtension(searchFor);
+        if(searchFor.contains("*."))
+            searchFor="";
+        basicCriteria=new SearchCriteria(path,searchFor,extension);
+
+        List<Asset> filesFound;
+        filesFound=search.getResults(basicCriteria);
+        fillTable(filesFound,win.getTableResult());
     }
+
+    /**
+     * Get the UI dta ,Fill the search criteria advanced and create the object
+     * @throws IOException
+     */
+    private void fillSearchCriteriaAdvanced()throws IOException{
+        validator = new InterfaceValidator();
+        win.getAdvancedTableResult().model.setRowCount(0);
+
+
+        String path=win.getAdvancedSearchInTextField();
+        String searchFor=win.getAdvancedSearchForTextField();
+        String content=getContentOfSearchFor(searchFor,win.getCheckbox().getFileContent().isSelected());
+        if(win.getCheckbox().getFileContent().isSelected())
+            searchFor="";
+
+        String extension=getExtension(searchFor);
+        String modifDate=getDate(win.getCheckbox().getModificationDateTextField());
+        String creationDate=getDate(win.getCheckbox().getCreationDateTextField());
+        String accessDate=getDate(win.getCheckbox().getAccessDateTextField());
+        String owner=getDate(win.getCheckbox().getOwnerTextField());
+        long size = convertToLong(win.getCheckbox().getSizeTextField());
+        int mode=0;
+        boolean isHidden=win.getCheckbox().getHiddenFiles().isSelected();
+        if(searchFor.contains("*."))
+            searchFor="";
+        basicCriteria=new SearchCriteria(path,searchFor,isHidden,content,extension,size,mode,modifDate,creationDate,accessDate,owner,false);
+        List<Asset> filesFound;
+        filesFound=search.getResults(basicCriteria);
+        fillTable(filesFound,win.getAdvancedTableResult());
+    }
+
+    /**
+     * Convert the size in  MB  to long in bytes
+     * @param sizeTextField
+     * @return
+     */
+    private long convertToLong(String sizeTextField) {
+        if(!sizeTextField.isEmpty())
+        {
+            int InBytes=Integer.parseInt(sizeTextField);
+            InBytes=InBytes*1024*1024;
+            return Long.valueOf(InBytes);
+        }
+        else
+            return -1;
+
+    }
+
+    /**
+     * Fill the content with the search for text if the content is selected
+     * @param searchFor
+     * @param isSelect
+     * @return
+     */
+    private String getContentOfSearchFor(String searchFor,boolean isSelect) {
+
+        if(isSelect)
+        {
+            return searchFor;
+        }
+
+        return null;
+    }
+
+    /**
+     * get the extension of the searchFor text
+     * @param searchFor
+     * @return
+     */
+    private String getExtension(String searchFor) {
+
+        String [] aux=searchFor.split("\\.");
+            if(aux.length-1!=0)
+                return aux[aux.length-1];
+            return null;
+    }
+
+    private String getDate(String date) {
+        if(date.isEmpty())
+            return null;
+         return date;
+
+        }
+
 
     /**
      * Method that receive the file found and fill the table of result in the UI.
      * @param filesFound
      */
-    private void fillTable(List<Asset> filesFound){
+    private void fillTable(List<Asset> filesFound, Table table){
+
+
 
         for (int i= 0; i < filesFound.size(); i++){
+
+
             if(filesFound.get(i) instanceof Directory){
-                win.getTableResult().fillTableResult(new Object[]{filesFound.get(i).getPath(),filesFound.get(i).getFileName(),filesFound.get(i).getIsDirectory(),filesFound.get(i).isHidden(),filesFound.get(i).getSize(),filesFound.get(i).getModificationDate()});
+                table.fillTableResult(new Object[]{filesFound.get(i).getPath(),filesFound.get(i).getFileName(),filesFound.get(i).getIsDirectory(),filesFound.get(i).isHidden(),converter.formatFileSize(filesFound.get(i).getSize()),filesFound.get(i).getModificationDate()});
             }
             if (filesFound.get(i) instanceof FileSearch){
-                win.getTableResult().fillTableResult(new Object[]{filesFound.get(i).getPath(),filesFound.get(i).getFileName(),filesFound.get(i).getIsDirectory(),filesFound.get(i).isHidden(),filesFound.get(i).getSize(),filesFound.get(i).getModificationDate()});
+                table.fillTableResult(new Object[]{filesFound.get(i).getPath(),filesFound.get(i).getFileName(),filesFound.get(i).getIsDirectory(),filesFound.get(i).isHidden(),converter.formatFileSize(filesFound.get(i).getSize()),filesFound.get(i).getModificationDate()});
             }
         }
-        /*for (Asset file:filesFound)
-        {
-
-
-            //win.getTableResult().fillTableResult(new Object[]{file.getPath(),file.getName(),file.getIsDirectory(),file.getIsHidden(),file.getSize(),file.getDateModification()});
-            win.getTableResult().fillTableResult(new Object[]{file.getPath(),file.getFileName(),file.ge,file.isHidden(),file.getSize(),file.getModificationDate()});
-        }*/
 
     }
+
 }
+
 

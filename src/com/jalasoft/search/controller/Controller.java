@@ -67,7 +67,6 @@ public class Controller {
     private void fillSearchCriteria() throws IOException {
         validator = new InterfaceValidator();
         win.getTableResult().model.setRowCount(0);
-        //******
         String path=win.getSearchInTextField();
         String searchFor=win.getSearchForTextField();
         String extension = getExtension(searchFor);

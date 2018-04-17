@@ -48,7 +48,7 @@ public class Table extends JPanel {
 
         table.setPreferredScrollableViewportSize(new Dimension(width,height));
         table.setFillsViewportHeight(true);
-        //table.setEnabled(false);
+        table.setEnabled(true);
         add(scrollPane);
     }
 

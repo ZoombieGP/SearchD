@@ -10,7 +10,13 @@
  */
 package com.jalasoft.search.view;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
+import javax.swing.JTextField;
 import java.awt.BorderLayout;
 import java.io.File;
 
@@ -166,6 +172,21 @@ public class Window extends JFrame{
     }
 
     /**
+     * Method to create the File Chooser, set as directories only
+     * and to fill the Search In Text Field with the selected path
+     * @param field
+     */
+    private void createFileChooser(JTextField field){
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        int returnValue = fileChooser.showOpenDialog(null);
+        if (returnValue == JFileChooser.APPROVE_OPTION) {
+            File selectedPath = fileChooser.getSelectedFile();
+            field.setText(selectedPath.getPath());
+        }
+    }
+
+    /**
      * Get the Search button
      * @return the current Search button object
      */
@@ -228,6 +249,7 @@ public class Window extends JFrame{
     public Table getAdvancedTableResult (){
         return this.tableResult2;
     }
+
     /**
      * Get the Checkbox
      * @return the current Checkbox object
@@ -237,17 +259,86 @@ public class Window extends JFrame{
     }
 
     /**
-     * Method to create the File Chooser, set as directories only
-     * and to fill the Search In Text Field with the selected path
-     * @param field
+     * Get the Criteria Table
+     * @return the current Criteria Table object
      */
-    private void createFileChooser(JTextField field){
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        int returnValue = fileChooser.showOpenDialog(null);
-        if (returnValue == JFileChooser.APPROVE_OPTION) {
-            File selectedPath = fileChooser.getSelectedFile();
-            field.setText(selectedPath.getPath());
-        }
+    public Table getCriteriaTable (){
+        return this.criteriaTable;
+    }
+
+    /**
+     * Get the Load Button
+     * @return the current Load Button object
+     */
+    public JButton getLoadButton (){
+        return this.loadButton;
+    }
+
+    /**
+     * Set the Search In Text Field
+     * @param searchInTextField
+     */
+    public void setSearchInTextField(JTextField searchInTextField, String text) {
+        this.searchInTextField = searchInTextField;
+        this.searchInTextField.setText(text);
+    }
+
+    /**
+     * Set the Search For Text Field
+     * @param searchForTextField
+     */
+    public void setSearchForTextField(JTextField searchForTextField, String text) {
+        this.searchForTextField = searchForTextField;
+        this.searchForTextField.setText(text);
+    }
+
+    /**
+     * Set the Advanced Search In Text Field
+     * @param searchInTextField2
+     */
+    public void setSearchInTextField2(JTextField searchInTextField2, String text) {
+        this.searchInTextField2 = searchInTextField2;
+        this.searchForTextField2.setText(text);
+    }
+
+    /**
+     * Set the Advanced Search For Text Field
+     * @param searchForTextField2
+     */
+    public void setSearchForTextField2(JTextField searchForTextField2, String text) {
+        this.searchForTextField2 = searchForTextField2;
+        this.searchForTextField2.setText(text);
+    }
+
+    /**
+     * Get the Save Button
+     * @return the current Save Button object
+     */
+    public JButton getSaveButton() {
+        return saveButton;
+    }
+
+    /**
+     * Get the Save Text Field
+     * @return the current Save Text Field in String format
+     */
+    public String getSaveTextField() {
+        return this.saveTextField.getText();
+    }
+
+    /**
+     * Get the Advanced Save Button
+     * @return the current Advanced Save Button object
+     */
+    public JButton getSaveButton2() {
+        return saveButton2;
+    }
+
+    /**
+     * Get the Advanced Save Text Field
+     * @return the current Advanced Save Text Field in String format
+     */
+    public String getSaveTextField2() {
+        return this.saveTextField2.getText();
     }
 }

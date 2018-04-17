@@ -67,13 +67,17 @@ public class Controller {
     private void fillSearchCriteria() throws IOException {
         validator = new InterfaceValidator();
         win.getTableResult().model.setRowCount(0);
-        basicCriteria= new SearchCriteria(win.getSearchInTextField(),win.getSearchForTextField());
+        //******
+        String path=win.getSearchInTextField();
+        String searchFor=win.getSearchForTextField();
+        String extension = getExtension(searchFor);
+        if(searchFor.contains("*."))
+            searchFor="";
+        basicCriteria=new SearchCriteria(path,searchFor,extension);
+
         List<Asset> filesFound;
         filesFound=search.getResults(basicCriteria);
         fillTable(filesFound,win.getTableResult());
-        System.out.println(basicCriteria.getPath()+ "    " + basicCriteria.getCriteria()[0]);
-
-
     }
 
     /**
@@ -101,23 +105,10 @@ public class Controller {
         boolean isHidden=win.getCheckbox().getHiddenFiles().isSelected();
         if(searchFor.contains("*."))
             searchFor="";
-        basicCriteria=new SearchCriteria(path,searchFor,isHidden,content,extension,size,mode,modifDate,creationDate,accessDate,owner);
+        basicCriteria=new SearchCriteria(path,searchFor,isHidden,content,extension,size,mode,modifDate,creationDate,accessDate,owner,false);
         List<Asset> filesFound;
         filesFound=search.getResults(basicCriteria);
         fillTable(filesFound,win.getAdvancedTableResult());
-
-
-        System.out.println("Path : "+basicCriteria.getPath());
-        System.out.println("text to search : "+basicCriteria.getCriteria()[0]);
-        System.out.println("Is hidden? : "+basicCriteria.getIsHidden());
-        System.out.println("Content : "+basicCriteria.getContent());
-        System.out.println("Extension : "+basicCriteria.getExtension());
-        System.out.println("Size in bytes : "+basicCriteria.getSize());
-        System.out.println("Mode : "+basicCriteria.getMode());
-        System.out.println("Date of mod : "+basicCriteria.getModificationDate());
-        System.out.println("Date of cre : "+basicCriteria.getCreationDate());
-        System.out.println("Date of acc : "+basicCriteria.getAccessDate());
-        System.out.println("Date of owner : "+basicCriteria.getOwner());
     }
 
     /**

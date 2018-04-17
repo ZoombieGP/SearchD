@@ -64,6 +64,19 @@ public class Search {
         return(files);
     }
 
+    private List <Path> searchByDirectory(Path path){
+        File dir = new File(path.toString());
+        File listFile[] = dir.listFiles();
+        if(listFile != null){
+            for (int i = 0; i< listFile.length; i++){
+                if(listFile[i].isDirectory()){
+                    searchByPath(listFile[i].toPath());
+                    files.add(listFile[i].toPath());
+                }
+            }
+        }
+        return(files);
+    }
     /**
      * searchByName method, searches into a List of Paths specific files giving a file Name and returns a filtered List of Path
      * @param inputFiles
@@ -353,6 +366,7 @@ public class Search {
         String accessDate= criteria.getAccessDate();
         String creationDate= criteria.getCreationDate();
         String owner= criteria.getOwner();
+        boolean isDirectory = criteria.getIsDirectory();
 
         List <Path> swapFiles;
         List <Path> resultsTemp = null;
@@ -363,6 +377,10 @@ public class Search {
         if(fileName.equals("") && content == null){
             files.clear();
             resultsTemp = searchByPath(path);
+            if(isDirectory){
+                swapFiles = searchByDirectory(path);
+                resultsTemp = swapFiles;
+            }
             if(isHidden){
                 swapFiles = searchByHidden(resultsTemp);
                 resultsTemp = swapFiles;
@@ -394,6 +412,11 @@ public class Search {
 
             results = fillAsset(resultsTemp);
         }else{
+            if(isDirectory){
+                files.clear();
+                swapFiles = searchByDirectory(path);
+                resultsTemp = swapFiles;
+            }
             if(content!= null){
                 files.clear();
                 resultsTemp = searchByPath(path);

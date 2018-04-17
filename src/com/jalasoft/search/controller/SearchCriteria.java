@@ -29,16 +29,26 @@ public class SearchCriteria {
     private String creationDate;
     private String accessDate;
     private String owner;
+    private boolean isDirectory;
 
 
     /**
      * SearchCriteria Constructor
      * Inicialize the path and the text to search(criteria)
      */
-    public SearchCriteria(String path , String textToSearch){
+    public SearchCriteria(String path , String textToSearch , String extension){
 
         this.criteria=splitTextToSearch(textToSearch);
         this.pathToSearch=path;
+        this.extension=extension;
+        this.isHidden=false;
+        this.content=null;
+        this.size=-1;
+        this.mode=0;
+        this.modificationDate=null;
+        this.creationDate=null;
+        this.accessDate=null;
+        this.isDirectory=false;
     }
 
     /**
@@ -55,7 +65,7 @@ public class SearchCriteria {
      * @param accessDate
      * @param owner
      */
-    public SearchCriteria(String path, String searchFor, boolean isHidden , String content, String extension , long size , int mode , String modificationDate, String creationDate , String accessDate, String owner){
+    public SearchCriteria(String path, String searchFor, boolean isHidden , String content, String extension , long size , int mode , String modificationDate, String creationDate , String accessDate, String owner , boolean isDirectory){
         this.pathToSearch=path;
         this.criteria=splitTextToSearch(searchFor);
         this.isHidden=isHidden;
@@ -67,6 +77,8 @@ public class SearchCriteria {
         this.creationDate=creationDate;
         this.accessDate=accessDate;
         this.owner=owner;
+        this.isDirectory=isDirectory;
+
 
     }
 
@@ -137,6 +149,10 @@ public class SearchCriteria {
      * @return
      */
     public String getOwner() {return owner;}
+
+    public boolean getIsDirectory() {
+        return isDirectory;
+    }
 
     /**
      * Split the criteris by ";"

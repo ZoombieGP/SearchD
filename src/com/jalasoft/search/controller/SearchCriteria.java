@@ -24,13 +24,31 @@ public class SearchCriteria {
     private String content;
     private String extension;
     private long size;
-    private int mode; //0 for equal, 1 for major than, 2 for minor than
+    private int modeSize; //0 for equal, 1 for major than, 2 for minor than
     private String modificationDate;
     private String creationDate;
     private String accessDate;
     private String owner;
     private boolean isDirectory;
+    private int modeMdate;
+    private int modeCdate;
+    private int modeAdate;
 
+    public boolean isDirectory() {
+        return isDirectory;
+    }
+
+    public int getModeMdate() {
+        return modeMdate;
+    }
+
+    public int getModeCdate() {
+        return modeCdate;
+    }
+
+    public int getModeAdate() {
+        return modeAdate;
+    }
 
     /**
      * SearchCriteria Constructor
@@ -44,7 +62,7 @@ public class SearchCriteria {
         this.isHidden=false;
         this.content=null;
         this.size=-1;
-        this.mode=0;
+        this.modeSize=0;
         this.modificationDate=null;
         this.creationDate=null;
         this.accessDate=null;
@@ -59,27 +77,29 @@ public class SearchCriteria {
      * @param content
      * @param extension
      * @param size
-     * @param mode
+     * @param modeSize
      * @param modificationDate
      * @param creationDate
      * @param accessDate
      * @param owner
      */
-    public SearchCriteria(String path, String searchFor, boolean isHidden , String content, String extension , long size , int mode , String modificationDate, String creationDate , String accessDate, String owner , boolean isDirectory){
+    public SearchCriteria(String path, String searchFor, boolean isHidden , String content, String extension , long size , int modeSize ,
+                          String modificationDate, String creationDate , String accessDate, String owner , boolean isDirectory , int modeMdate , int modeCdate , int modeAdate){
         this.pathToSearch=path;
         this.criteria=splitTextToSearch(searchFor);
         this.isHidden=isHidden;
         this.content=content;
         this.extension=extension;
         this.size=size;
-        this.mode=mode;
+        this.modeSize=modeSize;
         this.modificationDate=modificationDate;
         this.creationDate=creationDate;
         this.accessDate=accessDate;
         this.owner=owner;
         this.isDirectory=isDirectory;
-
-
+        this.modeCdate=modeCdate;
+        this.modeMdate=modeMdate;
+        this.modeAdate=modeAdate;
     }
 
     /**
@@ -122,7 +142,7 @@ public class SearchCriteria {
      * Get the mode
      * @return
      */
-    public int getMode () { return mode;}
+    public int getModeSize () { return modeSize;}
 
     /**
      * Get the creation date

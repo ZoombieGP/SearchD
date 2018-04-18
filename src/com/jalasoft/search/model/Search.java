@@ -361,7 +361,7 @@ public class Search {
         String content = criteria.getContent();
         String ext = criteria. getExtension();
         Long size = criteria.getSize();
-        int mode = criteria.getMode();
+        int mode = criteria.getModeSize();
         String modificationDate = criteria.getModificationDate();
         String accessDate= criteria.getAccessDate();
         String creationDate= criteria.getCreationDate();

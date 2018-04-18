@@ -245,6 +245,22 @@ public class Checkbox extends JPanel {
         this.modificationDateComboBox.setSelectedItem(text);
     }
 
+    public JComboBox getSizeComboBox() {
+        return sizeComboBox;
+    }
+
+    public JComboBox getCreationDateComboBox() {
+        return creationDateComboBox;
+    }
+
+    public JComboBox getModificationDateComboBox() {
+        return modificationDateComboBox;
+    }
+
+    public JComboBox getAccessDateComboBox() {
+        return accessDateComboBox;
+    }
+
     /**
      * Set the Access Date combo box
      * @param accessDateComboBox
@@ -252,6 +268,7 @@ public class Checkbox extends JPanel {
     public void setAccessDateComboBox(JComboBox accessDateComboBox, String text) {
         this.accessDateComboBox = accessDateComboBox;
         this.accessDateComboBox.setSelectedItem(text);
+
     }
 
     /**

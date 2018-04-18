@@ -115,10 +115,37 @@ public class Controller {
         boolean isHidden=win.getCheckbox().getHiddenFiles().isSelected();
         if(searchFor.contains("*."))
             searchFor="";
-        basicCriteria=new SearchCriteria(path,searchFor,isHidden,content,extension,size,mode,modifDate,creationDate,accessDate,owner,false);
-        List<Asset> filesFound;
-        filesFound=search.getResults(basicCriteria);
-        fillTable(filesFound,win.getAdvancedTableResult());
+        boolean isDirectory =win.getCheckbox().getDirectoriesOnly().isSelected();
+        int modeSize= win.getCheckbox().getSizeComboBox().getSelectedIndex();
+        int modeMdate=win.getCheckbox().getModificationDateComboBox().getSelectedIndex();
+        int modeCdate=win.getCheckbox().getCreationDateComboBox().getSelectedIndex();
+        int modeAdate=win.getCheckbox().getAccessDateComboBox().getSelectedIndex();
+        /**
+        System.out.println("Mode creation :"+modeCdate);
+        System.out.println("Mode modification :"+modeMdate);
+        System.out.println("Mode acess :"+modeAdate);
+         */
+        basicCriteria=new SearchCriteria(path,searchFor,isHidden,content,extension,size,modeSize,modifDate,creationDate,accessDate,owner,isDirectory,modeMdate,modeCdate,modeAdate);
+
+        System.out.println(basicCriteria.getPath());
+        System.out.println(basicCriteria.getCriteria()[0]);
+        System.out.println(basicCriteria.getIsHidden());
+        System.out.println(basicCriteria.getContent());
+        System.out.println(basicCriteria.getExtension());
+        System.out.println(basicCriteria.getSize());
+        System.out.println(basicCriteria.getModeSize());
+        System.out.println(basicCriteria.getModificationDate());
+        System.out.println(basicCriteria.getCreationDate());
+        System.out.println(basicCriteria.getAccessDate());
+        System.out.println(basicCriteria.getOwner());
+        System.out.println(basicCriteria.getIsDirectory());
+        System.out.println(basicCriteria.getModeCdate());
+        System.out.println(basicCriteria.getModeMdate());
+        System.out.println(basicCriteria.getModeAdate());
+
+        //List<Asset> filesFound;
+        //filesFound=search.getResults(basicCriteria);
+        //fillTable(filesFound,win.getAdvancedTableResult());
     }
 
     /**

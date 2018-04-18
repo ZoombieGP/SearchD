@@ -69,6 +69,20 @@ public class Controller {
             }
         });
 
+        win.getLoadButton().addActionListener(e -> {
+            try {
+                try {
+                    loadCriteria();
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
+                //saveCriteria(win.getSearchInTextField(),win.getSearchForTextField());
+
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+        });
+
     }
 
     /**
@@ -234,6 +248,22 @@ public class Controller {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+
+    }
+
+    private void loadCriteria() throws IOException, SQLException {
+
+
+        SaveCriteria saveCriteria=new SaveCriteria();
+        saveCriteria.getAllData().forEach( (k,v) -> fillTableLoad(v,k));
+
+        win.getCriteriaTable().fillTableResult(new Object[]{saveCriteria.getAllData().get(0).getPath(), saveCriteria.getAllData().get(0).getOwner()});
+        //saveCriteria.getAllData().forEach( (k,v) -> );
+    }
+
+    private void fillTableLoad(SearchCriteria searchCriteria, int key){
+        win.getCriteriaTable().fillTableResult(new Object[]{key,searchCriteria.getOwner(),searchCriteria.getSize()});
 
 
     }

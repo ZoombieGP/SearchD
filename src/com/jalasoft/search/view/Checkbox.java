@@ -210,6 +210,38 @@ public class Checkbox extends JPanel {
     }
 
     /**
+     * Get the Size combo box
+     * @return the current Size combo box object
+     */
+    public JComboBox getSizeComboBox() {
+        return sizeComboBox;
+    }
+
+    /**
+     * Get the Creation Date combo box
+     * @return the current Creation Date combo box object
+     */
+    public JComboBox getCreationDateComboBox() {
+        return creationDateComboBox;
+    }
+
+    /**
+     * Get the Modification Date combo box
+     * @return the current Modification Date combo box object
+     */
+    public JComboBox getModificationDateComboBox() {
+        return modificationDateComboBox;
+    }
+
+    /**
+     * Get the Access Date combo box
+     * @return the current Access Date combo box object
+     */
+    public JComboBox getAccessDateComboBox() {
+        return accessDateComboBox;
+    }
+
+    /**
      * Set the Size Text Field
      * @param sizeTextField
      */

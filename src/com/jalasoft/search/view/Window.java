@@ -169,6 +169,7 @@ public class Window extends JFrame{
 
         this.getContentPane().setLayout(new BorderLayout());
         this.getContentPane().add(tabPane);
+
     }
 
     /**
@@ -332,5 +333,13 @@ public class Window extends JFrame{
      */
     public String getSaveTextField2() {
         return this.saveTextField2.getText();
+    }
+
+    public JTabbedPane getTabPane() {
+        return tabPane;
+    }
+
+    public void setTabPane(int indexTab) {
+        this.tabPane.setSelectedIndex(indexTab);
     }
 }

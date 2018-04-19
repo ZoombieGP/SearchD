@@ -67,4 +67,13 @@ public class Converter {
 
         return hrSize;
     }
+
+    public String convertLongToString(long size) {
+        String hrSize = null;
+        double sizeMB= ((size/1024.0)/1024.0);
+        DecimalFormat dec = new DecimalFormat("0");
+        hrSize= dec.format(sizeMB);
+        return hrSize;
+
+    }
 }

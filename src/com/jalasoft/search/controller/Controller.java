@@ -213,7 +213,6 @@ public class Controller {
 
     }
 
-
     /**
      * Method that receive the file found and fill the table of result in the UI.
      * @param filesFound
@@ -271,7 +270,6 @@ public class Controller {
                 }
 
             }
-
     }
 
     private void loadOneSavedCriteria(){
@@ -303,7 +301,8 @@ public class Controller {
                      win.getCheckbox().setFileContent(true);
                      win.getCheckbox().setHiddenFiles(aux.getIsHidden());
                      win.getCheckbox().setOwnerTextField(aux.getOwner());
-                     win.getCheckbox().setSizeTextField("convertir a string");
+                     String size=converter.convertLongToString(aux.getSize());
+                     win.getCheckbox().setSizeTextField(size);
                      win.getCheckbox().setSizeComboBox(aux.getModeSize());
 
                      win.getCheckbox().setCreationDateTextField(aux.getCreationDate());

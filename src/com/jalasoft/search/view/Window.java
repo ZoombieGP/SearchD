@@ -103,7 +103,7 @@ public class Window extends JFrame{
         browseButton.setText("Browse...");
         searchForFieldName.setText("Search For:");
         searchButton.setText("Search");
-        saveLabel.setText("Save Search Criteria: ");
+        saveLabel.setText("Criteria Name: ");
         saveButton.setText("Save");
 
         tabPane.add("Simple Search",simpleTab);
@@ -141,7 +141,7 @@ public class Window extends JFrame{
         browseButton2.setText("Browse...");
         searchForFieldName2.setText("Search For:");
         searchButton2.setText("Search");
-        saveLabel2.setText("Save Search Criteria: ");
+        saveLabel2.setText("Criteria Name: ");
         saveButton2.setText("Save");
 
         searchInPanel2.add(searchInFieldName2);

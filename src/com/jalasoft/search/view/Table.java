@@ -21,6 +21,8 @@ public class Table extends JPanel {
 
     private String [] columnNames;
     public DefaultTableModel model;
+    private JTable table;
+    //public int row;
 
     /**
      * Table: Construct method
@@ -38,7 +40,7 @@ public class Table extends JPanel {
      */
     private void createTable(int width , int height,String [] columnNames) {
         model= new DefaultTableModel();
-        final JTable table = new JTable(model);
+         table = new JTable(model);
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.setViewportView(table);
 
@@ -49,6 +51,7 @@ public class Table extends JPanel {
         table.setPreferredScrollableViewportSize(new Dimension(width,height));
         table.setFillsViewportHeight(true);
         table.setEnabled(true);
+       // row=table.getSelectedRow();
         add(scrollPane);
     }
 
@@ -60,4 +63,13 @@ public class Table extends JPanel {
 
         model.addRow(object);
     }
+
+    public String getSelectedCriteriaRowColumn(int column){
+        //The column 0 is the criteria ID
+        int row = table.getSelectedRow();
+        String value = table.getModel().getValueAt(row, column).toString();
+        return value;
+    }
+
+
 }

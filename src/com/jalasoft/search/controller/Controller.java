@@ -139,11 +139,7 @@ public class Controller {
         int modeMdate=win.getCheckbox().getModificationDateComboBox().getSelectedIndex();
         int modeCdate=win.getCheckbox().getCreationDateComboBox().getSelectedIndex();
         int modeAdate=win.getCheckbox().getAccessDateComboBox().getSelectedIndex();
-        /**
-        System.out.println("Mode creation :"+modeCdate);
-        System.out.println("Mode modification :"+modeMdate);
-        System.out.println("Mode acess :"+modeAdate);
-         */
+
         basicCriteria=new SearchCriteria(path,searchFor,isHidden,content,extension,size,modeSize,modifDate,creationDate,accessDate,owner,isDirectory,modeMdate,modeCdate,modeAdate,null);
 
         System.out.println(basicCriteria.getPath());
@@ -162,9 +158,6 @@ public class Controller {
         System.out.println(basicCriteria.getModeMdate());
         System.out.println(basicCriteria.getModeAdate());
 
-        //List<Asset> filesFound;
-        //filesFound=search.getResults(basicCriteria);
-        //fillTable(filesFound,win.getAdvancedTableResult());
     }
 
     /**
@@ -220,7 +213,6 @@ public class Controller {
 
     }
 
-
     /**
      * Method that receive the file found and fill the table of result in the UI.
      * @param filesFound
@@ -243,7 +235,6 @@ public class Controller {
             if (isBasic)
             {
                 basicCriteria=new SearchCriteria(win.getSearchInTextField(),win.getSearchForTextField(),getExtension(win.getSearchForTextField()),win.getSaveTextField());
-                //SaveCriteria saveCriteria=new SaveCriteria();
                 saveCriteria.saveCriteria(basicCriteria);
                 try {
                     saveCriteria.getAllData().forEach( (k,v) -> System.out.println("Key: " + k + ": Value: " + v.getPath()));
@@ -279,7 +270,6 @@ public class Controller {
                 }
 
             }
-
     }
 
     private void loadOneSavedCriteria(){
@@ -293,23 +283,26 @@ public class Controller {
             //getting the save criteria with the ID  got of UI-selected row
             SearchCriteria aux=saveCriteria.getAllData().get(id);
 
-            //path =saveCriteria.getAllData().get(id).getPath();
-            //searchFor=saveCriteria.getAllData().get(id).getCriteria()[0];
+
              if(type.equalsIgnoreCase("Basic"))
                 {
+                    win.setTabPane(0);
                     //cambiar al tab Basic
                      win.setSearchInTextField(aux.getPath());
                      win.setSearchForTextField(aux.getCriteria()[0]);
                  }
              if(type.equalsIgnoreCase("Advanced"))
                 {
+                     win.setTabPane(1);
+
                      win.setSearchInTextField2(aux.getPath());
                      win.setSearchForTextField2(aux.getCriteria()[0]);
                      win.getCheckbox().setDirectoriesOnly(aux.getIsDirectory());
                      win.getCheckbox().setFileContent(true);
                      win.getCheckbox().setHiddenFiles(aux.getIsHidden());
                      win.getCheckbox().setOwnerTextField(aux.getOwner());
-                     win.getCheckbox().setSizeTextField("convertir a string");
+                     String size=converter.convertLongToString(aux.getSize());
+                     win.getCheckbox().setSizeTextField(size);
                      win.getCheckbox().setSizeComboBox(aux.getModeSize());
 
                      win.getCheckbox().setCreationDateTextField(aux.getCreationDate());
@@ -321,24 +314,11 @@ public class Controller {
                     win.getCheckbox().setAccessDateTextField(aux.getAccessDate());
                     win.getCheckbox().setAccessDateComboBox(aux.getModeAdate());
 
-                     /*
-                     win.setSearchForTextField2(aux.getCriteria()[0]);
-                     win.getCheckbox().setDirectoriesOnly(aux.getIsDirectory());
-                     //win.getCheckbox().setFileContent(true); //add isContent in SearchCriteria
-                     win.getCheckbox().setHiddenFiles(aux.getIsHidden());
-                     win.getCheckbox().setCreationDateTextField(aux.getCreationDate());
-                     win.getCheckbox().setCreationDateComboBox(aux.getModeCdate());*/
                 }
 
-
-             //System.out.println(path);
-             //searchFor=saveCriteria.getAllData().get(id).getCriteria()[0];
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-
-
     }
 
     private void fillTableLoad(SearchCriteria searchCriteria, int key) {

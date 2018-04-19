@@ -166,83 +166,67 @@ public class Checkbox extends JPanel {
 
     /**
      * Set the File Content Checkbox
-     * @param fileContent
      */
-    public void setFileContent(JCheckBox fileContent, boolean check) {
-        this.fileContent = fileContent;
-        this.fileContent.setEnabled(check);
+    public void setFileContent(boolean check) {
+
+        this.fileContent.setSelected(check);
     }
 
     /**
      * Set the Creation Date Text Field
-     * @param creationDateTextField
      */
-    public void setCreationDateTextField(JTextField creationDateTextField, String text) {
-        this.creationDateTextField = creationDateTextField;
+    public void setCreationDateTextField(String text) {
         this.creationDateTextField.setText(text);
     }
 
     /**
      * Set the Modification Date Text Field
-     * @param modificationDateTextField
      */
-    public void setModificationDateTextField(JTextField modificationDateTextField, String text) {
-        this.modificationDateTextField = modificationDateTextField;
+    public void setModificationDateTextField(String text) {
         this.modificationDateTextField.setText(text);
     }
 
     /**
      * Set the Access Date Text Field
-     * @param accessDateTextField
      */
-    public void setAccessDateTextField(JTextField accessDateTextField, String text) {
-        this.accessDateTextField = accessDateTextField;
+    public void setAccessDateTextField( String text) {
         this.accessDateTextField.setText(text);
     }
 
     /**
      * Set the Owner Text Field
-     * @param ownerTextField
      */
-    public void setOwnerTextField(JTextField ownerTextField, String text) {
-        this.ownerTextField = ownerTextField;
+    public void setOwnerTextField(String text) {
         this.ownerTextField.setText(text);
     }
 
     /**
      * Set the Size Text Field
-     * @param sizeTextField
      */
-    public void setSizeTextField(JTextField sizeTextField, String text) {
-        this.sizeTextField = sizeTextField;
+    public void setSizeTextField(String text) {
         this.sizeTextField.setText(text);
     }
 
     /**
      * Set the Size combo box
-     * @param sizeComboBox
      */
-    public void setSizeComboBox(JComboBox sizeComboBox, String text) {
-        this.sizeComboBox = sizeComboBox;
-        this.sizeComboBox.setSelectedItem(text);
+    public void setSizeComboBox(int option) {
+        this.sizeComboBox.setSelectedIndex(option);
     }
 
     /**
      * Set the Creation Date combo box
-     * @param creationDateComboBox
      */
-    public void setCreationDateComboBox(JComboBox creationDateComboBox, String text) {
-        this.creationDateComboBox = creationDateComboBox;
-        this.creationDateComboBox.setSelectedItem(text);
+    public void setCreationDateComboBox(int option) {
+        this.creationDateComboBox.setSelectedIndex(option);
     }
 
     /**
      * Set the Modification Date combo box
-     * @param modificationDateComboBox
      */
-    public void setModificationDateComboBox(JComboBox modificationDateComboBox, String text) {
-        this.modificationDateComboBox = modificationDateComboBox;
-        this.modificationDateComboBox.setSelectedItem(text);
+    public void setModificationDateComboBox(int option) {
+
+        this.modificationDateComboBox.setSelectedIndex(option);
     }
 
     public JComboBox getSizeComboBox() {
@@ -263,29 +247,22 @@ public class Checkbox extends JPanel {
 
     /**
      * Set the Access Date combo box
-     * @param accessDateComboBox
      */
-    public void setAccessDateComboBox(JComboBox accessDateComboBox, String text) {
-        this.accessDateComboBox = accessDateComboBox;
-        this.accessDateComboBox.setSelectedItem(text);
-
+    public void setAccessDateComboBox( int option) {
+        this.accessDateComboBox.setSelectedIndex(option);
     }
 
     /**
      * Set the Hidden Files Checkbox
-     * @param hiddenFiles
      */
-    public void setHiddenFiles(JCheckBox hiddenFiles, boolean check) {
-        this.hiddenFiles = hiddenFiles;
-        this.hiddenFiles.setEnabled(check);
+    public void setHiddenFiles(boolean check) {
+        this.hiddenFiles.setSelected(check);
     }
 
     /**
      * Set the Directories Only Checkbox
-     * @param directoriesOnly
      */
-    public void setDirectoriesOnly(JCheckBox directoriesOnly, boolean check) {
-        this.directoriesOnly = directoriesOnly;
-        this.directoriesOnly.setEnabled(check);
+    public void setDirectoriesOnly( boolean check) {
+        this.directoriesOnly.setSelected(check);
     }
 }

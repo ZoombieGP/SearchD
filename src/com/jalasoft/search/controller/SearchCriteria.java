@@ -18,6 +18,8 @@ package com.jalasoft.search.controller;
  */
 public class SearchCriteria {
 
+    private String criteriaName;
+    private String getCriteriaType;
     private String [] criteria;
     private String pathToSearch;
     private boolean isHidden;
@@ -54,8 +56,10 @@ public class SearchCriteria {
      * SearchCriteria Constructor
      * Inicialize the path and the text to search(criteria)
      */
-    public SearchCriteria(String path , String textToSearch , String extension){
+    public SearchCriteria(String path , String textToSearch , String extension, String criteriaName){
 
+        this.criteriaName=criteriaName;
+        this.getCriteriaType="Basic";
         this.criteria=splitTextToSearch(textToSearch);
         this.pathToSearch=path;
         this.extension=extension;
@@ -84,7 +88,10 @@ public class SearchCriteria {
      * @param owner
      */
     public SearchCriteria(String path, String searchFor, boolean isHidden , String content, String extension , long size , int modeSize ,
-                          String modificationDate, String creationDate , String accessDate, String owner , boolean isDirectory , int modeMdate , int modeCdate , int modeAdate){
+                          String modificationDate, String creationDate , String accessDate, String owner , boolean isDirectory , int modeMdate ,
+                          int modeCdate , int modeAdate , String criteriaName){
+        this.criteriaName=criteriaName;
+        this.getCriteriaType="Advanced";
         this.pathToSearch=path;
         this.criteria=splitTextToSearch(searchFor);
         this.isHidden=isHidden;
@@ -173,6 +180,10 @@ public class SearchCriteria {
     public boolean getIsDirectory() {
         return isDirectory;
     }
+
+    public String getCriteriaName(){ return criteriaName;}
+
+    public String getGetCriteriaType(){ return getCriteriaType;}
 
     /**
      * Split the criteris by ";"

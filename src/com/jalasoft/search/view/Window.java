@@ -262,9 +262,7 @@ public class Window extends JFrame{
      * Get the Criteria Table
      * @return the current Criteria Table object
      */
-    public Table getCriteriaTable (){
-        return this.criteriaTable;
-    }
+    public Table getCriteriaTable (){ return this.criteriaTable; }
 
     /**
      * Get the Load Button
@@ -276,37 +274,31 @@ public class Window extends JFrame{
 
     /**
      * Set the Search In Text Field
-     * @param searchInTextField
      */
-    public void setSearchInTextField(JTextField searchInTextField, String text) {
-        this.searchInTextField = searchInTextField;
+    public void setSearchInTextField( String text) {
+       // this.searchInTextField = searchInTextField;
         this.searchInTextField.setText(text);
     }
 
     /**
      * Set the Search For Text Field
-     * @param searchForTextField
+     * @param
      */
-    public void setSearchForTextField(JTextField searchForTextField, String text) {
-        this.searchForTextField = searchForTextField;
-        this.searchForTextField.setText(text);
+    public void setSearchForTextField(String text) {
+              this.searchForTextField.setText(text);
     }
 
     /**
      * Set the Advanced Search In Text Field
-     * @param searchInTextField2
      */
-    public void setSearchInTextField2(JTextField searchInTextField2, String text) {
-        this.searchInTextField2 = searchInTextField2;
-        this.searchForTextField2.setText(text);
+    public void setSearchInTextField2( String text) {
+        this.searchInTextField2.setText(text);
     }
 
     /**
      * Set the Advanced Search For Text Field
-     * @param searchForTextField2
      */
-    public void setSearchForTextField2(JTextField searchForTextField2, String text) {
-        this.searchForTextField2 = searchForTextField2;
+    public void setSearchForTextField2( String text) {
         this.searchForTextField2.setText(text);
     }
 

@@ -75,7 +75,6 @@ public class Controller {
         });
         win.getSaveButton().addActionListener(e -> {
             try {
-                //saveCriteria(win.getSearchInTextField(),win.getSearchForTextField());
                 saveCriteria(true);
             } catch (IOException e1) {
                 e1.printStackTrace();
@@ -111,6 +110,10 @@ public class Controller {
 
         List<Asset> filesFound;
         filesFound=search.getResults(basicCriteria);
+        if(!filesFound.isEmpty()) {
+            win.setConsoleTextField1(filesFound.size() + " files found.");
+        }
+        else {win.setConsoleTextField1("No files found");}
         fillTable(filesFound,win.getTableResult());
     }
 
@@ -140,32 +143,20 @@ public class Controller {
         if(searchFor.contains("*."))
             searchFor="";
         boolean isDirectory =win.getCheckbox().getDirectoriesOnly().isSelected();
+        boolean fileContent=win.getCheckbox().getFileContent().isSelected();
         int modeSize= win.getCheckbox().getSizeComboBox().getSelectedIndex();
         int modeMdate=win.getCheckbox().getModificationDateComboBox().getSelectedIndex();
         int modeCdate=win.getCheckbox().getCreationDateComboBox().getSelectedIndex();
         int modeAdate=win.getCheckbox().getAccessDateComboBox().getSelectedIndex();
 
-        basicCriteria=new SearchCriteria(path,searchFor,isHidden,content,extension,size,modeSize,modifDate,creationDate,accessDate,owner,isDirectory,modeMdate,modeCdate,modeAdate,null);
+        basicCriteria=new SearchCriteria(path,searchFor,isHidden,content,extension,size,modeSize,modifDate,creationDate,accessDate,owner,isDirectory,modeMdate,modeCdate,modeAdate,null,fileContent);
         List<Asset> filesFound;
         filesFound=search.getResults(basicCriteria);
+        if(!filesFound.isEmpty()){
+            win.setConsoleTextField2(filesFound.size()+" files found.");
+        }
+        else {win.setConsoleTextField2("No files found");}
         fillTable(filesFound,win.getAdvancedTableResult());
-
-        System.out.println(basicCriteria.getPath());
-        System.out.println(basicCriteria.getCriteria()[0]);
-        System.out.println(basicCriteria.getIsHidden());
-        System.out.println(basicCriteria.getContent());
-        System.out.println(basicCriteria.getExtension());
-        System.out.println(basicCriteria.getSize());
-        System.out.println(basicCriteria.getModeSize());
-        System.out.println(basicCriteria.getModificationDate());
-        System.out.println(basicCriteria.getCreationDate());
-        System.out.println(basicCriteria.getAccessDate());
-        System.out.println(basicCriteria.getOwner());
-        System.out.println(basicCriteria.getIsDirectory());
-        System.out.println(basicCriteria.getModeCdate());
-        System.out.println(basicCriteria.getModeMdate());
-        System.out.println(basicCriteria.getModeAdate());
-
     }
 
     /**
@@ -182,7 +173,6 @@ public class Controller {
         }
         else
             return -1;
-
     }
 
     /**
@@ -240,8 +230,10 @@ public class Controller {
     }
 
     private void saveCriteria(boolean isBasic ) throws IOException{
+
             if (isBasic)
             {
+                System.out.println(win.getSaveTextField());
                 basicCriteria=new SearchCriteria(win.getSearchInTextField(),win.getSearchForTextField(),getExtension(win.getSearchForTextField()),win.getSaveTextField());
                 if(saveCriteria.saveCriteria(basicCriteria)=="Success") {
                     try {
@@ -251,8 +243,6 @@ public class Controller {
                         e.printStackTrace();
                     }
                 }
-
-
             }
             else {
                 String path=win.getAdvancedSearchInTextField();
@@ -266,12 +256,14 @@ public class Controller {
                 long size = convertToLong(win.getCheckbox().getSizeTextField());
                 boolean isHidden=win.getCheckbox().getHiddenFiles().isSelected();
                 boolean isDirectory =win.getCheckbox().getDirectoriesOnly().isSelected();
+                boolean fileContent=win.getCheckbox().getFileContent().isSelected();
                 int modeSize= win.getCheckbox().getSizeComboBox().getSelectedIndex();
                 int modeMdate=win.getCheckbox().getModificationDateComboBox().getSelectedIndex();
                 int modeCdate=win.getCheckbox().getCreationDateComboBox().getSelectedIndex();
                 int modeAdate=win.getCheckbox().getAccessDateComboBox().getSelectedIndex();
 
-                basicCriteria=new SearchCriteria(path,searchFor,isHidden,content,extension,size,modeSize,modifDate,creationDate,accessDate,owner,isDirectory,modeMdate,modeCdate,modeAdate,win.getSaveTextField2());
+                basicCriteria=new SearchCriteria(path,searchFor,isHidden,content,extension,size,modeSize,modifDate,creationDate,accessDate,owner,isDirectory,modeMdate,modeCdate,modeAdate,win.getSaveTextField2(),fileContent);
+                System.out.println(basicCriteria.getSize());
                 if(saveCriteria.saveCriteria(basicCriteria)=="Success") {
                     try {
                         win.getCriteriaTable().model.setRowCount(0);
@@ -286,21 +278,15 @@ public class Controller {
     }
 
     private void loadOneSavedCriteria(){
-        //obtener el ID y el tipo del row seleccionado
-
         int id=Integer.parseInt(win.getCriteriaTable().getSelectedCriteriaRowColumn(0));
         String type = win.getCriteriaTable().getSelectedCriteriaRowColumn(2);
         String path ;
         String searchFor = null;
         try {
-            //getting the save criteria with the ID  got of UI-selected row
             SearchCriteria aux=saveCriteria.getAllData().get(id);
-
-
              if(type.equalsIgnoreCase("Basic"))
                 {
                     win.setTabPane(0);
-                    //cambiar al tab Basic
                      win.setSearchInTextField(aux.getPath());
                      win.setSearchForTextField(aux.getCriteria()[0]);
                  }
@@ -311,22 +297,18 @@ public class Controller {
                      win.setSearchInTextField2(aux.getPath());
                      win.setSearchForTextField2(aux.getCriteria()[0]);
                      win.getCheckbox().setDirectoriesOnly(aux.getIsDirectory());
-                     win.getCheckbox().setFileContent(true);
+                     win.getCheckbox().setFileContent(aux.getFileContent());
                      win.getCheckbox().setHiddenFiles(aux.getIsHidden());
                      win.getCheckbox().setOwnerTextField(aux.getOwner());
                      String size=converter.convertLongToString(aux.getSize());
                      win.getCheckbox().setSizeTextField(size);
                      win.getCheckbox().setSizeComboBox(aux.getModeSize());
-
                      win.getCheckbox().setCreationDateTextField(aux.getCreationDate());
                      win.getCheckbox().setCreationDateComboBox(aux.getModeCdate());
-
                      win.getCheckbox().setModificationDateTextField(aux.getModificationDate());
                      win.getCheckbox().setModificationDateComboBox(aux.getModeMdate());
-
-                    win.getCheckbox().setAccessDateTextField(aux.getAccessDate());
-                    win.getCheckbox().setAccessDateComboBox(aux.getModeAdate());
-
+                     win.getCheckbox().setAccessDateTextField(aux.getAccessDate());
+                     win.getCheckbox().setAccessDateComboBox(aux.getModeAdate());
                 }
 
         } catch (SQLException e) {

@@ -40,12 +40,11 @@ public class SearchQuery {
                 "VALUES (?,?);";
         try {
             PreparedStatement preparedStatement= con.prepareStatement(query);
-          //  preparedStatement.setString(1,"1");
             preparedStatement.setString(2,criteriaJSON);
             preparedStatement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
-            return "No se pudo insertar el criterio";
+            return "Criteria cannot be inserted";
         }
         return "The criteria was inserted";
     }

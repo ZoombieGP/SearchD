@@ -23,11 +23,8 @@ public class Converter {
     /**
      *Convert a long date to date in format yyyy-dd-mm
      * @param longDate
-<<<<<<< HEAD
      * @return a date in String type
-=======
      * @return a date in String type with format yyyy-dd-MMM
->>>>>>> 3a0c73134741c81c6738cb524dab8d1b1c360d59
      */
     public String covertLongToDate(long longDate){
 
@@ -69,6 +66,8 @@ public class Converter {
     }
 
     public String convertLongToString(long size) {
+        if(size==-1)
+            return "";
         String hrSize = null;
         double sizeMB= ((size/1024.0)/1024.0);
         DecimalFormat dec = new DecimalFormat("0");

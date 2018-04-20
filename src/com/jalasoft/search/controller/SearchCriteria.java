@@ -35,6 +35,7 @@ public class SearchCriteria {
     private int modeMdate;
     private int modeCdate;
     private int modeAdate;
+    private boolean fileContent;
 
     public boolean isDirectory() {
         return isDirectory;
@@ -73,6 +74,10 @@ public class SearchCriteria {
         this.isDirectory=false;
     }
 
+    public boolean getFileContent() {
+        return fileContent;
+    }
+
     /**
      * Overwrite of construct methos with the search criteria advanced
      * @param path
@@ -89,7 +94,7 @@ public class SearchCriteria {
      */
     public SearchCriteria(String path, String searchFor, boolean isHidden , String content, String extension , long size , int modeSize ,
                           String modificationDate, String creationDate , String accessDate, String owner , boolean isDirectory , int modeMdate ,
-                          int modeCdate , int modeAdate , String criteriaName){
+                          int modeCdate , int modeAdate , String criteriaName,boolean fileContent){
         this.criteriaName=criteriaName;
         this.getCriteriaType="Advanced";
         this.pathToSearch=path;
@@ -107,6 +112,8 @@ public class SearchCriteria {
         this.modeCdate=modeCdate;
         this.modeMdate=modeMdate;
         this.modeAdate=modeAdate;
+        this.fileContent=fileContent;
+
     }
 
     /**

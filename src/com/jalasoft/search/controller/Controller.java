@@ -140,32 +140,16 @@ public class Controller {
         if(searchFor.contains("*."))
             searchFor="";
         boolean isDirectory =win.getCheckbox().getDirectoriesOnly().isSelected();
+        boolean fileContent=win.getCheckbox().getFileContent().isSelected();
         int modeSize= win.getCheckbox().getSizeComboBox().getSelectedIndex();
         int modeMdate=win.getCheckbox().getModificationDateComboBox().getSelectedIndex();
         int modeCdate=win.getCheckbox().getCreationDateComboBox().getSelectedIndex();
         int modeAdate=win.getCheckbox().getAccessDateComboBox().getSelectedIndex();
 
-        basicCriteria=new SearchCriteria(path,searchFor,isHidden,content,extension,size,modeSize,modifDate,creationDate,accessDate,owner,isDirectory,modeMdate,modeCdate,modeAdate,null);
+        basicCriteria=new SearchCriteria(path,searchFor,isHidden,content,extension,size,modeSize,modifDate,creationDate,accessDate,owner,isDirectory,modeMdate,modeCdate,modeAdate,null,fileContent);
         List<Asset> filesFound;
         filesFound=search.getResults(basicCriteria);
         fillTable(filesFound,win.getAdvancedTableResult());
-
-        System.out.println(basicCriteria.getPath());
-        System.out.println(basicCriteria.getCriteria()[0]);
-        System.out.println(basicCriteria.getIsHidden());
-        System.out.println(basicCriteria.getContent());
-        System.out.println(basicCriteria.getExtension());
-        System.out.println(basicCriteria.getSize());
-        System.out.println(basicCriteria.getModeSize());
-        System.out.println(basicCriteria.getModificationDate());
-        System.out.println(basicCriteria.getCreationDate());
-        System.out.println(basicCriteria.getAccessDate());
-        System.out.println(basicCriteria.getOwner());
-        System.out.println(basicCriteria.getIsDirectory());
-        System.out.println(basicCriteria.getModeCdate());
-        System.out.println(basicCriteria.getModeMdate());
-        System.out.println(basicCriteria.getModeAdate());
-
     }
 
     /**
@@ -266,12 +250,14 @@ public class Controller {
                 long size = convertToLong(win.getCheckbox().getSizeTextField());
                 boolean isHidden=win.getCheckbox().getHiddenFiles().isSelected();
                 boolean isDirectory =win.getCheckbox().getDirectoriesOnly().isSelected();
+                boolean fileContent=win.getCheckbox().getFileContent().isSelected();
                 int modeSize= win.getCheckbox().getSizeComboBox().getSelectedIndex();
                 int modeMdate=win.getCheckbox().getModificationDateComboBox().getSelectedIndex();
                 int modeCdate=win.getCheckbox().getCreationDateComboBox().getSelectedIndex();
                 int modeAdate=win.getCheckbox().getAccessDateComboBox().getSelectedIndex();
 
-                basicCriteria=new SearchCriteria(path,searchFor,isHidden,content,extension,size,modeSize,modifDate,creationDate,accessDate,owner,isDirectory,modeMdate,modeCdate,modeAdate,win.getSaveTextField2());
+                basicCriteria=new SearchCriteria(path,searchFor,isHidden,content,extension,size,modeSize,modifDate,creationDate,accessDate,owner,isDirectory,modeMdate,modeCdate,modeAdate,win.getSaveTextField2(),fileContent);
+                System.out.println(basicCriteria.getSize());
                 if(saveCriteria.saveCriteria(basicCriteria)=="Success") {
                     try {
                         win.getCriteriaTable().model.setRowCount(0);
@@ -311,7 +297,7 @@ public class Controller {
                      win.setSearchInTextField2(aux.getPath());
                      win.setSearchForTextField2(aux.getCriteria()[0]);
                      win.getCheckbox().setDirectoriesOnly(aux.getIsDirectory());
-                     win.getCheckbox().setFileContent(true);
+                     win.getCheckbox().setFileContent(aux.getFileContent());
                      win.getCheckbox().setHiddenFiles(aux.getIsHidden());
                      win.getCheckbox().setOwnerTextField(aux.getOwner());
                      String size=converter.convertLongToString(aux.getSize());

@@ -69,10 +69,14 @@ public class Converter {
     }
 
     public String convertLongToString(long size) {
+        System.out.println("Size: "+size);
+        if(size==-1)
+            return "";
         String hrSize = null;
         double sizeMB= ((size/1024.0)/1024.0);
         DecimalFormat dec = new DecimalFormat("0");
         hrSize= dec.format(sizeMB);
+        System.out.println("Size converter: "+hrSize);
         return hrSize;
 
     }

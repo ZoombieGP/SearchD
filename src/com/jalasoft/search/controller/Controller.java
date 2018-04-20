@@ -239,13 +239,16 @@ public class Controller {
             if (isBasic)
             {
                 basicCriteria=new SearchCriteria(win.getSearchInTextField(),win.getSearchForTextField(),getExtension(win.getSearchForTextField()),win.getSaveTextField());
-                saveCriteria.saveCriteria(basicCriteria);
-                try {
-                    saveCriteria.getAllData().forEach( (k,v) -> System.out.println("Key: " + k + ": Value: " + v.getPath()));
-
-                } catch (SQLException e) {
-                    e.printStackTrace();
+                if(saveCriteria.saveCriteria(basicCriteria)=="Success") {
+                    try {
+                        win.getCriteriaTable().model.setRowCount(0);
+                        saveCriteria.getAllData().forEach( (k,v) -> fillTableLoad(v,k));
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
                 }
+
+
             }
             else {
                 String path=win.getAdvancedSearchInTextField();
@@ -265,13 +268,15 @@ public class Controller {
                 int modeAdate=win.getCheckbox().getAccessDateComboBox().getSelectedIndex();
 
                 basicCriteria=new SearchCriteria(path,searchFor,isHidden,content,extension,size,modeSize,modifDate,creationDate,accessDate,owner,isDirectory,modeMdate,modeCdate,modeAdate,win.getSaveTextField2());
-                saveCriteria.saveCriteria(basicCriteria);
-                try {
-                    saveCriteria.getAllData().forEach( (k,v) -> System.out.println("Key: " + k + ": Value: " + v.getCriteria()[0]+" "+v.getIsDirectory()+" "+v.getIsHidden()+""+v.getCreationDate()));
-
-                } catch (SQLException e) {
-                    e.printStackTrace();
+                if(saveCriteria.saveCriteria(basicCriteria)=="Success") {
+                    try {
+                        win.getCriteriaTable().model.setRowCount(0);
+                        saveCriteria.getAllData().forEach( (k,v) -> fillTableLoad(v,k));
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
                 }
+
 
             }
     }

@@ -110,6 +110,10 @@ public class Controller {
 
         List<Asset> filesFound;
         filesFound=search.getResults(basicCriteria);
+        if(!filesFound.isEmpty()) {
+            win.setConsoleTextField1(filesFound.size() + " files found.");
+        }
+        else {win.setConsoleTextField1("No files found");}
         fillTable(filesFound,win.getTableResult());
     }
 
@@ -148,6 +152,10 @@ public class Controller {
         basicCriteria=new SearchCriteria(path,searchFor,isHidden,content,extension,size,modeSize,modifDate,creationDate,accessDate,owner,isDirectory,modeMdate,modeCdate,modeAdate,null,fileContent);
         List<Asset> filesFound;
         filesFound=search.getResults(basicCriteria);
+        if(!filesFound.isEmpty()){
+            win.setConsoleTextField2(filesFound.size()+" files found.");
+        }
+        else {win.setConsoleTextField2("No files found");}
         fillTable(filesFound,win.getAdvancedTableResult());
     }
 

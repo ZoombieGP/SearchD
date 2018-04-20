@@ -95,7 +95,7 @@ public class Window extends JFrame{
         searchInFieldName = new JLabel();
         searchInTextField = new JTextField(40);
         browseButton = new JButton();
-        String[] columnNames = new String[]{"Path", "File Name", "Is Directory?", "Is Hidden?", "Size","Date Modified"};
+        String[] columnNames = new String[]{"Path", "Name", "Is Directory?", "Is Hidden?", "Size","Date Modified"};
         tableResult = new Table(725,350,columnNames);
         searchForPanel = new JPanel();
         searchForFieldName = new JLabel();
@@ -105,7 +105,7 @@ public class Window extends JFrame{
         saveTextField = new JTextField(40);
         saveButton = new JButton();
         consolePanel1 = new JPanel();
-        consoleLabel1 = new JLabel("Console: ");
+        consoleLabel1 = new JLabel("Results: ");
         consoleTextField1 = new JTextField(60);
         consoleTextField1.setEditable(false);
         consoleTextField1.setBorder(null);
@@ -151,7 +151,7 @@ public class Window extends JFrame{
         saveTextField2 = new JTextField(40);
         saveButton2 = new JButton();
         consolePanel2 = new JPanel();
-        consoleLabel2 = new JLabel("Console: ");
+        consoleLabel2 = new JLabel("Results: ");
         consoleTextField2 = new JTextField(60);
         consoleTextField2.setEditable(false);
         consoleTextField2.setBorder(null);
@@ -382,7 +382,10 @@ public class Window extends JFrame{
     }
 
     public void setConsoleTextField1(String message) {
-        this.consoleTextField1.setBackground(Color.ORANGE);
         this.consoleTextField1.setText(message);
+    }
+
+    public void setConsoleTextField2(String message) {
+        this.consoleTextField2.setText(message);
     }
 }

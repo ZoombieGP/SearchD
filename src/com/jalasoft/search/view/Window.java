@@ -17,7 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
-import java.awt.BorderLayout;
+import java.awt.*;
 import java.io.File;
 
 public class Window extends JFrame{
@@ -379,5 +379,10 @@ public class Window extends JFrame{
 
     public void setTabPane(int indexTab) {
         this.tabPane.setSelectedIndex(indexTab);
+    }
+
+    public void setConsoleTextField1(String message) {
+        this.consoleTextField1.setBackground(Color.ORANGE);
+        this.consoleTextField1.setText(message);
     }
 }

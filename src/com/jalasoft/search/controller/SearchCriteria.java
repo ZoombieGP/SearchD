@@ -26,7 +26,7 @@ public class SearchCriteria {
     private String content;
     private String extension;
     private long size;
-    private int modeSize; //0 for equal, 1 for major than, 2 for minor than
+    private int modeSize;
     private String modificationDate;
     private String creationDate;
     private String accessDate;

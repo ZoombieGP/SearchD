@@ -75,7 +75,6 @@ public class Controller {
         });
         win.getSaveButton().addActionListener(e -> {
             try {
-                //saveCriteria(win.getSearchInTextField(),win.getSearchForTextField());
                 saveCriteria(true);
             } catch (IOException e1) {
                 e1.printStackTrace();
@@ -166,7 +165,6 @@ public class Controller {
         }
         else
             return -1;
-
     }
 
     /**
@@ -224,8 +222,10 @@ public class Controller {
     }
 
     private void saveCriteria(boolean isBasic ) throws IOException{
+
             if (isBasic)
             {
+                System.out.println(win.getSaveTextField());
                 basicCriteria=new SearchCriteria(win.getSearchInTextField(),win.getSearchForTextField(),getExtension(win.getSearchForTextField()),win.getSaveTextField());
                 if(saveCriteria.saveCriteria(basicCriteria)=="Success") {
                     try {
@@ -235,8 +235,6 @@ public class Controller {
                         e.printStackTrace();
                     }
                 }
-
-
             }
             else {
                 String path=win.getAdvancedSearchInTextField();
@@ -272,21 +270,15 @@ public class Controller {
     }
 
     private void loadOneSavedCriteria(){
-        //obtener el ID y el tipo del row seleccionado
-
         int id=Integer.parseInt(win.getCriteriaTable().getSelectedCriteriaRowColumn(0));
         String type = win.getCriteriaTable().getSelectedCriteriaRowColumn(2);
         String path ;
         String searchFor = null;
         try {
-            //getting the save criteria with the ID  got of UI-selected row
             SearchCriteria aux=saveCriteria.getAllData().get(id);
-
-
              if(type.equalsIgnoreCase("Basic"))
                 {
                     win.setTabPane(0);
-                    //cambiar al tab Basic
                      win.setSearchInTextField(aux.getPath());
                      win.setSearchForTextField(aux.getCriteria()[0]);
                  }
@@ -303,16 +295,12 @@ public class Controller {
                      String size=converter.convertLongToString(aux.getSize());
                      win.getCheckbox().setSizeTextField(size);
                      win.getCheckbox().setSizeComboBox(aux.getModeSize());
-
                      win.getCheckbox().setCreationDateTextField(aux.getCreationDate());
                      win.getCheckbox().setCreationDateComboBox(aux.getModeCdate());
-
                      win.getCheckbox().setModificationDateTextField(aux.getModificationDate());
                      win.getCheckbox().setModificationDateComboBox(aux.getModeMdate());
-
-                    win.getCheckbox().setAccessDateTextField(aux.getAccessDate());
-                    win.getCheckbox().setAccessDateComboBox(aux.getModeAdate());
-
+                     win.getCheckbox().setAccessDateTextField(aux.getAccessDate());
+                     win.getCheckbox().setAccessDateComboBox(aux.getModeAdate());
                 }
 
         } catch (SQLException e) {

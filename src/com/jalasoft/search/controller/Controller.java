@@ -146,6 +146,9 @@ public class Controller {
         int modeAdate=win.getCheckbox().getAccessDateComboBox().getSelectedIndex();
 
         basicCriteria=new SearchCriteria(path,searchFor,isHidden,content,extension,size,modeSize,modifDate,creationDate,accessDate,owner,isDirectory,modeMdate,modeCdate,modeAdate,null);
+        List<Asset> filesFound;
+        filesFound=search.getResults(basicCriteria);
+        fillTable(filesFound,win.getAdvancedTableResult());
 
         System.out.println(basicCriteria.getPath());
         System.out.println(basicCriteria.getCriteria()[0]);
@@ -162,6 +165,7 @@ public class Controller {
         System.out.println(basicCriteria.getModeCdate());
         System.out.println(basicCriteria.getModeMdate());
         System.out.println(basicCriteria.getModeAdate());
+
     }
 
     /**

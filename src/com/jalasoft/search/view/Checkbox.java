@@ -13,6 +13,7 @@ package com.jalasoft.search.view;
 import javax.swing.*;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.event.ItemEvent;
 
 public class Checkbox extends JPanel {
 
@@ -98,6 +99,21 @@ public class Checkbox extends JPanel {
         checkPanel2.add(accessDateTextField);
         checkPanel2.setLayout(new javax.swing.BoxLayout(checkPanel2, BoxLayout.X_AXIS));
         this.add(checkPanel2, BorderLayout.CENTER);
+
+        //Disable the File Content checkbox when Directories Only checkbox is selected
+        directoriesOnly.addItemListener(e -> {
+            if(e.getStateChange() == ItemEvent.SELECTED){
+                fileContent.setEnabled(false);
+                fileContent.setSelected(false);
+            }
+        });
+
+        //Enable the File Content checkbox when Directories Only checkbox is deselected
+        directoriesOnly.addItemListener(e -> {
+            if(e.getStateChange() == ItemEvent.DESELECTED){
+                fileContent.setEnabled(true);
+            }
+        });
     }
 
     /**

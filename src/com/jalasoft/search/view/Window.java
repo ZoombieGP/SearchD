@@ -103,7 +103,7 @@ public class Window extends JFrame{
         browseButton.setText("Browse...");
         searchForFieldName.setText("Search For:");
         searchButton.setText("Search");
-        saveLabel.setText("Save Search Criteria: ");
+        saveLabel.setText("Criteria Name: ");
         saveButton.setText("Save");
 
         tabPane.add("Simple Search",simpleTab);
@@ -141,7 +141,7 @@ public class Window extends JFrame{
         browseButton2.setText("Browse...");
         searchForFieldName2.setText("Search For:");
         searchButton2.setText("Search");
-        saveLabel2.setText("Save Search Criteria: ");
+        saveLabel2.setText("Criteria Name: ");
         saveButton2.setText("Save");
 
         searchInPanel2.add(searchInFieldName2);
@@ -169,6 +169,7 @@ public class Window extends JFrame{
 
         this.getContentPane().setLayout(new BorderLayout());
         this.getContentPane().add(tabPane);
+
     }
 
     /**
@@ -332,5 +333,13 @@ public class Window extends JFrame{
      */
     public String getSaveTextField2() {
         return this.saveTextField2.getText();
+    }
+
+    public JTabbedPane getTabPane() {
+        return tabPane;
+    }
+
+    public void setTabPane(int indexTab) {
+        this.tabPane.setSelectedIndex(indexTab);
     }
 }

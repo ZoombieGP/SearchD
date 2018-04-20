@@ -144,32 +144,24 @@ public class Controller {
         int modeMdate=win.getCheckbox().getModificationDateComboBox().getSelectedIndex();
         int modeCdate=win.getCheckbox().getCreationDateComboBox().getSelectedIndex();
         int modeAdate=win.getCheckbox().getAccessDateComboBox().getSelectedIndex();
-        /**
-        System.out.println("Mode creation :"+modeCdate);
-        System.out.println("Mode modification :"+modeMdate);
-        System.out.println("Mode acess :"+modeAdate);
-         */
+
         basicCriteria=new SearchCriteria(path,searchFor,isHidden,content,extension,size,modeSize,modifDate,creationDate,accessDate,owner,isDirectory,modeMdate,modeCdate,modeAdate,null);
 
-        System.out.println("path: " + basicCriteria.getPath());
-        System.out.println("FileName: " + basicCriteria.getCriteria()[0]);
-        System.out.println("Is Hidded:" + basicCriteria.getIsHidden());
-        System.out.println("Content: " + basicCriteria.getContent());
-        System.out.println(" Extension: " + basicCriteria.getExtension());
-        System.out.println("Tamanio: " + basicCriteria.getSize());
-        System.out.println("tamanio modo: " + basicCriteria.getModeSize());
-        System.out.println("Modification date: " + basicCriteria.getModificationDate());
-        System.out.println("creation date: " + basicCriteria.getCreationDate());
-        System.out.println("access date: " +basicCriteria.getAccessDate());
-        System.out.println("owner: " +basicCriteria.getOwner());
-        System.out.println("is directory: " +basicCriteria.getIsDirectory());
-        System.out.println("creation date mode: " + basicCriteria.getModeCdate());
-        System.out.println("Modification date mode: " + basicCriteria.getModeMdate());
-        System.out.println("access date mode: " +basicCriteria.getModeAdate());
-
-        List<Asset> filesFound;
-        filesFound=search.getResults(basicCriteria);
-        fillTable(filesFound,win.getAdvancedTableResult());
+        System.out.println(basicCriteria.getPath());
+        System.out.println(basicCriteria.getCriteria()[0]);
+        System.out.println(basicCriteria.getIsHidden());
+        System.out.println(basicCriteria.getContent());
+        System.out.println(basicCriteria.getExtension());
+        System.out.println(basicCriteria.getSize());
+        System.out.println(basicCriteria.getModeSize());
+        System.out.println(basicCriteria.getModificationDate());
+        System.out.println(basicCriteria.getCreationDate());
+        System.out.println(basicCriteria.getAccessDate());
+        System.out.println(basicCriteria.getOwner());
+        System.out.println(basicCriteria.getIsDirectory());
+        System.out.println(basicCriteria.getModeCdate());
+        System.out.println(basicCriteria.getModeMdate());
+        System.out.println(basicCriteria.getModeAdate());
     }
 
     /**
@@ -225,7 +217,6 @@ public class Controller {
 
     }
 
-
     /**
      * Method that receive the file found and fill the table of result in the UI.
      * @param filesFound
@@ -248,7 +239,6 @@ public class Controller {
             if (isBasic)
             {
                 basicCriteria=new SearchCriteria(win.getSearchInTextField(),win.getSearchForTextField(),getExtension(win.getSearchForTextField()),win.getSaveTextField());
-                //SaveCriteria saveCriteria=new SaveCriteria();
                 saveCriteria.saveCriteria(basicCriteria);
                 try {
                     saveCriteria.getAllData().forEach( (k,v) -> System.out.println("Key: " + k + ": Value: " + v.getPath()));
@@ -284,7 +274,6 @@ public class Controller {
                 }
 
             }
-
     }
 
     private void loadOneSavedCriteria(){
@@ -298,23 +287,26 @@ public class Controller {
             //getting the save criteria with the ID  got of UI-selected row
             SearchCriteria aux=saveCriteria.getAllData().get(id);
 
-            //path =saveCriteria.getAllData().get(id).getPath();
-            //searchFor=saveCriteria.getAllData().get(id).getCriteria()[0];
+
              if(type.equalsIgnoreCase("Basic"))
                 {
+                    win.setTabPane(0);
                     //cambiar al tab Basic
                      win.setSearchInTextField(aux.getPath());
                      win.setSearchForTextField(aux.getCriteria()[0]);
                  }
              if(type.equalsIgnoreCase("Advanced"))
                 {
+                     win.setTabPane(1);
+
                      win.setSearchInTextField2(aux.getPath());
                      win.setSearchForTextField2(aux.getCriteria()[0]);
                      win.getCheckbox().setDirectoriesOnly(aux.getIsDirectory());
                      win.getCheckbox().setFileContent(true);
                      win.getCheckbox().setHiddenFiles(aux.getIsHidden());
                      win.getCheckbox().setOwnerTextField(aux.getOwner());
-                     win.getCheckbox().setSizeTextField("convertir a string");
+                     String size=converter.convertLongToString(aux.getSize());
+                     win.getCheckbox().setSizeTextField(size);
                      win.getCheckbox().setSizeComboBox(aux.getModeSize());
 
                      win.getCheckbox().setCreationDateTextField(aux.getCreationDate());
@@ -326,24 +318,11 @@ public class Controller {
                     win.getCheckbox().setAccessDateTextField(aux.getAccessDate());
                     win.getCheckbox().setAccessDateComboBox(aux.getModeAdate());
 
-                     /*
-                     win.setSearchForTextField2(aux.getCriteria()[0]);
-                     win.getCheckbox().setDirectoriesOnly(aux.getIsDirectory());
-                     //win.getCheckbox().setFileContent(true); //add isContent in SearchCriteria
-                     win.getCheckbox().setHiddenFiles(aux.getIsHidden());
-                     win.getCheckbox().setCreationDateTextField(aux.getCreationDate());
-                     win.getCheckbox().setCreationDateComboBox(aux.getModeCdate());*/
                 }
 
-
-             //System.out.println(path);
-             //searchFor=saveCriteria.getAllData().get(id).getCriteria()[0];
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-
-
     }
 
     private void fillTableLoad(SearchCriteria searchCriteria, int key) {

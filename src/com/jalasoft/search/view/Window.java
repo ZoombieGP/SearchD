@@ -54,6 +54,12 @@ public class Window extends JFrame{
     private Table criteriaTable;                       //Criteria Table
     private JPanel loadButtonPanel;                    //Panel contains Load Button
     private JButton loadButton;                        //Load Button
+    private JPanel consolePanel1;
+    private JLabel consoleLabel1;
+    private JTextField consoleTextField1;
+    private JPanel consolePanel2;
+    private JLabel consoleLabel2;
+    private JTextField consoleTextField2;
 
     /**
      * Builder method:
@@ -90,7 +96,7 @@ public class Window extends JFrame{
         searchInTextField = new JTextField(40);
         browseButton = new JButton();
         String[] columnNames = new String[]{"Path", "File Name", "Is Directory?", "Is Hidden?", "Size","Date Modified"};
-        tableResult = new Table(725,380,columnNames);
+        tableResult = new Table(725,350,columnNames);
         searchForPanel = new JPanel();
         searchForFieldName = new JLabel();
         searchForTextField = new JTextField(40);
@@ -98,6 +104,11 @@ public class Window extends JFrame{
         saveLabel = new JLabel();
         saveTextField = new JTextField(40);
         saveButton = new JButton();
+        consolePanel1 = new JPanel();
+        consoleLabel1 = new JLabel("Console: ");
+        consoleTextField1 = new JTextField(60);
+        consoleTextField1.setEditable(false);
+        consoleTextField1.setBorder(null);
 
         searchInFieldName.setText("Search In:");
         browseButton.setText("Browse...");
@@ -118,6 +129,9 @@ public class Window extends JFrame{
         searchForPanel.add(searchButton);
         simpleTab.add(searchInPanel);
         simpleTab.add(searchForPanel);
+        simpleTab.add(consolePanel1);
+        consolePanel1.add(consoleLabel1);
+        consolePanel1.add(consoleTextField1);
         simpleTab.add(tableResult);
         simpleTab.add(saveLabel);
         simpleTab.add(saveTextField);
@@ -127,7 +141,7 @@ public class Window extends JFrame{
         searchInFieldName2 = new JLabel();
         searchInTextField2 = new JTextField(40);
         browseButton2 = new JButton();
-        tableResult2 = new Table(725,325,columnNames);
+        tableResult2 = new Table(725,295,columnNames);
         searchForPanel2 = new JPanel();
         searchForFieldName2 = new JLabel();
         searchForTextField2 = new JTextField(40);
@@ -136,6 +150,11 @@ public class Window extends JFrame{
         saveLabel2 = new JLabel();
         saveTextField2 = new JTextField(40);
         saveButton2 = new JButton();
+        consolePanel2 = new JPanel();
+        consoleLabel2 = new JLabel("Console: ");
+        consoleTextField2 = new JTextField(60);
+        consoleTextField2.setEditable(false);
+        consoleTextField2.setBorder(null);
 
         searchInFieldName2.setText("Search In:");
         browseButton2.setText("Browse...");
@@ -154,6 +173,9 @@ public class Window extends JFrame{
         advancedTab.add(searchInPanel2);
         advancedTab.add(searchForPanel2);
         advancedTab.add(checkbox);
+        advancedTab.add(consolePanel2);
+        consolePanel2.add(consoleLabel2);
+        consolePanel2.add(consoleTextField2);
         advancedTab.add(tableResult2);
         advancedTab.add(saveLabel2);
         advancedTab.add(saveTextField2);
@@ -184,6 +206,22 @@ public class Window extends JFrame{
             File selectedPath = fileChooser.getSelectedFile();
             field.setText(selectedPath.getPath());
         }
+    }
+
+    /**
+     * Get the Console text field
+     * @return the current Console text field in String format
+     */
+    public String getConsoleTextField1() {
+        return consoleTextField1.toString();
+    }
+
+    /**
+     * Get the Advanced Search Console text field
+     * @return the current Advanced Search Console text field in String format
+     */
+    public String getConsoleTextField2() {
+        return consoleTextField2.toString();
     }
 
     /**

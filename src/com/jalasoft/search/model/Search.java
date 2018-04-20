@@ -21,8 +21,10 @@ import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.FileTime;
 import java.nio.file.attribute.UserPrincipal;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static java.nio.file.Files.isDirectory;
@@ -70,8 +72,9 @@ public class Search {
         if(listFile != null){
             for (int i = 0; i< listFile.length; i++){
                 if(listFile[i].isDirectory()){
-                    searchByPath(listFile[i].toPath());
                     files.add(listFile[i].toPath());
+                    searchByPath(listFile[i].toPath());
+
                 }
             }
         }
@@ -226,15 +229,32 @@ public class Search {
      * @return
      * List of Path filtered by modification date criteria
      */
-    private List <Path> searchByModificationDate(List <Path> inputFiles, String modification) throws IOException {
+    private List <Path> searchByModificationDate(List <Path> inputFiles, String modification, int modificationMode) throws IOException, ParseException {
         List <Path> filterResults = new ArrayList<>();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-dd-MM");
+        Date dateIn = format.parse(modification);
+
         if(inputFiles.size() >= 0){
             for (int i = 0; i < inputFiles.size(); i++){
                 BasicFileAttributes attributes = Files.readAttributes(inputFiles.get(i), BasicFileAttributes.class);
                 FileTime attDate = attributes.lastModifiedTime();
                 String dateToCompare = dateToString(attDate);
-                if(dateToCompare.equals(modification)){
-                    filterResults.add(inputFiles.get(i).toAbsolutePath());
+                Date fileRecovered = format.parse(dateToCompare);
+
+                if(modificationMode == 0){ //equals than
+                    if(dateIn.compareTo(fileRecovered)== 0){
+                        filterResults.add(inputFiles.get(i).toAbsolutePath());
+                    }
+                }
+                if(modificationMode == 1){// major than
+                    if(fileRecovered.compareTo(dateIn)> 0){
+                        filterResults.add(inputFiles.get(i).toAbsolutePath());
+                    }
+                }
+                if(modificationMode == 2){// minor than
+                    if(fileRecovered.compareTo(dateIn) < 0){
+                        filterResults.add(inputFiles.get(i).toAbsolutePath());
+                    }
                 }
             }
         }
@@ -252,15 +272,32 @@ public class Search {
      * @throws IOException
      * in case there is not a file with search criteria.
      */
-    private List <Path> searchByCreationDate(List <Path> inputFiles, String date) throws IOException {
+    private List <Path> searchByCreationDate(List <Path> inputFiles, String date, int creationMode) throws IOException, ParseException {
         List <Path> filterResults = new ArrayList<>();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-dd-MM");
+        Date dateIn = format.parse(date);
+
         if(inputFiles.size() >= 0){
             for (int i = 0; i < inputFiles.size(); i++){
                 BasicFileAttributes attributes = Files.readAttributes(inputFiles.get(i), BasicFileAttributes.class);
                 FileTime attDate = attributes.creationTime();
                 String dateToCompare = dateToString(attDate);
-                if(dateToCompare.equals(date)){
+                Date fileRecovered = format.parse(dateToCompare);
+
+                if(creationMode == 0){ //equals than
+                   if(dateIn.compareTo(fileRecovered)== 0){
                         filterResults.add(inputFiles.get(i).toAbsolutePath());
+                    }
+                }
+                if(creationMode == 1){// major than
+                    if(fileRecovered.compareTo(dateIn)> 0){
+                        filterResults.add(inputFiles.get(i).toAbsolutePath());
+                    }
+                }
+                if(creationMode == 2){// minor than
+                    if(fileRecovered.compareTo(dateIn) < 0){
+                        filterResults.add(inputFiles.get(i).toAbsolutePath());
+                    }
                 }
             }
         }
@@ -278,15 +315,32 @@ public class Search {
      * @throws IOException
      * in case there is not a file with search criteria.
      */
-    private List <Path> searchByAccessDate(List <Path> inputFiles, String access) throws IOException {
+    private List <Path> searchByAccessDate(List <Path> inputFiles, String access, int accessMode) throws IOException, ParseException {
         List <Path> filterResults = new ArrayList<>();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-dd-MM");
+        Date dateIn = format.parse(access);
+
         if(inputFiles.size() >= 0){
             for (int i = 0; i < inputFiles.size(); i++){
                 BasicFileAttributes attributes = Files.readAttributes(inputFiles.get(i), BasicFileAttributes.class);
                 FileTime attDate = attributes.lastAccessTime();
                 String dateToCompare = dateToString(attDate);
-                if(dateToCompare.equals(access)){
-                    filterResults.add(inputFiles.get(i).toAbsolutePath());
+                Date fileRecovered = format.parse(dateToCompare);
+
+                if(accessMode == 0){ //equals than
+                    if(dateIn.compareTo(fileRecovered)== 0){
+                        filterResults.add(inputFiles.get(i).toAbsolutePath());
+                    }
+                }
+                if(accessMode == 1){// major than
+                    if(fileRecovered.compareTo(dateIn)> 0){
+                        filterResults.add(inputFiles.get(i).toAbsolutePath());
+                    }
+                }
+                if(accessMode == 2){// minor than
+                    if(fileRecovered.compareTo(dateIn) < 0){
+                        filterResults.add(inputFiles.get(i).toAbsolutePath());
+                    }
                 }
             }
         }
@@ -323,7 +377,7 @@ public class Search {
      * receives a list of Paths
      * @return
      */
-    private List<Asset> fillAsset (List <Path> inputFiles) throws IOException {
+    private List<Asset> fillAsset (List <Path> inputFiles, boolean onlyDir) throws IOException {
         List<Asset> matchs = new ArrayList<>();
         if(inputFiles.size()>= 0){
             for (int i = 0; i< inputFiles.size(); i++){
@@ -337,15 +391,18 @@ public class Search {
                     matchs.add(FactoryAsset.createAsset(0, inputFiles.get(i).toFile().getPath(),inputFiles.get(i).toFile().getName(),dateToString(modDate),dateToString(creationDate), dateToString(attDate),userName,inputFiles.get(i).toFile().length(),inputFiles.get(i).toFile().isHidden(), true, null,null));
 
                 }else{
-                    UserPrincipal ownerP = Files.getOwner(inputFiles.get(i));
-                    String userName = ownerP.getName();
-                    BasicFileAttributes attributes = Files.readAttributes(inputFiles.get(i), BasicFileAttributes.class);
-                    FileTime attDate = attributes.lastAccessTime();
-                    FileTime modDate = attributes.lastModifiedTime();
-                    FileTime creationDate = attributes.creationTime();
-                    String name = inputFiles.get(i).toFile().getName();
-                    String ext = name.substring(name.lastIndexOf(".") + 1);
-                    matchs.add(FactoryAsset.createAsset(0, inputFiles.get(i).toFile().getPath(),inputFiles.get(i).toFile().getName(),dateToString(modDate),dateToString(creationDate), dateToString(attDate),userName,inputFiles.get(i).toFile().length(),inputFiles.get(i).toFile().isHidden(), false, ext,inputFiles.get(i).toFile().getName()));
+                    if(!onlyDir){
+                        UserPrincipal ownerP = Files.getOwner(inputFiles.get(i));
+                        String userName = ownerP.getName();
+                        BasicFileAttributes attributes = Files.readAttributes(inputFiles.get(i), BasicFileAttributes.class);
+                        FileTime attDate = attributes.lastAccessTime();
+                        FileTime modDate = attributes.lastModifiedTime();
+                        FileTime creationDate = attributes.creationTime();
+                        String name = inputFiles.get(i).toFile().getName();
+                        String ext = name.substring(name.lastIndexOf(".") + 1);
+                        matchs.add(FactoryAsset.createAsset(0, inputFiles.get(i).toFile().getPath(),inputFiles.get(i).toFile().getName(),dateToString(modDate),dateToString(creationDate), dateToString(attDate),userName,inputFiles.get(i).toFile().length(),inputFiles.get(i).toFile().isHidden(), false, ext,inputFiles.get(i).toFile().getName()));
+                    }
+
                 }
             }
         }
@@ -354,7 +411,7 @@ public class Search {
     /**
      * getResults method under construction to test the functionality of Search Class
      */
-    public List<Asset> getResults(SearchCriteria criteria) throws IOException {
+    public List<Asset> getResults(SearchCriteria criteria) throws IOException, ParseException {
         Path path = Paths.get(criteria.getPath());
         String fileName = criteria.getCriteria()[0];
         boolean isHidden = criteria.getIsHidden();
@@ -367,6 +424,10 @@ public class Search {
         String creationDate= criteria.getCreationDate();
         String owner= criteria.getOwner();
         boolean isDirectory = criteria.getIsDirectory();
+        int creationMode = criteria.getModeCdate();
+        int modificationMode = criteria.getModeMdate();
+        int accessMode = criteria.getModeAdate();
+
 
         List <Path> swapFiles;
         List <Path> resultsTemp = null;
@@ -376,25 +437,28 @@ public class Search {
         //Search by Path
         if(fileName.equals("") && content == null){
             files.clear();
-            resultsTemp = searchByPath(path);
             if(isDirectory){
+                files.clear();
                 swapFiles = searchByDirectory(path);
                 resultsTemp = swapFiles;
+            }else{
+                files.clear();
+                resultsTemp = searchByPath(path);
             }
             if(isHidden){
                 swapFiles = searchByHidden(resultsTemp);
                 resultsTemp = swapFiles;
             }
             if(creationDate!= null){
-                swapFiles = searchByCreationDate(resultsTemp, creationDate);
+                swapFiles = searchByCreationDate(resultsTemp, creationDate, creationMode);
                 resultsTemp= swapFiles;
             }
             if(modificationDate!= null ){
-                swapFiles = searchByModificationDate(resultsTemp, modificationDate);
+                swapFiles = searchByModificationDate(resultsTemp, modificationDate, modificationMode);
                 resultsTemp= swapFiles;
             }
             if(accessDate!= null){
-                swapFiles = searchByAccessDate(resultsTemp, accessDate);
+                swapFiles = searchByAccessDate(resultsTemp, accessDate, accessMode);
                 resultsTemp= swapFiles;
             }
             if(owner!= null){
@@ -410,13 +474,8 @@ public class Search {
                 resultsTemp= swapFiles;
             }
 
-            results = fillAsset(resultsTemp);
+            results = fillAsset(resultsTemp, isDirectory);
         }else{
-            if(isDirectory){
-                files.clear();
-                swapFiles = searchByDirectory(path);
-                resultsTemp = swapFiles;
-            }
             if(content!= null){
                 files.clear();
                 resultsTemp = searchByPath(path);
@@ -434,15 +493,15 @@ public class Search {
                 resultsTemp = swapFiles;
             }
             if(creationDate!= null){
-                swapFiles = searchByCreationDate(resultsTemp, creationDate);
+                swapFiles = searchByCreationDate(resultsTemp, creationDate, creationMode);
                 resultsTemp= swapFiles;
             }
             if(modificationDate!= null ){
-                swapFiles = searchByModificationDate(resultsTemp, modificationDate);
+                swapFiles = searchByModificationDate(resultsTemp, modificationDate, modificationMode);
                 resultsTemp= swapFiles;
             }
             if(accessDate!= null){
-                swapFiles = searchByAccessDate(resultsTemp, accessDate);
+                swapFiles = searchByAccessDate(resultsTemp, accessDate, accessMode);
                 resultsTemp= swapFiles;
             }
             if(owner!= null){
@@ -458,7 +517,7 @@ public class Search {
                 resultsTemp= swapFiles;
             }
 
-            results = fillAsset(resultsTemp);
+            results = fillAsset(resultsTemp, isDirectory);
         }
         return (results);
     }

@@ -20,6 +20,7 @@ import com.jalasoft.search.model.Search;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.List;
 
 /**
@@ -58,6 +59,8 @@ public class Controller {
                 fillSearchCriteria();
             } catch (IOException e1) {
                 e1.printStackTrace();
+            } catch (ParseException e1) {
+                e1.printStackTrace();
             }
         });
 
@@ -65,6 +68,8 @@ public class Controller {
             try {
                 fillSearchCriteriaAdvanced();
             } catch (IOException e1) {
+                e1.printStackTrace();
+            } catch (ParseException e1) {
                 e1.printStackTrace();
             }
         });
@@ -94,7 +99,7 @@ public class Controller {
      *Method that get the filename and path ,
      *that send those data to search ,get the file found and fill the UI table result,
      */
-    private void fillSearchCriteria() throws IOException {
+    private void fillSearchCriteria() throws IOException, ParseException {
         validator = new InterfaceValidator();
         win.getTableResult().model.setRowCount(0);
         String path=win.getSearchInTextField();
@@ -113,7 +118,7 @@ public class Controller {
      * Get the UI dta ,Fill the search criteria advanced and create the object
      * @throws IOException
      */
-    private void fillSearchCriteriaAdvanced()throws IOException{
+    private void fillSearchCriteriaAdvanced() throws IOException, ParseException {
         validator = new InterfaceValidator();
         win.getAdvancedTableResult().model.setRowCount(0);
 
@@ -146,25 +151,25 @@ public class Controller {
          */
         basicCriteria=new SearchCriteria(path,searchFor,isHidden,content,extension,size,modeSize,modifDate,creationDate,accessDate,owner,isDirectory,modeMdate,modeCdate,modeAdate,null);
 
-        System.out.println(basicCriteria.getPath());
-        System.out.println(basicCriteria.getCriteria()[0]);
-        System.out.println(basicCriteria.getIsHidden());
-        System.out.println(basicCriteria.getContent());
-        System.out.println(basicCriteria.getExtension());
-        System.out.println(basicCriteria.getSize());
-        System.out.println(basicCriteria.getModeSize());
-        System.out.println(basicCriteria.getModificationDate());
-        System.out.println(basicCriteria.getCreationDate());
-        System.out.println(basicCriteria.getAccessDate());
-        System.out.println(basicCriteria.getOwner());
-        System.out.println(basicCriteria.getIsDirectory());
-        System.out.println(basicCriteria.getModeCdate());
-        System.out.println(basicCriteria.getModeMdate());
-        System.out.println(basicCriteria.getModeAdate());
+        System.out.println("path: " + basicCriteria.getPath());
+        System.out.println("FileName: " + basicCriteria.getCriteria()[0]);
+        System.out.println("Is Hidded:" + basicCriteria.getIsHidden());
+        System.out.println("Content: " + basicCriteria.getContent());
+        System.out.println(" Extension: " + basicCriteria.getExtension());
+        System.out.println("Tamanio: " + basicCriteria.getSize());
+        System.out.println("tamanio modo: " + basicCriteria.getModeSize());
+        System.out.println("Modification date: " + basicCriteria.getModificationDate());
+        System.out.println("creation date: " + basicCriteria.getCreationDate());
+        System.out.println("access date: " +basicCriteria.getAccessDate());
+        System.out.println("owner: " +basicCriteria.getOwner());
+        System.out.println("is directory: " +basicCriteria.getIsDirectory());
+        System.out.println("creation date mode: " + basicCriteria.getModeCdate());
+        System.out.println("Modification date mode: " + basicCriteria.getModeMdate());
+        System.out.println("access date mode: " +basicCriteria.getModeAdate());
 
-        //List<Asset> filesFound;
-        //filesFound=search.getResults(basicCriteria);
-        //fillTable(filesFound,win.getAdvancedTableResult());
+        List<Asset> filesFound;
+        filesFound=search.getResults(basicCriteria);
+        fillTable(filesFound,win.getAdvancedTableResult());
     }
 
     /**

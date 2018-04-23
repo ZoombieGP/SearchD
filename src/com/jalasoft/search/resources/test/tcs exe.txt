@@ -1,0 +1,98 @@
+POZZO
+ROM
+ACE - 640
+Cell 5
+Cell 1
+Usado     Disponible
+5.26 GB    14.56GB
+5.37 GB    14.56 GB (121 MB Angry birds)
+5.47 GB    14.56 GB (101 Clash of Clans)
+5.50 GB    14.56 GB (45.81 MB Aliexpress)
+5.60 GB    14.56 GB (85.08 Spotify)
+5.70 GB    14.56 GB (95.85 Asphalt 8)
+
+Desinstalando:
+USado     Disponible
+5.70 GB    14.56 GB
+5.37 GB    14.56 GB (121 MB Angry birds)
+5.47 GB    14.56 GB (101 Clash of Clans)
+5.50 GB    14.56 GB (45.81 MB Aliexpress)
+5.60 GB    14.56 GB (85.08 Spotify)
+5.70 GB    14.56 GB (95.85 Asphalt 8)
+5.26 GB    14.56 GB
+
+ACE-641
+CEll 5
+Cell 1
+5.26 GB    14.56 GB (28.38 MB)
+5.23 GB    14.56 GB (0 MB)
+
+Ace-642
+Cell 5
+Passed
+Cell 1
+PAssed
+*************************
+/////////////////////////
+*************************
+
+CPU & GPU
+ACE-610
+Cell 1
+x ARM Cortex-A7 @ 1267 Mhz
+
+ACE-611
+Cell 1
+28nm
+
+ACE-612
+Cell 1
+32-bits ARMv7
+
+ACE-613
+Cell 1
+Qualcomm 
+
+ACE-614
+Cell 1
+OpenGL ES3.0 V@145.0
+
+ACE-615
+Cell 1
+1. Angry birds 00:19.817 
+2. Clash of Clans 00:52.864
+3. Play store 00:00:08.184
+4. Youtube 00:07.637
+5. Spotify 00:11.551
+6. Maps 00:00:11.586
+7. Aliexpress 00:09.051
+8. C�mara 00:11.195
+9. Ajustes 00:02.201
+10. Calendario 00:01.047
+
+ACE-616
+Cell 1
+1. Angry birds  00:02.173
+2. Clash of Clans 00:01.704
+3. Play store 00:02.743
+4. Youtube 00:01.689
+5. Spotify 00:01.835
+6. Maps 00:02.751
+7. Aliexpress 00:05.860
+8. C�mara 00:02.272
+9. Ajustes 00:01.528
+10. Calendario 00:01.293
+
+*************************
+/////////////////////////
+*************************
+USB
+ACE-693
+Cell 5
+25 MBps
+
+ACE-694
+Cell 5
+34  MBps
+
+

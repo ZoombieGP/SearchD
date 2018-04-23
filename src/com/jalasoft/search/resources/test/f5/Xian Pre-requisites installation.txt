@@ -1,0 +1,79 @@
+*****************************************************************************************************************************
+PRE REQUISITES: Xian Server services and Xian Web Console.
+*****************************************************************************************************************************
+
+Mono Complete 4.6.2 (4.6.2.7) :
+=============================================================================================================================
+1.  #wget "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0x3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF" -O out && sudo apt-key add out && rm out
+2.  #echo "deb http://download.mono-project.com/repo/debian wheezy main" | sudo tee /etc/apt/sources.list.d/mono-xamarin.list
+3.  #sudo apt-get update
+4.  #sudo apt-get install mono-complete
+5.  #mono --version
+
+
+RABITMQ 3.6.6 (https://packagecloud.io/rabbitmq/rabbitmq-server/packages/ubuntu/yakkety/rabbitmq-server_3.6.6-1_all.deb)
+=============================================================================================================================
+1.  #sudo apt-get install curl
+2.  #sudo curl -s https://packagecloud.io/install/repositories/rabbitmq/rabbitmq-server/script.deb.sh | sudo bash
+3.  #sudo apt-get install rabbitmq-server=3.6.6-1
+4.  #sudo rabbitmqctl status|grep rabbit
+
+
+PostgreSQL 9.6 (https://raonyguimaraes.com/how-to-install-postgresql-9-6-on-ubuntudebianlinux-mint/) (http://askubuntu.com/questions/831292/how-to-install-postgresql-9-6-on-any-ubuntu-version)
+=============================================================================================================================
+1.   #sudo apt-get update
+2.   #sudo apt-get install postgresql-9.6
+3.   #psql --version
+
+
+NVM https://github.com/creationix/nvm)
+=============================================================================================================================
+1.   #curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.0/install.sh | bash
+  or #wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.0/install.sh | bash
+2.   #command -v nvm    //this is to verify the installation 
+
+NodeJs v4.7.3
+=============================================================================================================================
+1.   #nvm install 4.7.3 
+2.   #nvm use 4.7.3
+3.   #node -v
+
+
+Mongo DB 3.2.6
+=============================================================================================================================
+1.  #sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv EA312927
+2.  #echo "deb http://repo.mongodb.org/apt/ubuntu trusty/mongodb-org/3.2 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.2.list
+3.  #sudo apt-get update
+4.  #$ sudo apt-get install -y mongodb-org=3.2.6 mongodb-org-server=3.2.6 mongodb-org-shell=3.2.6 mongodb-org-mongos=3.2.6 mongodb-org-tools=3.2.6
+
+
+RoboMongo 0.9.0 (http://askubuntu.com/questions/739297/how-to-install-robomongo-ubuntu-system-please-let-me-know/781793):
+=============================================================================================================================
+1.  #wget https://download.robomongo.org/0.9.0/linux/robomongo-0.9.0-linux-x86_64-0786489.tar.gz
+2.  #tar -xvzf robomongo-0.9.0-linux-x86_64-0786489.tar.gz
+3.  #sudo mkdir /usr/local/bin/robomongo
+4.  #sudo mv  robomongo-0.9.0-linux-x86_64-0786489/* /usr/local/bin/robomongo
+5.  #cd /usr/local/bin/robomongo/bin
+6.  #sudo chmod +x robomongo ## run command only if robomongo isn't excutable file
+7.  #./robomongo
+
+
+
+
+*****************************************************************************************************************************
+Setting Web Console:
+*****************************************************************************************************************************
+
+'start.sh' file configuration.
+=============================================================================================================================
+1.  Create 'xianmp' database in MongoDB
+2.  Uncompress the WebConsoleReact.zip file (E.g.: /home/USER/).
+3. Edit the 'start.sh' file with JsonRPC IP address, root URL for web console and Xian services build number:
+		ROOT_URL='http://10.31.146.20'		#IP address of box where Xian Web console is installed
+		"SERVICES_BUILD": "7.1.0.681"		#Update this with Xian Server services build number
+		"JSONRPCHOST": "10.31.146.20",		#IP address of box where JsonRPC server is running
+4. Give executable permission to 'start.sh' file with chmod command:
+	# cd /home/rolando/dist/bundle/
+	# chmod 755 start.sh
+5. Start Web Console:
+	#./start.sh	
